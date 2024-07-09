@@ -36,8 +36,15 @@ const config: Config = {
   },
   keyframes: {
     pulse: {
-      '0%, 100%': { fill: 'gray' },
-      '50%': { fill: 'var(--tw-color-primary)' },
+      "0%, 100%": { fill: "gray" },
+      "50%": { fill: "var(--tw-color-primary)" },
+      fontSize: {
+        "40px": "40px",
+        "25px": "25px",
+      },
+      boxShadow: {
+        "text-shadow": "0 2px 4px rgba(0, 0, 0, 0.45)",
+      },
     },
   },
   plugins: [],
