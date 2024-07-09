@@ -4,28 +4,28 @@ const Carousel: FC = () => {
   return (
     <div
       id="carouselExampleAutoplaying"
-      className="carousel slide w-[100%] max-w-none"
+      className="carousel slide w-[100%]"
       data-bs-ride="carousel"
     >
       <div className="carousel-inner w-full">
         <div className="carousel-item active">
           <img
-            src="https://via.placeholder.com/800x400"
-            className="d-block w-100 h-50"
+            src="/실리카겔 커버3.webp"
+            className="d-block w-[100%] h-[500px] object-cover mx-auto"
             alt="First slide"
           />
         </div>
         <div className="carousel-item">
           <img
-            src="https://via.placeholder.com/800x400"
-            className="d-block w-100 h-50"
+            src="/잔나비 커버.jpg"
+            className="d-block w-[100%] h-[500px] object-cover mx-auto"
             alt="Second slide"
           />
         </div>
         <div className="carousel-item">
           <img
-            src="https://via.placeholder.com/800x400"
-            className="d-block w-100"
+            src="/루시 커버.jpg"
+            className="d-block w-[100%] h-[500px] object-cover mx-auto"
             alt="Third slide"
           />
         </div>
