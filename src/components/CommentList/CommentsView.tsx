@@ -2,8 +2,11 @@
 
 import React, { useState } from "react";
 import Comment from "./Comment";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+import SITE_URL from "@/constant";
+import { useQuery } from "@tanstack/react-query";
 
-const CommentsView = () => {
+const CommentsView = ({ postId }: Params) => {
   const [pageNo, setPageNo] = useState(1);
   const [clickedPage, setClickedPage] = useState(1);
   const handleClickPageBtn = async (num: number) => {
@@ -11,10 +14,32 @@ const CommentsView = () => {
     setPageNo(num);
   };
 
+  const {
+    data: comments,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ["comments", postId],
+    queryFn: async () => {
+      const response = await fetch(`/api/posts/${postId}/comments`);
+      return await response.json();
+    },
+  });
+
+  if (isPending) {
+    return <h1>댓글 불러오는 중 ···</h1>;
+  }
+
+  if (isError) {
+    return <h1>댓글 불러오기 실패 ㅠㅠ</h1>;
+  }
+
+  console.log(comments);
+
   return (
     <div className="mt-[5px] text-[18px]">
       <p className="w-[1250px] h-[90px] flex items-center text-[#8D8D8D] ">
-        댓글 (5)
+        댓글 ({comments.length})
       </p>
       <Comment />
       <Comment />
