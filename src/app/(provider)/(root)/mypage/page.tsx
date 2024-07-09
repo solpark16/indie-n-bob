@@ -1,18 +1,10 @@
 import ProfileEditButton from '@/components/MyPage/ProfileEdit/ProfileEditButton';
 import MyPostViewSwitcher from '@/components/MyPage/PostView/MyPostViewSwitcher';
 import { getUser } from '@/utils/getUser';
-import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 
 export default async function MyPage() {
     const user = await getUser();
-
-    if (!user) {
-        <div>
-            로그인 하고 다시 오시오.
-        </div>
-        redirect('/login');
-    }
 
     const supabase = createClient();
     const { data: posts, error: postError } = await supabase
@@ -26,17 +18,6 @@ export default async function MyPage() {
         .eq('user_id', user.id);
 
     console.log(userData);
-
-    if (postError) {
-        return (
-            <div className='w-full'>
-                <div className='p-4 mx-auto max-w-4xl'>
-                    <p className='text-2xl font-bold'>게시글을 불러오던 중 에러가 발생했습니다. 다시 시도해주세요.</p>
-                    <p>에러가 지속되면 관리자에게 문의해주세요 : {postError.message}</p>
-                </div>
-            </div>
-        )
-    }
 
     if (postError || userError) {
         return (
