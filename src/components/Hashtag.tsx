@@ -14,8 +14,8 @@ function Hashtag({ tags, size, selectedTag }: HashtagProps) {
           href={`/posts?keyword=${selectedTag === tag ? "" : tag}`}
           key={i}
           className={`text-${size} ${
-            selectedTag === tag ? "text-primary" : "text-gray-500"
-          }  hover:text-primary font-semibold`}
+            selectedTag === tag ? "text-primary font-semibold" : "text-gray-500"
+          }  hover:text-primary`}
         >
           #{tag}
         </Link>

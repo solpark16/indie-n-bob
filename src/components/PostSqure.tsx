@@ -2,7 +2,6 @@ import { PostInDB } from "@/types/Post";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import defaultImg from "../../public/img-placeholder.svg";
 import { HeartIcon } from "./HeartIcon";
 
 type PostSqureProps = {
@@ -27,7 +26,7 @@ function PostSqure({ post }: PostSqureProps) {
     >
       <div className="w-full">
         <Image
-          src={image ?? defaultImg}
+          src={image ?? "/post/fallback.svg"}
           alt={`이미지: ${title}`}
           className="w-full h-48 rounded-lg"
         />
