@@ -28,13 +28,13 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
 
   return (
     <main className="py-8">
-      <div className="flex flex-row items-center">
+      <div className="flex flex-row items-center gap-x-3">
         {/* {// TODO 글쓴이의 프로필 정보도 조인해서 가져와야 해} */}
         <Image
-          src="/user/fallback-avatar.jpg"
+          src="/user/fallback-avatar.svg"
           alt="프로필 이미지"
-          width="50"
-          height="50"
+          width="45"
+          height="45"
         />
         <span className="text-lg font-semibold">{nickname}</span>
         <div className="ml-auto">
@@ -42,7 +42,8 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
           <Button href={`/posts/${postId}/edit`} className="text-primary mr-4">
             수정
           </Button>
-          <Button href="" className="text-gray-400 mr-2">
+          <Button className="text-gray-400 mr-2">
+            {/* TODO 삭제 버튼 기능 추가 필요 */}
             삭제
           </Button>
         </div>
