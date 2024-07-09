@@ -1,14 +1,20 @@
+<<<<<<< HEAD:src/supabase/middleware.ts
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+=======
+import { Database } from '@/types/supabase'
+import { createServerClient } from '@supabase/ssr'
+import { NextResponse, type NextRequest } from 'next/server'
+>>>>>>> 1a4d649c3a1163d43fde94ff63a00b6d330a1c12:src/utils/supabase/middleware.ts
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   });
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  const supabase = createServerClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL! as string,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! as string,
     {
       cookies: {
         getAll() {
