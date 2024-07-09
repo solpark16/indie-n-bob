@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Comment from "./Comment";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
-import SITE_URL from "@/constant";
 import { useQuery } from "@tanstack/react-query";
 
 const CommentsView = ({ postId }: Params) => {
@@ -33,8 +32,6 @@ const CommentsView = ({ postId }: Params) => {
   if (isError) {
     return <h1>댓글 불러오기 실패 ㅠㅠ</h1>;
   }
-
-  console.log(comments);
 
   return (
     <div className="mt-[5px] text-[18px]">

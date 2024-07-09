@@ -1,8 +1,9 @@
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import React from "react";
 
 // 댓글 45자 이내
 
-const CommentUpload = () => {
+const CommentUpload = ({ postId }: Params) => {
   return (
     <div className="w-full flex justify-between items-center mt-[27px]">
       <input

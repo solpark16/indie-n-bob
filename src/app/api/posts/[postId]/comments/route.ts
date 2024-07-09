@@ -8,6 +8,7 @@ type parameter = {
   params: { postId: number };
 };
 
+// 게시물 당 댓글목록 Read
 export async function GET(_: NextRequest, params: parameter) {
   const {
     params: { postId: id },
