@@ -36,7 +36,7 @@ export default function MyPage() {
                                     </p>
                                     <div className="flex flex-wrap space-x-2 mt-4">
                                         {tags.map((tag, index) => (
-                                            <span key={index} className="text-sm text-[#10AF86]">#{tag}</span>
+                                            <span key={index} className="text-sm text-main-green">#{tag}</span>
                                         ))}
                                     </div>
                                 </div>
