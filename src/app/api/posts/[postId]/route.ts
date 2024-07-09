@@ -44,6 +44,7 @@ export async function POST(request: NextRequest) {
  */
 export async function PUT(request: NextRequest, params: parameter) {
   // TODO 동작 확인 필요
+  // TODO 본인 게시물인지 확인 필요
   const { params: { postId: id } } = params;
   const { title, content, nickname, hashtags, image }: Post = await request.json();
 
@@ -60,7 +61,7 @@ export async function PUT(request: NextRequest, params: parameter) {
  * 게시글 Delete
  */
 export async function DELETE(_: NextRequest, params: parameter) {
-  // TODO 동작 확인 필요
+  // TODO 본인 게시물인지 확인 필요
   const { params: { postId: id } } = params;
   const supabase = createClient();
   const { error } = await supabase.from(TABLE_NAME)

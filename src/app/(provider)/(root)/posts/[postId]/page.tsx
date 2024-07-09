@@ -1,10 +1,10 @@
 import BreakLine from "@/components/BreakLine";
-import Button from "@/components/Button";
 import Hashtag from "@/components/Hashtag";
 import SITE_URL from "@/constant";
 import { PostInDB } from "@/types/Post";
 import moment from "moment";
 import Image from "next/image";
+import ButtonsChangePostStatus from "./edit/_components/ButtonsChangePostStatus";
 
 type PostDetailPageProps = {
   params: { postId: number };
@@ -17,14 +17,17 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
   const {
     title,
     content,
+    author_id,
     author_nickname: nickname,
     image,
     created_at,
-    hashtag: { tags },
+    hashtag,
   } = post;
   const createdAt = moment(created_at).format("yyyy.MM.DD");
 
   // TODO 제대로 된 데이터 없으면 어떻게 처리할 것인지
+
+  const isOwnedUser: boolean = true; // TODO 로그인한 사용자 아이디 === author_id 체크 필요
 
   return (
     <main className="py-8">
@@ -37,15 +40,8 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
           height="45"
         />
         <span className="text-lg font-semibold">{nickname}</span>
-        <div className="ml-auto">
-          {/* TODO 본인일 때만 버튼이 보이도록록 */}
-          <Button href={`/posts/${postId}/edit`} className="text-primary mr-4">
-            수정
-          </Button>
-          <Button className="text-gray-400 mr-2">
-            {/* TODO 삭제 버튼 기능 추가 필요 */}
-            삭제
-          </Button>
+        <div className={`ml-auto ${!isOwnedUser && "hidden"}`}>
+          <ButtonsChangePostStatus postId={postId} />
         </div>
       </div>
       <h2 className="py-6 text-3xl font-bold">{title}</h2>
@@ -64,7 +60,7 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
         <span className="py-10">{content}</span>
       </p>
       <div className="pt-18 pb-4">
-        <Hashtag tags={tags} size="sm" />
+        <Hashtag tags={hashtag?.tags} size="sm" />
       </div>
       <BreakLine />
     </main>

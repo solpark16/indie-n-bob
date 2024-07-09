@@ -7,6 +7,10 @@ type HashtagProps = {
 };
 
 function Hashtag({ tags, size, selectedTag }: HashtagProps) {
+  if (!tags) {
+    return <></>;
+  }
+
   return (
     <div className="flex gap-x-6">
       {tags.map((tag, i) => (
