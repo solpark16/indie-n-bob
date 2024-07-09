@@ -8,7 +8,7 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-8 rounded-xl w-full max-w-xl relative">
         {/* 상단 배경 */}
-        <div className="absolute top-0 left-0 right-0 bg-main-green h-12 rounded-t-xl flex justify-end items-center p-4">
+        <div className="absolute top-0 left-0 right-0 bg-primary h-12 rounded-t-xl flex justify-end items-center p-4">
           <button onClick={onClose} className="text-white hover:text-gray-200">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -17,7 +17,7 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
         </div>
 
         {/* 헤더 */}
-        <h1 className="text-2xl font-semibold mb-6 text-center text-main-green mt-12">프로필 수정</h1>
+        <h1 className="text-2xl font-semibold mb-6 text-center text-primary mt-12">프로필 수정</h1>
         
         {/* 프로필 이미지 */}
         <div className="flex justify-center mb-2">
@@ -58,7 +58,7 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
           <button onClick={onClose} className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
             취소
           </button>
-          <button className="flex-1 px-4 py-2 bg-main-green text-white rounded hover:bg-main-green/80">
+          <button className="flex-1 px-4 py-2 bg-primary text-white rounded hover:bg-primary/80">
             완료
           </button>
         </div>

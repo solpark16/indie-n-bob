@@ -7,7 +7,7 @@ const MyPostGalleryView = ({ posts }: { posts: any[] }) => {
                     <div className="flex items-center justify-between">
                         <span className="text-lg font-medium">{post.title}</span>
                         <div className="flex items-center space-x-2">
-                            <span className="text-main-green">❤</span>
+                            <span className="text-primary">❤</span>
                             <span>10</span>
                         </div>
                     </div>

@@ -29,9 +29,6 @@ const config: Config = {
       boxShadow: {
         "modal-custom": "10px 10px 55px 20px rgba(0, 0, 0, 0.1)",
       },
-      colors: {
-        'main-green': '#10af86',
-      },
     },
   },
   animation: {
