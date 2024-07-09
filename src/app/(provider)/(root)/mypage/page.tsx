@@ -1,20 +1,35 @@
 import ProfileEditButton from '@/components/MyPage/ProfileEdit/ProfileEditButton';
 import MyPostViewSwitcher from '@/components/MyPage/PostView/MyPostViewSwitcher';
+import { getUser } from '@/utils/getUser';
+import { redirect } from 'next/navigation';
+import { createClient } from '@/utils/supabase/server';
 
-export default function MyPage() {
-    const posts = Array.from({ length: 100 }, (_, index) => ({
-        "post_id": `아이디테스트${index}`,
-        "title": `글제목테스트${index}`,
-        "content": `글내용테스트${index}`,
-        "created_at": "2024-02-29",
-        "user_id": `아이디테스트${index}`,
-        "likes": 10,
-        "comments": 10,
-        "images": ["image1", "image2", "image3"],
-    }));
+export default async function MyPage() {
+    const user = await getUser();
 
-    const tags = ["실리카겔", "검정치마", "브로콜리너마저", "장원영", "예빛", "김필선", "모브닝", "신지훈", "박한", "안희수", "짙은", "초승", "찰리반웍스", "데이먼스 이어", "오열", "백예린", "백아", "소각소각", "혁오밴드", "알레프", "최유리", "김마리", "한로로"
-    ];
+    if (!user) {
+        <div>
+            로그인 하고 다시 오시오.
+        </div>
+        redirect('/login');
+    }
+
+    const supabase = createClient();
+    const { data: posts, error } = await supabase
+    .from('recommendation_posts')
+    .select('*')
+    .eq('author_id', user.id);
+
+    if (error) {
+        return (
+            <div className='w-full'>
+                <div className='p-4 mx-auto max-w-4xl'>
+                    <p className='text-2xl font-bold'>게시글을 불러오던 중 에러가 발생했습니다. 다시 시도해주세요.</p>
+                    <p>에러가 지속되면 관리자에게 문의해주세요 : {error.message}</p>
+                </div>
+            </div>
+        )
+    }
 
     return (
 
@@ -35,11 +50,11 @@ export default function MyPage() {
                                         <img src="/favorite_artist_icon.svg" alt="Favorite Artist Icon" className="inline-block w-4 h-4 mr-2 animate-pulse" />
                                         선호하는 뮤지션
                                     </p>
-                                    <div className="flex flex-wrap gap-2 mt-4">
+                                    {/* <div className="flex flex-wrap gap-2 mt-4">
                                         {tags.map((tag, index) => (
                                             <span key={index} className="text-sm text-primary">#{tag}</span>
                                         ))}
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
