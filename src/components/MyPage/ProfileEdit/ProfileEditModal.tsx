@@ -26,7 +26,7 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
           </div>
         </div>
         <div className="flex justify-center mb-6">
-          <button className="bg-gray-200 w-44 px-4 py-1 mt-4 text-sm text-gray-700 rounded">
+          <button className="bg-gray-100  hover:bg-gray-200 w-44 px-4 py-1 mt-4 text-sm text-gray-700 rounded">
             이미지 변경
           </button>
         </div>
@@ -55,7 +55,7 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
 
         {/* 버튼들 */}
         <div className="flex justify-center space-x-4 px-16">
-          <button onClick={onClose} className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+          <button onClick={onClose} className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
             취소
           </button>
           <button className="flex-1 px-4 py-2 bg-main-green text-white rounded hover:bg-main-green/80">
