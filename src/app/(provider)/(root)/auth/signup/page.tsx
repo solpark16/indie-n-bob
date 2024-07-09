@@ -172,16 +172,16 @@ export default function SignUpPage(): JSX.Element {
           <div className="flex gap-2">
             <input
               type="radio"
-              value={0}
+              value="false"
               checked={is_admin === false}
-              onChange={(e) => setIsAdmin(e.target.value === "true")}
+              onChange={(e) => setIsAdmin(false)}
             />
             일반사용자
             <input
               type="radio"
-              value={1}
+              value="true"
               checked={is_admin === true}
-              onChange={(e) => setIsAdmin(e.target.value === "true")}
+              onChange={(e) => setIsAdmin(true)}
             />
             관리자
           </div>

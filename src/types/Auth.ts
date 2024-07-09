@@ -2,7 +2,7 @@ export type Auth = {
   email: string;
   password: string;
   nickname: string;
-  is_admin: number;
+  is_admin: boolean;
   favorite_artist: string[];
   profile_image: string;
 };
