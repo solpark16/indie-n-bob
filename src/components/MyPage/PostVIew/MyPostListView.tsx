@@ -2,7 +2,7 @@ const MyPostListView = ({ posts }: { posts: any[] }) => {
   return (
     <div className="space-y-4">
       {posts.map((post) => (
-        <div key={post.id} className="flex items-start space-x-4 p-4 bg-white">
+        <div key={post.id} className="flex items-start space-x-4 p-4 ease-in-out duration-400 transition-transform transform hover:-translate-y-2">
           <img src="https://img.sbs.co.kr/newsnet/etv/upload/2023/04/06/30000838382.jpg" alt={post.title} className="w-52 h-32 rounded-2xl" />
           <div className="flex-1">
             <div className="flex items-center justify-between">
