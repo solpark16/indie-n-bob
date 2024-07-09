@@ -1,4 +1,4 @@
-import MyPostViewSwitcher from '../../../components/MyPage/PostVIew/MyPostViewSwitcher';
+import MyPostViewSwitcher from '@/components/MyPage/PostView/MyPostViewSwitcher';
 import ProfileEditButton from '@/components/MyPage/ProfileEdit/ProfileEditButton';
 
 export default function MyPage() {

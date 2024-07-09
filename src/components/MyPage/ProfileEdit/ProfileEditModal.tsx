@@ -5,7 +5,7 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
   const [email, setEmail] = useState('qudwns@naver.com');
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-8 rounded-xl w-full max-w-xl relative">
         {/* 상단 배경 */}
         <div className="absolute top-0 left-0 right-0 bg-main-green h-12 rounded-t-xl flex justify-end items-center p-4">
