@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Comment from "./Comment";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { useQuery } from "@tanstack/react-query";
+import SITE_URL from "@/constant";
 
 const CommentsView = ({ postId }: Params) => {
   const [pageNo, setPageNo] = useState(1);
@@ -20,7 +21,7 @@ const CommentsView = ({ postId }: Params) => {
   } = useQuery({
     queryKey: ["comments", postId],
     queryFn: async () => {
-      const response = await fetch(`/api/posts/${postId}/comments`);
+      const response = await fetch(`${SITE_URL}/api/posts/${postId}/comments`);
       return await response.json();
     },
   });
@@ -34,11 +35,11 @@ const CommentsView = ({ postId }: Params) => {
   }
 
   return (
-    <div className="mt-[5px] text-[18px]">
-      <p className="w-[1250px] h-[90px] flex items-center text-[#8D8D8D] ">
-        댓글 ({comments.length})
+    <div className="w-full mt-[5px] text-[18px]">
+      <p className="w-full h-[90px] flex items-center text-[#8D8D8D] ">
+        댓글 ({comments?.length})
       </p>
-      {comments.map((comment) => (
+      {comments?.map((comment) => (
         <Comment key={comment.comment_id} comment={comment} />
       ))}
       <div className="w-full h-[100px] flex justify-center items-center gap-5">

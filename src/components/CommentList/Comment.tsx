@@ -12,7 +12,7 @@ interface PropsType {
 const Comment = ({ comment }: PropsType) => {
   return (
     <div className="w-full h-[95px] flex justify-between items-center border-b border-[#dddddd]">
-      <div className="w-[1015px] h-[95px] flex justify-start items-center">
+      <div className="w-full h-[95px] flex justify-start items-center">
         {/* 로그인/회원가입 기능 dev에 합쳐진 이후에 */}
         {/* 댓글 작성자의 id를 갖고 user 테이블에서 profile_image 가져오기 => CommentsView.tsx에서 !!!*/}
         <Image
@@ -24,7 +24,8 @@ const Comment = ({ comment }: PropsType) => {
           className="w-[50px] h-[50px] rounded-full object-cover"
         />
         <p className="w-[110px] ml-[15px]">{comment.author_nickname}</p>
-        <p className="w-[840px]">{comment.content}</p>
+        {/* 상위에 w-full 주고 % 또는 tailwind에서 제공하는 값으로 width주기 ///  min-w 또는 max-w만 px로 값 주기*/}
+        <p className="w-">{comment.content}</p>
       </div>
       <div className="w-[250px] flex justify-end items-center gap-[16px] text-[#A0A0A0]">
         <p>{formatDateString(comment.created_at)}</p>
