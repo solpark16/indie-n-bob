@@ -2,32 +2,37 @@
 import Link from "next/link";
 import { useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
-import { HiOutlineMusicalNote } from "react-icons/hi2";
-import { HiOutlineLockClosed } from "react-icons/hi2";
-import { HiOutlineStar } from "react-icons/hi2";
+import {
+  HiOutlineMusicalNote,
+  HiOutlineLockClosed,
+  HiOutlineStar,
+} from "react-icons/hi2";
 import styled from "styled-components";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+import { useAuthStore } from "@/zustand/auth.store";
 
-export default function SignUpPage() {
+export default function SignUpPage(): JSX.Element {
+  const {
+    email,
+    password,
+    nickname,
+    is_admin,
+    favorite_artist,
+    error,
+    setEmail,
+    setPassword,
+    setNickname,
+    setIsAdmin,
+    setFavoriteArtists,
+    setError,
+  } = useAuthStore();
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [favoriteArtists, setFavoriteArtists] = useState<string[]>([]);
-  const [category, setCategory] = useState(0);
-  const [error, setError] = useState({
-    password: "",
-    nickname: "",
-  });
-
-  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
 
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    if (e.target.value.length < 6) {
+    if (e.target.value.length < 6 || e.target.value.length > 10) {
       setError({
         ...error,
         password: "비밀번호는 최소 6자 이상입니다.",
@@ -42,7 +47,7 @@ export default function SignUpPage() {
 
   const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
-    if (e.target.value.length < 4) {
+    if (e.target.value.length < 4 || e.target.value.length > 10) {
       setError({
         ...error,
         nickname: "닉네임은 최소 4자 이상입니다.",
@@ -71,8 +76,8 @@ export default function SignUpPage() {
           email,
           password,
           nickname,
-          is_admin: category,
-          favorite_artist: favoriteArtists,
+          is_admin,
+          favorite_artist,
         }
       );
 
@@ -85,6 +90,13 @@ export default function SignUpPage() {
       console.log("회원가입 실패");
     }
 
+    Swal.fire({
+      icon: "success",
+      title: `${nickname}님 반갑습니다!`,
+      text: "로그인 페이지로 이동합니다.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
     router.replace("/auth/login");
   };
 
@@ -104,10 +116,10 @@ export default function SignUpPage() {
               type="email"
               id="email"
               value={email}
-              onChange={onChangeEmail}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="formflet@email.com"
             />
-            <AiOutlineUser className="absolute left-3 top-1/2 transform -translate-y-1/4" />
+            <AiOutlineUser className="absolute left-3 top-1/2 transform -translate-y-1/2" />
           </div>
 
           <div className="relative">
@@ -119,9 +131,9 @@ export default function SignUpPage() {
               onChange={onChangeNickname}
               placeholder="영문, 숫자 포함 4~10자"
             />
-            <HiOutlineMusicalNote className="absolute left-3 top-1/2 transform -translate-y-1/4" />
+            <HiOutlineMusicalNote className="absolute left-3 top-1/2 transform -translate-y-1/2" />
             {error.nickname && (
-              <p className="text-red-500 absolute bottom-0 text-[11px]">
+              <p className="text-red-500 absolute bottom-3 text-[11px]">
                 {error.nickname}
               </p>
             )}
@@ -136,9 +148,9 @@ export default function SignUpPage() {
               onChange={onChangePassword}
               placeholder="영문, 숫자, 특수문자 포함 6~10자"
             />
-            <HiOutlineLockClosed className="absolute left-3 top-1/2 transform -translate-y-1/4" />
+            <HiOutlineLockClosed className="absolute left-3 top-1/2 transform -translate-y-1/2" />
             {error.password && (
-              <p className="text-red-500 absolute bottom-0 text-[11px]">
+              <p className="text-red-500 absolute bottom-3 text-[11px]">
                 {error.password}
               </p>
             )}
@@ -149,11 +161,11 @@ export default function SignUpPage() {
             <Input
               type="text"
               id="favoriteArtist"
-              value={favoriteArtists}
+              value={favorite_artist}
               placeholder="실리카겔, 잔나비, 유다빈밴드, 데이브레이크"
               onChange={onChangeFavoriteArtists}
             />
-            <HiOutlineStar className="absolute left-3 top-1/2 transform -translate-y-1/4" />
+            <HiOutlineStar className="absolute left-3 top-1/2 transform -translate-y-1/2" />
           </div>
 
           <p className="mb-2">사용자 유형</p>
@@ -161,15 +173,15 @@ export default function SignUpPage() {
             <input
               type="radio"
               value={0}
-              checked={category == 0}
-              onChange={(e) => setCategory(Number(e.target.value))}
+              checked={is_admin === false}
+              onChange={(e) => setIsAdmin(e.target.value === "true")}
             />
             일반사용자
             <input
               type="radio"
               value={1}
-              checked={category == 1}
-              onChange={(e) => setCategory(Number(e.target.value))}
+              checked={is_admin === true}
+              onChange={(e) => setIsAdmin(e.target.value === "true")}
             />
             관리자
           </div>
@@ -202,5 +214,5 @@ const Input = styled.input`
   padding: 10px 10px 10px 35px;
   width: 100%;
   font-size: 15px;
-  margin: 5px 0 20px 0;
+  margin: 5px 0 30px 0;
 `;

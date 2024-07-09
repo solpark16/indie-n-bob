@@ -1,11 +1,12 @@
 import { createClient } from "@/supabase/server";
+import { Auth } from "@/types/Auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const supabase = createClient();
 
   try {
-    const { email, password } = await request.json();
+    const { email, password }: Auth = await request.json();
 
     const { data: signInData, error: signInError } =
       await supabase.auth.signInWithPassword({

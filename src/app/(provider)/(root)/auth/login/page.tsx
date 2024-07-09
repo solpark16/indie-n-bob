@@ -6,14 +6,24 @@ import Link from "next/link";
 import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+//import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import Swal from "sweetalert2";
+import { useAuthStore } from "@/zustand/auth.store";
 
 export default function LoginPage() {
+  const { email, password, setEmail, setPassword } = useAuthStore();
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!email || !password) {
+      Swal.fire({
+        icon: "warning",
+        text: "빈칸을 입력해주세요",
+        showConfirmButton: true,
+      });
+      return;
+    }
     try {
       const response = await axios.post(
         "http://localhost:3000/api/auth/login",
@@ -22,16 +32,29 @@ export default function LoginPage() {
           password,
         }
       );
-      console.log(response);
+      console.log(response.data);
       if (response.data.error) {
         console.log(response.data.error);
       } else {
+        Swal.fire({
+          icon: "success",
+          title: `로그인`,
+          text: "메인페이지로 이동합니다.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         console.log("로그인 되었습니다.", response.statusText);
+        router.replace("/");
       }
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: `로그인 실패`,
+        text: "이메일과 비밀번호를 확인해주세요.",
+        showConfirmButton: true,
+      });
       console.log("로그인 실패 ", error);
     }
-    router.replace("/");
   };
 
   return (
