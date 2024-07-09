@@ -20,6 +20,8 @@ function PostListView({ keyword }: PostListViewProps) {
     },
   });
 
+  // TODO 무한 스크롤 기능 구현 필요
+
   if (isLoading) {
     return <Loading />;
   }
@@ -36,10 +38,7 @@ function PostListView({ keyword }: PostListViewProps) {
   return (
     <ol className="w-full grid grid-cols-1 gap-6 mt-8 md:grid-cols-2 lg:grid-cols-3">
       {filteredPosts.map((post) => (
-        <li
-          key={post.post_id}
-          className="flex flex-col w-full max-w-sm p-4"
-        >
+        <li key={post.post_id} className="flex flex-col w-full max-w-sm p-4">
           <PostSqure post={post}></PostSqure>
         </li>
       ))}

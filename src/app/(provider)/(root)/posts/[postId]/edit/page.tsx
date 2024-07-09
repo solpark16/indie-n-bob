@@ -10,6 +10,11 @@ async function PostEditPage({ params: { postId } }: PostEditPageProps) {
   const response = await fetch(`${SITE_URL}/api/posts/${postId}`);
   const post: PostInDB = await response.json();
 
+  if (!post) {
+    // TODO 제대로 된 데이터 없으면 어떻게 처리할 것인지
+    return <p>데이터 없음</p>;
+  }
+
   const {
     title,
     content,
