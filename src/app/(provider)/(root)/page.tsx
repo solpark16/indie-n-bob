@@ -1,8 +1,8 @@
 "use client";
-import { createClient } from "@/supabase/client";
 import { Auth } from "@/types/Auth";
+import { createClient } from "@/utils/supabase/client";
 import axios from "axios";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function HomePage() {
   const [user, setUser] = useState<Auth[]>([]);

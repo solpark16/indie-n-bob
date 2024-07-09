@@ -1,11 +1,6 @@
-<<<<<<< HEAD:src/supabase/middleware.ts
+import { Database } from "@/types/supabase";
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-=======
-import { Database } from '@/types/supabase'
-import { createServerClient } from '@supabase/ssr'
-import { NextResponse, type NextRequest } from 'next/server'
->>>>>>> 1a4d649c3a1163d43fde94ff63a00b6d330a1c12:src/utils/supabase/middleware.ts
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -39,7 +34,6 @@ export async function updateSession(request: NextRequest) {
   // supabase.auth.getUser(). A simple mistake could make it very hard to debug
   // issues with users being randomly logged out.
 
-  // TODO 회원(로그인/회원가입)이 완료될 때까지 우선 주석 처리
   const {
     data: { user },
   } = await supabase.auth.getUser();
