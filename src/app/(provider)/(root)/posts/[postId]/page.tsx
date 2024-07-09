@@ -15,7 +15,6 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
   const post: PostInDB = await response.json();
 
   const {
-    post_id: id,
     title,
     content,
     author_nickname: nickname,
@@ -25,7 +24,6 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
   } = post;
   const createdAt = moment(created_at).format("yyyy.MM.DD");
 
-  console.log(post);
   return (
     <main>
       <header>
@@ -33,7 +31,7 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
         <div>{nickname}</div>
         <div>
           <h2>{title}</h2>
-          <Link href={`/posts/${id}/edit`}>
+          <Link href={`/posts/${postId}/edit`}>
             <button>수정</button>
           </Link>
           <Button>삭제</Button>
