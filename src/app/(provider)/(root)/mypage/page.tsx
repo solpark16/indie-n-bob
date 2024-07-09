@@ -16,9 +16,9 @@ export default async function MyPage() {
 
     const supabase = createClient();
     const { data: posts, error } = await supabase
-    .from('recommendation_posts')
-    .select('*')
-    .eq('author_id', user.id);
+        .from('recommendation_posts')
+        .select('*')
+        .eq('author_id', user.id);
 
     if (error) {
         return (
