@@ -1,5 +1,5 @@
-import { createClient } from "@/supabase/server";
 import { Auth } from "@/types/Auth";
+import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {

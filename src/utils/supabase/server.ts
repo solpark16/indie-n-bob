@@ -1,11 +1,6 @@
-<<<<<<< HEAD:src/supabase/server.ts
+import { Database } from "@/types/supabase";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-=======
-import { Database } from '@/types/supabase'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
->>>>>>> 1a4d649c3a1163d43fde94ff63a00b6d330a1c12:src/utils/supabase/server.ts
 
 export function createClient() {
   const cookieStore = cookies();
