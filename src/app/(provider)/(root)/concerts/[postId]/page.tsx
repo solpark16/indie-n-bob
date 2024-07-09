@@ -1,4 +1,3 @@
-import Button from "@/components/Button";
 import Hashtag from "@/components/Hashtag";
 import SITE_URL from "@/constant";
 import { ConcertInDB } from "@/types/Concert";

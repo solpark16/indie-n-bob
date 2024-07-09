@@ -2,7 +2,6 @@
 
 import SITE_URL from "@/constant";
 import { useQuery } from "@tanstack/react-query";
-import PostSqure from "../PostSqure";
 import ConcertSquare from "../ConcertSquare";
 
 function ConcertListView() {
