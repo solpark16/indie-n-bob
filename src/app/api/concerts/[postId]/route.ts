@@ -1,5 +1,5 @@
-import { createClient } from "@/supabase/server";
 import { Post } from "@/types/Post";
+import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
 const TABLE_NAME = "concert_posts";
