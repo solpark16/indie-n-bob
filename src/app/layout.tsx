@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { Noto_Sans_KR } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 // const inter = Inter({ subsets: ["latin"] });
-const notoSansKr = Noto_Sans_KR({ subsets: ["latin"] });
+const font = localFont({
+  src: [{ path: "../../public/font/PretendardVariable.woff2" }],
+});
 
 export const metadata: Metadata = {
   title: "indieNbob: 인디언밥",
@@ -20,7 +22,7 @@ export default function HTMLLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={notoSansKr.className}>{children}</body>
+      <body className={font.className}>{children}</body>
     </html>
   );
 }
