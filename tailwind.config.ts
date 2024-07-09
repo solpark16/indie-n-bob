@@ -37,7 +37,7 @@ const config: Config = {
   keyframes: {
     pulse: {
       '0%, 100%': { fill: 'gray' },
-      '50%': { fill: 'var(--tw-color-main-green)' },
+      '50%': { fill: 'var(--tw-color-primary)' },
     },
   },
   plugins: [],
