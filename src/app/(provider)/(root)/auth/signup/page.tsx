@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import {
   HiOutlineMusicalNote,
@@ -12,6 +11,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { useAuthStore } from "@/zustand/auth.store";
+import Button from "@/components/Button";
 
 export default function SignUpPage(): JSX.Element {
   const {
@@ -190,16 +190,16 @@ export default function SignUpPage(): JSX.Element {
           </p>
 
           <div className="flex flex-col gap-3 mt-5">
-            <button
+            <Button
               type="submit"
               className="bg-main-color text-white rounded-md p-3"
             >
               회원가입
-            </button>
+            </Button>
             <Link href="/auth/login" className="block">
-              <button className="w-[100%] border-2 border-main-color rounded-md text-main-color p-3 transition-all duration-300 ease-in-out hover:bg-main-color hover:text-white">
+              <Button className="w-[100%] border-2 border-main-color rounded-md text-main-color p-3 transition-all duration-300 ease-in-out hover:bg-main-color hover:text-white">
                 로그인
-              </button>
+              </Button>
             </Link>
           </div>
         </form>
