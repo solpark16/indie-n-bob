@@ -1,4 +1,5 @@
-import MyPostViewSwitcher from '../../../components/MyPage/MyPostViewSwitcher';
+import MyPostViewSwitcher from '../../../components/MyPage/PostVIew/MyPostViewSwitcher';
+import ProfileEditButton from '@/components/MyPage/ProfileEdit/ProfileEditButton';
 
 export default function MyPage() {
     const posts = Array.from({ length: 100 }, (_, index) => ({
@@ -30,7 +31,7 @@ export default function MyPage() {
                             ))}
                         </div>
                     </div>
-                    <span>프로필 수정</span>
+                    <ProfileEditButton />
                 </div>
                 <div className='mt-8'>
                     <span className="text-2xl font-bold">내가 쓴 게시글</span>
