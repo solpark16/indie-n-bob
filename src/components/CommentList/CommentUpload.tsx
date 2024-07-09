@@ -1,5 +1,7 @@
 import React from "react";
 
+// 댓글 45자 이내
+
 const CommentUpload = () => {
   return (
     <div className="w-full flex justify-between items-center mt-[27px]">

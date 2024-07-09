@@ -7,7 +7,7 @@ import CmtToModi from "./CmtToModi";
 const CmtEditModal = ({ onClose }: { onClose: () => void }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="w-[1000px] h-[500px] bg-white rounded-[30px] shadow-modal-custom">
+      <div className="w-[1000px] h-[450px] bg-white rounded-[30px] shadow-modal-custom">
         <div className="w-[1000px] h-[65px] flex justify-end items-center rounded-tl-[30px] rounded-tr-[30px] bg-[#10AF86]">
           <Image
             src="/cancel.png"
@@ -25,7 +25,7 @@ const CmtEditModal = ({ onClose }: { onClose: () => void }) => {
           >
             댓글 수정
           </h2>
-          <CmtToModi />
+          <CmtToModi onClose={onClose} />
         </div>
       </div>
     </div>
