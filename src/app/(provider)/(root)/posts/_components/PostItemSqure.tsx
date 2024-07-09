@@ -2,13 +2,13 @@ import { PostInDB } from "@/types/Post";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { HeartIcon } from "./HeartIcon";
+import { HeartIcon } from "../../../../../components/HeartIcon";
 
 type PostSqureProps = {
   post: PostInDB;
 };
 
-function PostSqure({ post }: PostSqureProps) {
+function PostItemSqure({ post }: PostSqureProps) {
   const {
     post_id: id,
     title,
@@ -52,4 +52,4 @@ function PostSqure({ post }: PostSqureProps) {
   );
 }
 
-export default PostSqure;
+export default PostItemSqure;

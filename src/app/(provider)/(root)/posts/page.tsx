@@ -1,5 +1,5 @@
 import Hashtag from "@/components/Hashtag";
-import PostListView from "@/components/PostList/PostListView";
+import PostListView from "./_components/PostListView";
 
 const tags: string[] = ["내요듣", "숨듣명", "내밴소"];
 

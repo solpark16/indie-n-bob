@@ -1,10 +1,10 @@
 "use client";
 
+import Loading from "@/components/Loading";
 import SITE_URL from "@/constant";
 import { PostInDB } from "@/types/Post";
 import { useQuery } from "@tanstack/react-query";
-import Loading from "../Loading";
-import PostSqure from "../PostSqure";
+import PostItemSqure from "./PostItemSqure";
 
 type PostListViewProps = {
   keyword: string;
@@ -39,7 +39,7 @@ function PostListView({ keyword }: PostListViewProps) {
     <ol className="w-full grid grid-cols-1 gap-6 mt-8 md:grid-cols-2 lg:grid-cols-3">
       {filteredPosts.map((post) => (
         <li key={post.post_id} className="flex flex-col w-full max-w-sm p-4">
-          <PostSqure post={post}></PostSqure>
+          <PostItemSqure post={post}></PostItemSqure>
         </li>
       ))}
     </ol>
