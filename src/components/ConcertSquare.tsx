@@ -28,7 +28,7 @@ function ConcertSquare({ concert }: ConcertSquareProps) {
       className="flex flex-col justify-center items-center"
     >
       <div className="relative">
-        {/* // TODO 이미지 없을 때 어떻게 보여줄 것인지" */}
+        {/* // TODO 이미지 없을 때 어떻게 보여줄 것인지." */}
         {image && (
           <img src={image} alt={title} />
           // TODO Image 태그 쓸 수 있도록 만들기
