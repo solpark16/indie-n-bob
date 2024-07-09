@@ -1,16 +1,14 @@
 "use client";
-import { Auth } from "@/types/Auth";
+
 import { createClient } from "@/utils/supabase/client";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function HomePage() {
-  const [user, setUser] = useState<Auth[]>([]);
   useEffect(() => {
     const supabase = createClient();
     const fetchData = async () => {
-      const { data, error: getUserError } = await supabase.auth.getUser();
-      //setUser(data);
+      const { data } = await supabase.auth.getUser();
       return data;
     };
     fetchData();
@@ -29,7 +27,6 @@ export default function HomePage() {
       console.error("로그아웃 중 오류 발생:", error);
     }
   };
-  console.log(user);
   return (
     <main>
       <button onClick={handleLogout}>로그아웃</button>

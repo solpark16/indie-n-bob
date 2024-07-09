@@ -41,7 +41,7 @@ export async function updateSession(request: NextRequest) {
   // TODO: /api로 시작하는 주소는 무시
   if (
     !user &&
-    !request.nextUrl.pathname.startsWith("/login") &&
+    !request.nextUrl.pathname.startsWith("/api") &&
     !request.nextUrl.pathname.startsWith("/auth")
   ) {
     // no user, potentially respond by redirecting the user to the login page
