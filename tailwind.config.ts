@@ -31,6 +31,15 @@ const config: Config = {
       },
     },
   },
+  animation: {
+    pulse: "pulse 1s infinite",
+  },
+  keyframes: {
+    pulse: {
+      '0%, 100%': { fill: 'gray' },
+      '50%': { fill: 'var(--tw-color-primary)' },
+    },
+  },
   plugins: [],
 };
 export default config;
