@@ -1,14 +1,24 @@
+import Link from "next/link";
+
 type HashtagProps = {
   tags: string[];
+  size: "sm" | "lg";
+  selectedTag?: string;
 };
 
-function Hashtag({ tags }: HashtagProps) {
+function Hashtag({ tags, size, selectedTag }: HashtagProps) {
   return (
-    <div>
+    <div className="flex gap-x-6">
       {tags.map((tag, i) => (
-        <span key={i} className="">
+        <Link
+          href={`/posts?keyword=${selectedTag === tag ? "" : tag}`}
+          key={i}
+          className={`text-${size} ${
+            selectedTag === tag ? "text-primary" : "text-gray-500"
+          }  hover:text-primary font-semibold`}
+        >
           #{tag}
-        </span>
+        </Link>
       ))}
     </div>
   );
