@@ -41,7 +41,6 @@ const CommentsView = ({ postId }: Params) => {
       {comments.map((comment) => (
         <Comment key={comment.comment_id} comment={comment} />
       ))}
-
       <div className="w-full h-[100px] flex justify-center items-center gap-5">
         {[...Array(5)].map((_, index) => {
           return (
