@@ -24,9 +24,11 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
   } = post;
   const createdAt = moment(created_at).format("yyyy.MM.DD");
 
+  // TODO 제대로 된 데이터 없으면 어떻게 처리할 것인지
+
   return (
     <main>
-      <header>
+      <header className="flex flex-col items-center">
         {/* {// TODO 글쓴이의 프로필 정보도 조인해서 가져와야 해} */}
         <div>{nickname}</div>
         <div>
@@ -36,6 +38,7 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
           </Link>
           <Button>삭제</Button>
         </div>
+        <div>작성일자 {createdAt}</div>
       </header>
       <article>
         <div className="relative">
@@ -43,7 +46,7 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
         </div>
         <div>{content}</div>
         <div>
-          <Hashtag tags={tags} />
+          <Hashtag tags={tags} size="sm" />
         </div>
       </article>
     </main>
