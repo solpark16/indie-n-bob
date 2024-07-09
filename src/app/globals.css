@@ -8,3 +8,7 @@
 body {
   color: #2e2e2e !important;
 }
+
+.util-ellipsis {
+  @apply text-ellipsis overflow-hidden whitespace-nowrap;
+}

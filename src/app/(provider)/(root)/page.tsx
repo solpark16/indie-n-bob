@@ -10,7 +10,7 @@ export default function HomePage() {
     const supabase = createClient();
     const fetchData = async () => {
       const { data, error: getUserError } = await supabase.auth.getUser();
-      setUser(data);
+      //setUser(data);
       return data;
     };
     fetchData();

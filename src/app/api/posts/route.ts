@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 /**
  * 게시글 목록 Read
- * 
+ *
  * @returns post[]
  */
 export async function GET(request: NextRequest) {
