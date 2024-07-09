@@ -13,6 +13,18 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      colors: {
+        'main-green': '#10af85',
+      },
+    },
+  },
+  animation: {
+    pulse: "pulse 1s infinite",
+  },
+  keyframes: {
+    pulse: {
+      '0%, 100%': { fill: 'gray' },
+      '50%': { fill: 'var(--tw-color-main-green)' },
     },
   },
   plugins: [],
