@@ -1,5 +1,5 @@
 import { Post } from "@/types/Post";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
 const TABLE_NAME = "recommendation_posts";
@@ -56,8 +56,11 @@ export async function POST(request: NextRequest) {
  */
 export async function PUT(request: NextRequest, params: parameter) {
   // TODO 동작 확인 필요
-  const { params: { postId: id } } = params;
-  const { title, content, nickname, hashtags, image }: Post = await request.json();
+  const {
+    params: { postId: id },
+  } = params;
+  const { title, content, nickname, hashtags, image }: Post =
+    await request.json();
 
   const supabase = createClient();
   const { data: post } = await supabase
@@ -80,7 +83,9 @@ export async function PUT(request: NextRequest, params: parameter) {
  */
 export async function DELETE(_: NextRequest, params: parameter) {
   // TODO 동작 확인 필요
-  const { params: { postId: id } } = params;
+  const {
+    params: { postId: id },
+  } = params;
   const supabase = createClient();
   const { error } = await supabase
     .from(TABLE_NAME)
