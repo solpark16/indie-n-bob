@@ -2,9 +2,14 @@ import ProfileEditButton from '@/components/MyPage/ProfileEdit/ProfileEditButton
 import MyPostViewSwitcher from '@/components/MyPage/PostView/MyPostViewSwitcher';
 import { getUser } from '@/utils/getUser';
 import { createClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
 
 export default async function MyPage() {
     const user = await getUser();
+
+    if (!user) {
+        redirect('/auth/login');
+    }
 
     const supabase = createClient();
     const { data: posts, error: postError } = await supabase
@@ -17,7 +22,7 @@ export default async function MyPage() {
         .select('*')
         .eq('user_id', user.id);
 
-    console.log(userData);
+    console.log(userData[0]);
 
     if (postError || userError) {
         return (
