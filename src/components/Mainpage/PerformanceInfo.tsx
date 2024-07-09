@@ -4,7 +4,7 @@ import Link from "next/link";
 const performances = [
   {
     id: 1,
-    imageUrl: "/실리카겔 커버.jpg",
+    imageUrl: "/logo.png",
     text: "Performance 1",
   },
   { id: 2, imageUrl: "/logo.png", text: "Performance 2" },
