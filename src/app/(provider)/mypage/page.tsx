@@ -22,25 +22,33 @@ export default function MyPage() {
             <div className="p-4 mx-auto max-w-4xl">
                 <div className="flex items-center space-x-4">
                     <img src="https://stfauxrjudaltlmspsnv.supabase.co/storage/v1/object/public/users/public/user_default.png" alt="Profile" className="w-40 h-40 rounded-full" />
-                    <div className="flex-1">
-                        <span className="text-2xl font-bold">병준원영</span>
-                        <p>선호하는 뮤지션</p>
-                        <div className="flex flex-wrap space-x-2">
-                            {tags.map((tag, index) => (
-                                <span key={index} className="text-sm text-blue-500">#{tag}</span>
-                            ))}
+                    <div className="flex-1 flex items-center justify-between">
+                        <div>
+                            <div>
+                                <div className="flex items-center">
+                                    <span className="text-2xl font-bold">병준원영</span>
+                                    <ProfileEditButton />
+                                </div>
+                                <div className='mt-2'>
+                                    <p>선호하는 뮤지션</p>
+                                    <div className="flex flex-wrap space-x-2 mt-4">
+                                        {tags.map((tag, index) => (
+                                            <span key={index} className="text-sm text-[#10AF86]">#{tag}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <ProfileEditButton />
+
                 </div>
-                <div className='mt-8'>
+                <div className='mt-32'>
                     <span className="text-2xl font-bold">내가 쓴 게시글</span>
                 </div>
+                <div className='mt-8'>
+                    <MyPostViewSwitcher posts={posts} />
+                </div>
             </div>
-            <div className='mt-8'>
-                <MyPostViewSwitcher posts={posts} />
-            </div>
-
         </div>
 
     );
