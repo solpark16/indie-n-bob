@@ -24,11 +24,12 @@ function PostItemSqure({ post }: PostSqureProps) {
       href={`/posts/${id}`}
       className="flex flex-col justify-center items-center px-2"
     >
-      <div className="w-full">
+      <div className="w-full h-[260px] relative">
         <Image
           src={image ?? "/post/fallback.svg"}
+          fill
           alt={`이미지: ${title}`}
-          className="w-full h-48 rounded-lg"
+          className="w-full h-48 rounded-lg object-cover"
         />
       </div>
       <div className="w-full flex flex-col mt-4 space-y-2">
