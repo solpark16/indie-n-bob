@@ -29,6 +29,7 @@ export default function MyPage() {
                                     <span className="text-2xl font-bold">병준원영</span>
                                     <ProfileEditButton />
                                 </div>
+                                <hr className="border-gray-300 w-full mt-4" />
                                 <div className='mt-2'>
                                     <p className="flex items-center">
                                         <img src="/favorite_artist_icon.svg" alt="Favorite Artist Icon" className="inline-block w-4 h-4 mr-2 animate-pulse" />
@@ -47,6 +48,7 @@ export default function MyPage() {
                 </div>
                 <div className='mt-32'>
                     <span className="text-2xl font-bold">내가 쓴 게시글</span>
+                    <hr className="border-gray-300 w-full mt-4" />
                 </div>
                 <div className='mt-8'>
                     <MyPostViewSwitcher posts={posts} />
