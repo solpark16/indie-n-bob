@@ -2,11 +2,11 @@ import SITE_URL from "@/constant";
 import { PostInDB } from "@/types/Post";
 import moment from "moment";
 
-type PostEditPageProps = {
+type EditPostPageProps = {
   params: { postId: number };
 };
 
-async function PostEditPage({ params: { postId } }: PostEditPageProps) {
+async function EditPostPage({ params: { postId } }: EditPostPageProps) {
   const response = await fetch(`${SITE_URL}/api/posts/${postId}`);
   const post: PostInDB = await response.json();
 
@@ -28,4 +28,4 @@ async function PostEditPage({ params: { postId } }: PostEditPageProps) {
   return <div>EditPostPage</div>;
 }
 
-export default PostEditPage;
+export default EditPostPage;
