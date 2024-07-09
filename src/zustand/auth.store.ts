@@ -1,21 +1,22 @@
 import { AuthStore } from "@/types/Auth";
-import create from "zustand";
+import { create } from "zustand";
 
 export const useAuthStore = create<AuthStore>((set) => ({
   email: "",
-  setEmail: (email) => set({ email }),
   password: "",
-  setPassword: (password) => set({ password }),
   nickname: "",
-  setNickname: (nickname) => set({ nickname }),
   favorite_artist: [],
-  setFavoriteArtists: (artists) => set({ favorite_artist: artists }),
   is_admin: false,
-  setIsAdmin: (is_admin) => set({ is_admin }),
   error: {
     password: "",
     nickname: "",
   },
+
+  setEmail: (email) => set({ email }),
+  setPassword: (password) => set({ password }),
+  setNickname: (nickname) => set({ nickname }),
+  setFavoriteArtists: (artists) => set({ favorite_artist: artists }),
+  setIsAdmin: (is_admin) => set({ is_admin }),
   setError: (error) =>
     set((state) => ({ error: { ...state.error, ...error } })),
 }));

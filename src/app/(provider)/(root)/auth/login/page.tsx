@@ -4,7 +4,6 @@ import { AiOutlineUser } from "react-icons/ai";
 import { HiOutlineLockClosed } from "react-icons/hi2";
 import Link from "next/link";
 import axios from "axios";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 //import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Swal from "sweetalert2";
@@ -32,7 +31,7 @@ export default function LoginPage() {
           password,
         }
       );
-      console.log(response.data);
+
       if (response.data.error) {
         console.log(response.data.error);
       } else {

@@ -38,7 +38,7 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // TODO: /api로 시작하는 주소는 무시한다.
+  // TODO: /api로 시작하는 주소는 무시
   if (
     !user &&
     !request.nextUrl.pathname.startsWith("/login") &&
