@@ -1,5 +1,5 @@
-import MyPostViewSwitcher from '@/components/MyPage/PostView/MyPostViewSwitcher';
 import ProfileEditButton from '@/components/MyPage/ProfileEdit/ProfileEditButton';
+import MyPostViewSwitcher from '@/components/MyPage/PostView/MyPostViewSwitcher';
 
 export default function MyPage() {
     const posts = Array.from({ length: 100 }, (_, index) => ({
