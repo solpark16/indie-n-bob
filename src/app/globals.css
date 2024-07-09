@@ -2,4 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {}
+@layer utilities {
+    .util-ellipsis {
+        @apply text-ellipsis overflow-hidden whitespace-nowrap;
+    }
+}
