@@ -8,7 +8,10 @@ export default function ProfileEditButton() {
 
   return (
     <>
-      <button className="ml-auto w-44 px-4 py-2 bg-gray-100 rounded-full" onClick={() => setIsModalOpen(true)}>
+      <button 
+        className="ml-auto w-44 px-4 py-2 bg-gray-100 rounded-full hover:bg-gray-200" 
+        onClick={() => setIsModalOpen(true)}
+      >
         프로필 수정
       </button>
       {isModalOpen && <ProfileEditModal onClose={() => setIsModalOpen(false)} />}
