@@ -19,10 +19,7 @@ const CmtEditModal = ({ onClose }: { onClose: () => void }) => {
           />
         </div>
         <div className="flex flex-col justify-center items-center">
-          <h2
-            className="w-[900px] mt-[30px] mb-[30px] font-semibold text-[#10AF86] text-[30px]"
-            onClick={onClose}
-          >
+          <h2 className="w-[900px] mt-[30px] mb-[30px] font-semibold text-[#10AF86] text-[30px]">
             댓글 수정
           </h2>
           <CmtToModi onClose={onClose} />
