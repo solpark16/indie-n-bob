@@ -5,6 +5,7 @@ import Comment from "./Comment";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { useQuery } from "@tanstack/react-query";
 import SITE_URL from "@/constant";
+import LoadingComments from "./LoadingComments";
 
 const CommentsView = ({ postId }: Params) => {
   const [pageNo, setPageNo] = useState(1);
@@ -27,7 +28,7 @@ const CommentsView = ({ postId }: Params) => {
   });
 
   if (isPending) {
-    return <h1>댓글 불러오는 중 ···</h1>;
+    return <LoadingComments />;
   }
 
   if (isError) {
