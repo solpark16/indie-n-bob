@@ -6,11 +6,16 @@ import { HiOutlineMusicalNote } from "react-icons/hi2";
 import { HiOutlineLockClosed } from "react-icons/hi2";
 import { HiOutlineStar } from "react-icons/hi2";
 import styled from "styled-components";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
+  const [favoriteArtists, setFavoriteArtists] = useState<string[]>([]);
+  const [category, setCategory] = useState(0);
   const [error, setError] = useState({
     password: "",
     nickname: "",
@@ -50,8 +55,37 @@ export default function SignUpPage() {
     }
   };
 
+  const onChangeFavoriteArtists = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const artists = value.split(",").map((artist) => artist.trim());
+    setFavoriteArtists(artists);
+  };
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/signup",
+        {
+          email,
+          password,
+          nickname,
+          is_admin: category,
+          favorite_artist: favoriteArtists,
+        }
+      );
+
+      if (response.data.error) {
+        console.log(response.data.error);
+      } else {
+        console.log("회원가입 성공");
+      }
+    } catch (error) {
+      console.log("회원가입 실패");
+    }
+
+    router.replace("/auth/login");
   };
 
   return (
@@ -115,13 +149,39 @@ export default function SignUpPage() {
             <Input
               type="text"
               id="favoriteArtist"
+              value={favoriteArtists}
               placeholder="실리카겔, 잔나비, 유다빈밴드, 데이브레이크"
+              onChange={onChangeFavoriteArtists}
             />
             <HiOutlineStar className="absolute left-3 top-1/2 transform -translate-y-1/4" />
           </div>
 
+          <p className="mb-2">사용자 유형</p>
+          <div className="flex gap-2">
+            <input
+              type="radio"
+              value={0}
+              checked={category == 0}
+              onChange={(e) => setCategory(Number(e.target.value))}
+            />
+            일반사용자
+            <input
+              type="radio"
+              value={1}
+              checked={category == 1}
+              onChange={(e) => setCategory(Number(e.target.value))}
+            />
+            관리자
+          </div>
+          <p className="text-[11px] text-gray-400 py-2">
+            * 관리자는 공연일정을 등록할 수 있습니다.
+          </p>
+
           <div className="flex flex-col gap-3 mt-5">
-            <button className="bg-main-color text-white rounded-md p-3">
+            <button
+              type="submit"
+              className="bg-main-color text-white rounded-md p-3"
+            >
               회원가입
             </button>
             <Link href="/auth/login" className="block">

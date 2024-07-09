@@ -3,18 +3,56 @@ import styled from "styled-components";
 import { AiOutlineUser } from "react-icons/ai";
 import { HiOutlineLockClosed } from "react-icons/hi2";
 import Link from "next/link";
+import axios from "axios";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
+      console.log(response);
+      if (response.data.error) {
+        console.log(response.data.error);
+      } else {
+        console.log("로그인 되었습니다.", response.statusText);
+      }
+    } catch (error) {
+      console.log("로그인 실패 ", error);
+    }
+    router.replace("/");
+  };
+
   return (
     <>
       <div className="w-[1280px] mx-auto flex flex-col justify-center">
         <h1 className="text-center text-2xl font-bold text-main-color my-10">
           로그인
         </h1>
-        <form className="flex flex-col justify-center text-left w-[500px] mx-auto">
+        <form
+          onSubmit={onSubmit}
+          className="flex flex-col justify-center text-left w-[500px] mx-auto"
+        >
           <div className="relative">
             <label htmlFor="email">이메일</label>
-            <Input type="email" id="email" placeholder="formflet@email.com" />
+            <Input
+              type="email"
+              value={email}
+              id="email"
+              placeholder="formflet@email.com"
+              onChange={(e) => setEmail(e.target.value)}
+            />
             <AiOutlineUser className="absolute left-3 top-1/2 transform -translate-y-1/4" />
           </div>
 
@@ -22,8 +60,10 @@ export default function LoginPage() {
             <label htmlFor="password">비밀번호</label>
             <Input
               type="password"
+              value={password}
               id="password"
               placeholder="영문, 숫자, 특수문자 포함 6~10자"
+              onChange={(e) => setPassword(e.target.value)}
             />
             <HiOutlineLockClosed className="absolute left-3 top-1/2 transform -translate-y-1/4" />
           </div>

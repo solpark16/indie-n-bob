@@ -34,20 +34,21 @@ export async function updateSession(request: NextRequest) {
   // issues with users being randomly logged out.
 
   // TODO 회원(로그인/회원가입)이 완료될 때까지 우선 주석 처리
-  // const {
-  //   data: { user },
-  // } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  // if (
-  //   !user &&
-  //   !request.nextUrl.pathname.startsWith('/login') &&
-  //   !request.nextUrl.pathname.startsWith('/auth')
-  // ) {
-  //   // no user, potentially respond by redirecting the user to the login page
-  //   const url = request.nextUrl.clone()
-  //   url.pathname = '/login'
-  //   return NextResponse.redirect(url)
-  // }
+  // TODO: /api로 시작하는 주소는 무시한다.
+  if (
+    !user &&
+    !request.nextUrl.pathname.startsWith("/login") &&
+    !request.nextUrl.pathname.startsWith("/auth")
+  ) {
+    // no user, potentially respond by redirecting the user to the login page
+    const url = request.nextUrl.clone();
+    url.pathname = "/auth/login";
+    return NextResponse.redirect(url);
+  }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
   // creating a new response object with NextResponse.next() make sure to:
