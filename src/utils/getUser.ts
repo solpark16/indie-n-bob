@@ -7,8 +7,15 @@ export async function getUser() {
     error,
   } = await supabase.auth.getUser();
 
-  if (error || !user) {
+  const { data: userData, error: userError } = await supabase
+    .from("users")
+    .select("*")
+    .eq("user_id", user.id)
+    .single();
+
+  if (error || !userData) {
     return null;
   }
+
   return user;
 }

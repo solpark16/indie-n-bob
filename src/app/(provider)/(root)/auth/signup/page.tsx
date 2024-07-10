@@ -31,10 +31,13 @@ export default function SignUpPage(): JSX.Element {
 
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    if (e.target.value.length < 6 || e.target.value.length > 10) {
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,10}$/;
+
+    if (!passwordRegex.test(e.target.value)) {
       setError({
         ...error,
-        password: "비밀번호는 최소 6자 이상입니다.",
+        password: "영문, 숫자, 특수문자 포함 6~10자입니다.",
       });
     } else {
       setError({
@@ -188,7 +191,7 @@ export default function SignUpPage(): JSX.Element {
             * 관리자는 공연일정을 등록할 수 있습니다.
           </p>
 
-          <div className="flex flex-col gap-3 mt-5">
+          <div className="flex flex-col gap-3 ">
             <button
               type="submit"
               className="bg-main-color text-white rounded-md p-3"

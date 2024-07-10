@@ -5,7 +5,6 @@ import { HiOutlineLockClosed } from "react-icons/hi2";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-//import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Swal from "sweetalert2";
 import { useAuthStore } from "@/zustand/auth.store";
 
@@ -32,18 +31,26 @@ export default function LoginPage() {
         }
       );
 
-      if (response.data.error) {
-        console.log(response.data.error);
-      } else {
+      if (response.data) {
         Swal.fire({
           icon: "success",
           title: `로그인`,
           text: "메인페이지로 이동합니다.",
           showConfirmButton: false,
           timer: 1500,
+        }).then(() => {
+          console.log("클릭");
+          router.push("/");
         });
         console.log("로그인 되었습니다.", response.statusText);
-        router.replace("/");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: `로그인 실패`,
+          text: response.data.error,
+          showConfirmButton: true,
+        });
+        console.log(response.data.error);
       }
     } catch (error) {
       Swal.fire({
@@ -93,7 +100,7 @@ export default function LoginPage() {
           <div className="flex justify-between text-[#A4A4A4] text-sm mb-3">
             <p>아직 회원이 아니신가요?</p>
             <Link href="/auth/signup">
-              <button className="text-main-color hover:underline">
+              <button type="button" className="text-main-color hover:underline">
                 회원가입
               </button>
             </Link>

@@ -53,15 +53,15 @@ const Header: FC = () => {
           </li>
         </ul>
       </li>
-      <li className="nav-item ms-auto">
-        <a className="nav-link" href="#">
+      <li className="nav-item mx-2">
+        <Link href="/auth/login" className="no-underline">
           <p className="text-[#10AF86]">로그인</p>
-        </a>
+        </Link>
       </li>
-      <li className="nav-item ">
-        <a className="nav-link" href="#">
-          <p className="text-[#2e2e2e]"> 회원가입 </p>
-        </a>
+      <li className="nav-item mx-2">
+        <Link href="/auth/signup" className="no-underline">
+          <p className="text-[#2E2E2E]">회원가입</p>
+        </Link>
       </li>
     </ul>
   );
