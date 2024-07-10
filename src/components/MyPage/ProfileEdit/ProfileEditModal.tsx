@@ -30,9 +30,11 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
       const uploadProfileImage = async (file) => {
         const bucket = "users"
 
+        const timestamp = Date.now();
+        const fileName = `${timestamp}_${file.name}`;
         const { data, error } = await supabase.storage
         .from(bucket)
-        .upload(`profile/${Date.now()}_${file.name}`, file);
+        .upload(fileName, file);
 
         if (error) {
           console.error('Error uploading image:', error);
@@ -43,7 +45,7 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
 
         const publicUrl = supabase.storage
           .from(bucket)
-          .getPublicUrl(`profile/${file.name}`).data.publicUrl;
+          .getPublicUrl(fileName).data.publicUrl;
 
         const { error: updateError } = await supabase
           .from('users')
@@ -56,6 +58,7 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
         }
 
         console.log('User profile image updated');
+        setProfileImage(publicUrl);
       }
 
       const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
@@ -71,9 +74,8 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
     }
 
     onClose();
-    // 완료 버튼을 눌렀을 때 프로필 변경 로직이 성공한 동작한 경우, 의미없는 쿼리스트링 포함시켜서 마이 페이지 캐싱 데이터 삭제
-    router.push('/mypage');
-    // router.push(`/mypage?timestamp=${new Date().getTime()}`);
+    // router.push('/mypage');
+    router.refresh();
   };
 
   return (
