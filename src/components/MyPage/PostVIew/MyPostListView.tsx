@@ -1,4 +1,20 @@
-const MyPostListView = ({ posts }: { posts: any[] }) => {
+"use client";
+
+import Loading from "@/components/Loading";
+import useMyPosts from "@/hooks/useMyPosts";
+
+const MyPostListView = () => {
+
+  const { data, isPending, isError } = useMyPosts();
+  const posts = data?.posts;
+
+  if (!posts || !posts[0]) {
+    return <div>게시글을 불러올 수 없습니다.</div>;
+  }
+
+  if (isPending) return <Loading />;
+  if (isError) return <div>에러가 발생했습니다.</div>;
+
   return (
     <div className="space-y-4">
       {posts.map((post) => (

@@ -4,8 +4,7 @@ import { useState } from 'react';
 import MyPostListView from './MyPostListView';
 import MyPostGalleryView from './MyPostGalleyView';
 
-
-export default function PostSwitcher({ posts }: { posts: any[] }) {
+export default function PostSwitcher() {
     const [viewType, setViewType] = useState<'list' | 'gallery'>('list');
 
     return (
@@ -20,7 +19,7 @@ export default function PostSwitcher({ posts }: { posts: any[] }) {
                 </button>
             </div>
             <div className="mt-4">
-                {viewType === 'list' ? <MyPostListView posts={posts} /> : <MyPostGalleryView posts={posts} />}
+                {viewType === 'list' ? <MyPostListView /> : <MyPostGalleryView />}
             </div>
         </>
     );

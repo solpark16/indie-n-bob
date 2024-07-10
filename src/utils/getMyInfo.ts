@@ -1,6 +1,5 @@
 import { getUser } from "./getUser";
-import { createClient } from "./supabase/client";
-
+import supabase from "./supabase/client";
 
 export default async function getMyInfo() {
 
@@ -8,11 +7,11 @@ export default async function getMyInfo() {
     if (!user) {
         return null;
     }
-    const supabase = createClient();
+
     const { data: userData, error: userError } = await supabase
         .from('users')
         .select('*')
         .eq('user_id', user.id);
 
-    return { userData, userError };
+    return { userData: userData[0], userError };
 }

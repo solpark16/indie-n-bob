@@ -1,4 +1,20 @@
-const MyPostGalleryView = ({ posts }: { posts: any[] }) => {
+"use client";
+
+import Loading from "@/components/Loading";
+import useMyPosts from "@/hooks/useMyPosts";
+
+const MyPostGalleryView = () => {
+    
+    const { data, isPending, isError } = useMyPosts();
+    const posts = data?.posts;
+  
+    if (!posts || !posts[0]) {
+      return <div>게시글을 불러올 수 없습니다.</div>;
+    }
+  
+    if (isPending) return <Loading />;
+    if (isError) return <div>에러가 발생했습니다.</div>;
+
     return (
         <div className="grid grid-cols-3 gap-4">
             {posts.map((post) => (
