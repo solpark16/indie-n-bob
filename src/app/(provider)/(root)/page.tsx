@@ -1,5 +1,5 @@
 "use client";
-import MainPage from "@/components/MainPage/MainPage";
+import MainPage from "@/components/Mainpage/MainPage";
 import { Auth } from "@/types/Auth";
 import { createClient } from "@/utils/supabase/client";
 import axios from "axios";
