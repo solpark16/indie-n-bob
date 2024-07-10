@@ -1,7 +1,7 @@
 "use client";
 
 import SITE_URL from "@/constant";
-import { NewCommentType } from "@/types/Comments";
+import { CommentWriter, NewCommentType } from "@/types/Comments";
 import { createClient } from "@/utils/supabase/client";
 import { useMutation } from "@tanstack/react-query";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
@@ -11,20 +11,28 @@ import React, { useEffect, useRef, useState } from "react";
 
 const CommentUpload = ({ postId }: Params) => {
   const contentRef = useRef<HTMLInputElement>(null);
-  const [user, setUser] = useState({});
+  const [userData, setUserData] = useState<CommentWriter>();
 
   useEffect(() => {
     //현재 로그인된 사용자의 프로필 정보를 가져오는 메서드
     const supabase = createClient();
-    const fetchData = async () => {
-      const { data, error: getUserError } = await supabase.auth.getUser();
-      setUser(data.user);
-      return data.user;
+    const fetchData = async (): Promise<void> => {
+      const {
+        data: { user },
+        error: getUserError,
+      } = await supabase.auth.getUser();
+      setUserData(user);
+      console.log(user);
+      return;
     };
     fetchData();
   }, []);
 
-  console.log(user);
+  console.log(userData);
+
+  // const { nickname: userNickname, sub: userId } = user.user_metadata;
+  const user = userData?.user_metadata;
+  console.log(user.nickname, user.sub);
 
   const { mutate: createComment } = useMutation({
     mutationFn: async (item: NewCommentType) => {
@@ -39,14 +47,15 @@ const CommentUpload = ({ postId }: Params) => {
   // 로그인 이후에 수정
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (contentRef.current) {
-      console.log(contentRef.current.value);
+    if (!contentRef.current.value) {
+      alert("입력하세요");
+      return;
     }
     const newComment: NewCommentType = {
       post_id: +postId,
-      author_nickname: "", // 로그인한 유저 닉네임
+      author_nickname: user.nickname, // 로그인한 유저 닉네임
       content: contentRef.current.value,
-      author_id: "", //로그인한 유저의 아이디
+      author_id: user.sub, //로그인한 유저의 아이디
     };
     createComment(newComment);
   };

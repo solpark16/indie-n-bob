@@ -24,3 +24,10 @@ export type NewCommentType = {
   content: string;
   author_id: string;
 };
+
+export type CommentWriter = {
+  user_metadata: {
+    nickname: string;
+    sub: string;
+  };
+};

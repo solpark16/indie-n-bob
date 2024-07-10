@@ -9,7 +9,6 @@ interface PropsType {
   comment: CommentType;
 }
 
-// 조인 안 되면 여기 안에서 users 테이블 가져와서 뿌려주기
 const Comment = ({ comment }: PropsType) => {
   return (
     <div className="w-full h-[95px] flex justify-between items-center border-b border-[#dddddd]">
@@ -32,7 +31,7 @@ const Comment = ({ comment }: PropsType) => {
         <p>{formatDateString(comment.created_at)}</p>
         {/* 지원: 현재 로그인한 유저의 id와 댓글 작성자의 id를 비교해 같은 경우에만 아래 버튼들 렌더링 */}
         <div className="w-[95px] h-[20px] flex justify-between items-center">
-          <CmtEditBtn />
+          <CmtEditBtn commentId={comment.comment_id} />
           <p>|</p>
           <CmtDelBtn />
         </div>

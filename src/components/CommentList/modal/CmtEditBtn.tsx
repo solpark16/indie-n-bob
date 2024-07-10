@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import CmtEditModal from "./CmtEditModal";
 
-const CmtEditBtn = () => {
+const CmtEditBtn = ({ commentId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
