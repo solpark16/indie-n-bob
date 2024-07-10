@@ -3,6 +3,7 @@
 import { createClient } from '@/utils/supabase/client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData: any }) => {
   const [nickname, setNickname] = useState(userData.nickname);
@@ -96,12 +97,23 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
       console.log('닉네임 변경 완료');
       // 닉네임 4글자 (ToDo, 한글-영어 구분?)
     } else if (nickname.length < 4) {
-      alert('닉네임은 4글자 이상이어야 합니다.');
+      Swal.fire({
+        icon: 'error',
+        title: '닉네임은 4글자 이상이어야 합니다.',
+        showConfirmButton: false,
+        timer: 1500
+      });
       return;
     }
 
     // 선호하는 뮤지션 변경 로직
-    const favoriteArtistArray = favoriteArtist.split(',').map(artist => artist.trim());
+    let favoriteArtistArray = [];
+    if (typeof favoriteArtist === 'string') {
+      favoriteArtistArray = favoriteArtist.split(',').map(artist => artist.trim());
+    } else {
+      favoriteArtistArray = favoriteArtist;
+    }
+
     if (JSON.stringify(favoriteArtistArray) !== JSON.stringify(userData.favorite_artist)) {
       hasChanges = true;
       const { error: favoriteArtistError } = await supabase
@@ -118,9 +130,21 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
     }
 
     if (!hasChanges) {
-      alert('변경사항이 없습니다.');
+      Swal.fire({
+        icon: 'info',
+        title: '변경사항이 없습니다.',
+        showConfirmButton: false,
+        timer: 1500
+      });
       return;
     }
+
+    Swal.fire({
+      icon: 'success',
+      title: '프로필 수정이 완료되었습니다.',
+      showConfirmButton: false,
+      timer: 1500
+    });
 
     onClose();
     router.refresh();
