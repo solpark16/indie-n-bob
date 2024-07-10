@@ -55,7 +55,7 @@ export default async function MyPage() {
                                 </p>
                                 <div className="flex flex-wrap gap-2 mt-2">
                                     {Array.isArray(userData[0].favorite_artist) && userData[0].favorite_artist.map((artist: string, index: number) => (
-                                        <span key={index} className="text-sm text-primary">#{artist}</span>
+                                        <span key={index} className="text-sm text-main-color">#{artist}</span>
                                     ))}
                                 </div>
                             </div>

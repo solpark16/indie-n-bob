@@ -13,7 +13,7 @@ const MyPostListView = ({ posts }: { posts: any[] }) => {
               <p className="line-clamp-3">{post.content}</p>
             </div>
             <div className="flex items-center space-x-2 mt-2 text-gray-500 text-sm">
-              <span className="text-primary">❤</span>
+              <span className="text-main-color">❤</span>
               <span>10</span>
             </div>
           </div>
