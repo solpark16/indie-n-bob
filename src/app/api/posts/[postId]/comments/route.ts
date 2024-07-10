@@ -17,7 +17,7 @@ export async function GET(_: NextRequest, params: parameter) {
   const supabase = createClient();
   const { data: comments } = await supabase
     .from(TABLE_NAME)
-    .select()
+    .select("*, users:author_id(*)")
     .eq(PK_COLUMN_NAME, id);
 
   return NextResponse.json(comments);

@@ -35,6 +35,8 @@ const CommentsView = ({ postId }: Params) => {
     return <h1>댓글 불러오기 실패 ㅠㅠ</h1>;
   }
 
+  console.log(comments);
+
   return (
     <div className="w-full mt-[5px] text-[18px]">
       <p className="w-full h-[90px] flex items-center text-[#8D8D8D] ">
