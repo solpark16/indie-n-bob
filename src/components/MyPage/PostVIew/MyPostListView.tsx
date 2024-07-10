@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import Loading from "@/components/Loading";
 import useMyPosts from "@/hooks/useMyPosts";
+import Image from "next/image";
 
 const MyPostListView = () => {
   const { data, isPending, isError, fetchNextPage, hasNextPage } = useMyPosts();
@@ -27,7 +28,13 @@ const MyPostListView = () => {
     <div className="space-y-4">
       {posts.map((post) => (
         <div key={post.post_id} className="flex items-start space-x-4 p-4 ease-in-out duration-400 transition-transform transform hover:-translate-y-2">
-          <img src={post.image} alt={post.title} className="w-52 h-32 rounded-2xl" />
+          <Image
+            src={post.image}
+            alt={post.title}
+            width={52}
+            height={32}
+            className="w-52 h-32 rounded-2xl"
+          />
           <div className="flex-1">
             <div className="flex items-center justify-between">
               <span className="text-lg font-medium truncate">{post.title}</span>

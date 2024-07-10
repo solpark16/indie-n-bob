@@ -2,25 +2,23 @@
 
 import { createClient } from '@/utils/supabase/client';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import useUserData from '@/hooks/useUserData';
 import { useQueryClient } from '@tanstack/react-query';
+import Image from 'next/image';
 
 const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
-  const { data: userData } = useUserData();
-  if (!userData) return null;
-
-  const { nickname, email, profile_image, favorite_artist } = userData.userData;
-
-  const [myNickname, setMyNickname] = useState(nickname);
-  const [myEmail, setMyEmail] = useState(email);
-  const [myProfileImage, setMyProfileImage] = useState(profile_image);
-  const [myFavoriteArtist, setMyFavoriteArtist] = useState(favorite_artist);
-
   const supabase = createClient();
-  const router = useRouter();
   const queryClient = useQueryClient();
+
+  const { data: userData } = useUserData();
+
+  const [myNickname, setMyNickname] = useState(userData?.userData?.nickname);
+  const [myEmail, setMyEmail] = useState(userData?.userData?.email);
+  const [myProfileImage, setMyProfileImage] = useState(userData?.userData?.profile_image);
+  const [myFavoriteArtist, setMyFavoriteArtist] = useState(userData?.userData?.favorite_artist);
+
+  if (!userData) return <div>유저 정보가 확인되지 않아 마이페이지를 불러올 수 없습니다.</div>;
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -39,7 +37,7 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
     let hasChanges = false;
 
     // 프로필 이미지 변경 로직
-    if (myProfileImage !== profile_image) {
+    if (myProfileImage !== userData?.userData?.profile_image) {
       hasChanges = true;
       if (myProfileImage) {
         const uploadProfileImage = async (file) => {
@@ -90,11 +88,11 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
     }
 
     // 닉네임 변경 로직
-    if (myNickname !== nickname && myNickname.length >= 4) {
+    if (myNickname !== userData?.userData?.nickname && myNickname.length >= 4) {
       hasChanges = true;
       const { error: nicknameError } = await supabase
         .from('users')
-        .update({ nickname })
+        .update({ nickname: myNickname })
         .eq('user_id', userData.userData.user_id);
 
       if (nicknameError) {
@@ -104,7 +102,7 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
 
       console.log('닉네임 변경 완료');
       // 닉네임 4글자 (ToDo, 한글-영어 구분?)
-    } else if (nickname.length < 4) {
+    } else if (myNickname.length < 4) {
       Swal.fire({
         icon: 'error',
         title: '닉네임은 4글자 이상이어야 합니다.',
@@ -125,7 +123,7 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
       return;
     }
 
-    if (JSON.stringify(favoriteArtistArray) !== JSON.stringify(favorite_artist)) {
+    if (JSON.stringify(favoriteArtistArray) !== JSON.stringify(userData?.userData?.favorite_artist)) {
       hasChanges = true;
       const { error: favoriteArtistError } = await supabase
         .from('users')
@@ -179,7 +177,13 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
         {/* 프로필 이미지 */}
         <div className="flex justify-center mb-2">
           <div className="relative">
-            <img src={myProfileImage} alt="Profile" className="w-52 h-52 rounded-full border border-gray-300" />
+            <Image
+              src={myProfileImage}
+              alt="Profile"
+              width={52}
+              height={52}
+              className="w-52 h-52 rounded-full border border-gray-300"
+            />
           </div>
         </div>
         <div className="flex justify-center mb-6">
