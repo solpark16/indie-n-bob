@@ -25,56 +25,87 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('handleSubmit called');
-    if (profileImage) {
-      const uploadProfileImage = async (file) => {
-        const bucket = "users"
 
-        const timestamp = Date.now();
-        const fileName = `${timestamp}_${file.name}`;
-        const { data, error } = await supabase.storage
-        .from(bucket)
-        .upload(fileName, file);
+    // 변경사항이 없는데 완료 버튼을 클릭했는지 판별하기 위한 변수
+    let hasChanges = false;
 
-        if (error) {
-          console.error('Error uploading image:', error);
-          return;
+    // 프로필 이미지 변경 로직
+    if (profileImage !== userData.profile_image) {
+      hasChanges = true;
+      if (profileImage) {
+        const uploadProfileImage = async (file) => {
+          const bucket = "users"
+
+          const timestamp = Date.now();
+          const fileName = `${timestamp}_${file.name}`;
+          const { data, error } = await supabase.storage
+            .from(bucket)
+            .upload(fileName, file);
+
+          if (error) {
+            console.error('버킷 이미지 업로드 실패', error);
+            return;
+          }
+
+          console.log('버킷 이미지 업로드 성공', data);
+
+          const publicUrl = supabase.storage
+            .from(bucket)
+            .getPublicUrl(fileName).data.publicUrl;
+
+          const { error: updateError } = await supabase
+            .from('users')
+            .update({ profile_image: publicUrl })
+            .eq('user_id', userData.user_id);
+
+          if (updateError) {
+            console.error('users 테이블에 프사 url 업데이트 실패:', updateError);
+            return;
+          }
+
+          console.log('유저 프사 변경 성공');
+          setProfileImage(publicUrl);
         }
 
-        console.log('Image uploaded:', data);
-
-        const publicUrl = supabase.storage
-          .from(bucket)
-          .getPublicUrl(fileName).data.publicUrl;
-
-        const { error: updateError } = await supabase
-          .from('users')
-          .update({ profile_image: publicUrl })
-          .eq('user_id', userData.user_id);
-
-        if (updateError) {
-          console.error('Error updating user profile image:', updateError);
+        const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+        const file = fileInput?.files?.[0];
+        if (file) {
+          await uploadProfileImage(file);
+        } else {
+          console.error('파일 선택된 것 없음');
           return;
         }
-
-        console.log('User profile image updated');
-        setProfileImage(publicUrl);
-      }
-
-      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
-      const file = fileInput?.files?.[0];
-      if (file) {
-        await uploadProfileImage(file);
       } else {
-        console.error('No file selected');
+        console.log('올릴 프로필 사진을 선택하지 않음');
+      }
+    }
+
+    // 닉네임 변경 로직
+    if (nickname !== userData.nickname && nickname.length >= 4) {
+      hasChanges = true;
+      const { error: nicknameError } = await supabase
+        .from('users')
+        .update({ nickname })
+        .eq('user_id', userData.user_id);
+
+      if (nicknameError) {
+        console.error('users 테이블에 닉네임 업데이트 실패', nicknameError);
         return;
       }
-    } else {
-      console.log('No profile image to upload');
+
+      console.log('닉네임 변경 완료');
+      // 닉네임 4글자 (ToDo, 한글-영어 구분?)
+    } else if (nickname.length < 4) {
+      alert('닉네임은 4글자 이상이어야 합니다.');
+      return;
+    }
+
+    if (!hasChanges) {
+      alert('변경사항이 없습니다.');
+      return;
     }
 
     onClose();
-    // router.push('/mypage');
     router.refresh();
   };
 
