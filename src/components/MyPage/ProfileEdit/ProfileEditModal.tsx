@@ -158,7 +158,6 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
     });
 
     onClose();
-    // router.push('/mypage');
     queryClient.invalidateQueries({ queryKey: ['myInfo'] });
   };
 

@@ -1,10 +1,14 @@
 import getMyPosts from "@/utils/getMyPosts";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 const useMyPosts = () => {
-    return useQuery({
+    return useInfiniteQuery({
         queryKey: ['myPosts'],
-        queryFn: getMyPosts,
+        queryFn: ({ pageParam = 0 }) => getMyPosts(pageParam),
+        getNextPageParam: (lastPage) => {
+            return lastPage.nextCursor !== null ? lastPage.nextCursor : undefined;
+        },
+        initialPageParam: 0,
         staleTime: Infinity
     });
 };

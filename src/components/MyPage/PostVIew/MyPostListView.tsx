@@ -1,14 +1,22 @@
 "use client";
 
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import Loading from "@/components/Loading";
 import useMyPosts from "@/hooks/useMyPosts";
 
 const MyPostListView = () => {
+  const { data, isPending, isError, fetchNextPage, hasNextPage } = useMyPosts();
+  const posts = data?.pages?.flatMap(page => page.posts);
+  const { ref, inView } = useInView();
 
-  const { data, isPending, isError } = useMyPosts();
-  const posts = data?.posts;
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
-  if (!posts || !posts[0]) {
+  if (!posts || posts.length === 0) {
     return <div>게시글을 불러올 수 없습니다.</div>;
   }
 
@@ -35,6 +43,8 @@ const MyPostListView = () => {
           </div>
         </div>
       ))}
+      <div ref={ref} />
+      {isPending && <Loading />}
     </div>
   );
 };
