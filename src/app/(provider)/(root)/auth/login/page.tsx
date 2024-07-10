@@ -98,7 +98,10 @@ export default function LoginPage() {
               </button>
             </Link>
           </div>
-          <button className="bg-main-color text-white rounded-md p-3">
+          <button
+            type="submit"
+            className="bg-main-color text-white rounded-md p-3"
+          >
             로그인
           </button>
         </form>

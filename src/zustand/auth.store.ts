@@ -1,7 +1,9 @@
 import { AuthStore } from "@/types/Auth";
+import axios from "axios";
 import { create } from "zustand";
 
 export const useAuthStore = create<AuthStore>((set) => ({
+  user: null,
   email: "",
   password: "",
   nickname: "",
@@ -12,6 +14,17 @@ export const useAuthStore = create<AuthStore>((set) => ({
     nickname: "",
   },
 
+  fetchUser: async () => {
+    const { data: userData } = await axios.get("/api/auth/login");
+    if (userData) {
+      set({ user: userData });
+      return userData;
+    } else {
+      console.error("회원정보를 가져오지 못했습니다.");
+    }
+  },
+
+  setUser: (user) => set({ user }),
   setEmail: (email) => set({ email }),
   setPassword: (password) => set({ password }),
   setNickname: (nickname) => set({ nickname }),

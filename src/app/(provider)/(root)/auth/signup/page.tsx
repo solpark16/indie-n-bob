@@ -132,7 +132,7 @@ export default function SignUpPage(): JSX.Element {
             />
             <HiOutlineMusicalNote className="absolute left-3 top-1/2 transform -translate-y-1/2" />
             {error.nickname && (
-              <p className="text-red-500 absolute bottom-3 text-[11px]">
+              <p className="text-red-500 absolute bottom-0 text-[11px]">
                 {error.nickname}
               </p>
             )}
@@ -149,7 +149,7 @@ export default function SignUpPage(): JSX.Element {
             />
             <HiOutlineLockClosed className="absolute left-3 top-1/2 transform -translate-y-1/2" />
             {error.password && (
-              <p className="text-red-500 absolute bottom-3 text-[11px]">
+              <p className="text-red-500 absolute bottom-0 text-[11px]">
                 {error.password}
               </p>
             )}
