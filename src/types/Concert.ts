@@ -4,8 +4,8 @@ export type Concert = {
   nickname: string;
   hashtags: string[]; // TODO 일단은 걍 두개 쓰자
   region: string;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   time: number;
   image?: string;
   price: string;
@@ -19,5 +19,9 @@ export type ConcertInDB = {
   created_at: Date;
   author_id: string;
   author_nickname: string;
+  users: {
+    nickname: string;
+    profile_image: string;
+  };
   // likes?: number; // TODO DB 조인해서 가져와야함
 } & Concert;
