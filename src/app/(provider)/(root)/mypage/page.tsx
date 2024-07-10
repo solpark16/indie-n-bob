@@ -7,9 +7,9 @@ import { redirect } from 'next/navigation';
 export default async function MyPage() {
     const user = await getUser();
 
-    if (!user) {
-        redirect('/auth/login');
-    }
+    // if (!user) {
+    //     redirect('/auth/login');
+    // }
 
     const supabase = createClient();
     const { data: posts, error: postError } = await supabase

@@ -72,7 +72,8 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
 
     onClose();
     // 완료 버튼을 눌렀을 때 프로필 변경 로직이 성공한 동작한 경우, 의미없는 쿼리스트링 포함시켜서 마이 페이지 캐싱 데이터 삭제
-    router.push(`/mypage?timestamp=${new Date().getTime()}`);
+    router.push('/mypage');
+    // router.push(`/mypage?timestamp=${new Date().getTime()}`);
   };
 
   return (
