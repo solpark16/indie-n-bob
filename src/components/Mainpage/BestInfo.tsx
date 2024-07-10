@@ -1,8 +1,5 @@
-"use client";
-
 import { FC } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { PostInDB } from "@/types/Post";
 import SITE_URL from "@/constant";
 import { useQuery } from "@tanstack/react-query";
