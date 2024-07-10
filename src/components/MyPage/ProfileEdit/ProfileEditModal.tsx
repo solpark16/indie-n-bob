@@ -4,12 +4,18 @@ import { createClient } from '@/utils/supabase/client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
+import useUserData from '@/hooks/useUserData';
 
-const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData: any }) => {
-  const [nickname, setNickname] = useState(userData.nickname);
-  const [email, setEmail] = useState(userData.email);
-  const [profileImage, setProfileImage] = useState(userData.profile_image);
-  const [favoriteArtist, setFavoriteArtist] = useState(userData.favorite_artist);
+const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
+  const { data: userData } = useUserData();
+  if (!userData) return null;
+
+  const { nickname, email, profile_image, favorite_artist } = userData.userData;
+
+  const [myNickname, setMyNickname] = useState(nickname);
+  const [myEmail, setMyEmail] = useState(email);
+  const [myProfileImage, setMyProfileImage] = useState(profile_image);
+  const [myFavoriteArtist, setMyFavoriteArtist] = useState(favorite_artist);
 
   const supabase = createClient();
   const router = useRouter();
@@ -18,7 +24,7 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (event) => {
-        setProfileImage(event.target?.result as string);
+        setMyProfileImage(event.target?.result as string);
       };
       reader.readAsDataURL(e.target.files[0]);
     }
@@ -27,13 +33,13 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // 변경사항이 없는데 완료 버튼을 클릭했는지 판별하기 위한 변수
+    // 변경사항이 없는데 완료 버튼을 클릭했는지 별하기 위한 변수
     let hasChanges = false;
 
     // 프로필 이미지 변경 로직
-    if (profileImage !== userData.profile_image) {
+    if (myProfileImage !== profile_image) {
       hasChanges = true;
-      if (profileImage) {
+      if (myProfileImage) {
         const uploadProfileImage = async (file) => {
           const bucket = "users"
 
@@ -57,7 +63,7 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
           const { error: updateError } = await supabase
             .from('users')
             .update({ profile_image: publicUrl })
-            .eq('user_id', userData.user_id);
+            .eq('user_id', userData.userData.user_id); // userData.userData.user_id로 수정
 
           if (updateError) {
             console.error('users 테이블에 프사 url 업데이트 실패:', updateError);
@@ -65,7 +71,7 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
           }
 
           console.log('유저 프사 변경 성공');
-          setProfileImage(publicUrl);
+          setMyProfileImage(publicUrl);
         }
 
         const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
@@ -82,12 +88,12 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
     }
 
     // 닉네임 변경 로직
-    if (nickname !== userData.nickname && nickname.length >= 4) {
+    if (myNickname !== nickname && myNickname.length >= 4) {
       hasChanges = true;
       const { error: nicknameError } = await supabase
         .from('users')
         .update({ nickname })
-        .eq('user_id', userData.user_id);
+        .eq('user_id', userData.userData.user_id);
 
       if (nicknameError) {
         console.error('users 테이블에 닉네임 업데이트 실패', nicknameError);
@@ -108,18 +114,21 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
 
     // 선호하는 뮤지션 변경 로직
     let favoriteArtistArray = [];
-    if (typeof favoriteArtist === 'string') {
-      favoriteArtistArray = favoriteArtist.split(',').map(artist => artist.trim());
+    if (typeof myFavoriteArtist === 'string') {
+      favoriteArtistArray = myFavoriteArtist.split(',').map(artist => artist.trim());
+    } else if (Array.isArray(myFavoriteArtist)) {
+      favoriteArtistArray = myFavoriteArtist;
     } else {
-      favoriteArtistArray = favoriteArtist;
+      console.error('Invalid type for myFavoriteArtist');
+      return;
     }
 
-    if (JSON.stringify(favoriteArtistArray) !== JSON.stringify(userData.favorite_artist)) {
+    if (JSON.stringify(favoriteArtistArray) !== JSON.stringify(favorite_artist)) {
       hasChanges = true;
       const { error: favoriteArtistError } = await supabase
         .from('users')
         .update({ favorite_artist: favoriteArtistArray })
-        .eq('user_id', userData.user_id);
+        .eq('user_id', userData.userData.user_id);
 
       if (favoriteArtistError) {
         console.error('users 테이블에 선호하는 뮤지션 변경 실패', favoriteArtistError);
@@ -168,7 +177,7 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
         {/* 프로필 이미지 */}
         <div className="flex justify-center mb-2">
           <div className="relative">
-            <img src={profileImage} alt="Profile" className="w-52 h-52 rounded-full border border-gray-300" />
+            <img src={myProfileImage} alt="Profile" className="w-52 h-52 rounded-full border border-gray-300" />
           </div>
         </div>
         <div className="flex justify-center mb-6">
@@ -183,7 +192,7 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
           <label className="block text-gray-700 mb-2">아이디</label>
           <input
             type="text"
-            value={email}
+            value={myEmail}
             readOnly
             className="w-full p-2 border rounded bg-gray-100 cursor-not-allowed"
           />
@@ -194,8 +203,8 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
           <label className="block text-gray-700 mb-2">닉네임</label>
           <input
             type="text"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
+            value={myNickname}
+            onChange={(e) => setMyNickname(e.target.value)}
             className="w-full p-2 border rounded"
           />
         </div>
@@ -205,8 +214,8 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
           <label className="block text-gray-700 mb-2">선호하는 뮤지션</label>
           <input
             type="text"
-            value={favoriteArtist}
-            onChange={(e) => setFavoriteArtist(e.target.value)}
+            value={myFavoriteArtist as string}
+            onChange={(e) => setMyFavoriteArtist(e.target.value)}
             className="w-full p-2 border rounded"
           />
         </div>
