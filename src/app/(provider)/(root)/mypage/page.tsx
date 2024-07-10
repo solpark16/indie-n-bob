@@ -1,8 +1,7 @@
-import ProfileEditButton from '@/components/MyPage/ProfileEdit/ProfileEditButton';
+import MyProfile from '@/components/MyPage/ProfileEdit/MyProfile';
 import MyPostViewSwitcher from '@/components/MyPage/PostView/MyPostViewSwitcher';
 import { getUser } from '@/utils/getUser';
 import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
 
 export default async function MyPage() {
     const user = await getUser();
@@ -37,31 +36,9 @@ export default async function MyPage() {
     }
 
     return (
-        <div className="w-full">
-            <div className="p-4 mx-auto max-w-4xl w-full">
-                <div className="flex items-center space-x-4 w-full">
-                    <img src={userData[0].profile_image} alt="Profile" className="w-40 h-40 rounded-full" />
-                    <div className="flex-1 flex items-center justify-between w-full">
-                        <div className="w-full">
-                            <div className="flex items-center justify-between w-full">
-                                <span className="text-4xl font-bold">{userData[0].nickname}</span>
-                                <ProfileEditButton userData={userData[0]} />
-                            </div>
-                            <hr className="border-gray-300 w-full mt-4" />
-                            <div className='mt-2'>
-                                <p className="flex items-center">
-                                    <img src="/favorite_artist_icon.svg" alt="Favorite Artist Icon" className="inline-block w-4 h-4 mr-2 animate-pulse" />
-                                    선호하는 뮤지션
-                                </p>
-                                <div className="flex flex-wrap gap-2 mt-2">
-                                    {Array.isArray(userData[0].favorite_artist) && userData[0].favorite_artist.map((artist: string, index: number) => (
-                                        <span key={index} className="text-sm text-main-color">#{artist}</span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div className='w-full'>
+            <div className='p-4 mx-auto max-w-4xl w-full'>
+                <MyProfile userData={userData[0]} />
                 <div className='mt-32'>
                     <span className="text-2xl font-bold">내가 쓴 게시글</span>
                     <hr className="border-gray-300 w-full mt-4" />
