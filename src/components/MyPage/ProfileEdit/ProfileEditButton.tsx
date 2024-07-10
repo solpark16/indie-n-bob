@@ -3,7 +3,19 @@
 import { useState } from 'react';
 import ProfileEditModal from './ProfileEditModal';
 
-export default function ProfileEditButton() {
+interface ProfileEditButtonProps {
+  userData: {
+    created_at: string;
+    email: string;
+    favorite_artist: any;
+    is_admin: boolean;
+    nickname: string;
+    profile_image: string;
+    user_id: string;
+  };
+}
+
+export default function ProfileEditButton({ userData }: ProfileEditButtonProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -14,7 +26,7 @@ export default function ProfileEditButton() {
       >
         프로필 수정
       </button>
-      {isModalOpen && <ProfileEditModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && <ProfileEditModal onClose={() => setIsModalOpen(false)} userData={userData} />}
     </>
   );
 }
