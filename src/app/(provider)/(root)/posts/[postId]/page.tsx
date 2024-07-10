@@ -49,7 +49,7 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
       <h2 className="py-6 text-3xl font-bold">{title}</h2>
       <div className="pb-4 text-gray-400">작성일자 {createdAt}</div>
       <BreakLine />
-      <p className="py-10">
+      <div className="py-10">
         {image && (
           <Image
             src={image}
@@ -60,7 +60,7 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
           />
         )}
         <div className="py-10">{content}</div>
-      </p>
+      </div>
       <div className="pt-18 pb-4">
         <Hashtag tags={hashtag?.tags} size="sm" />
       </div>

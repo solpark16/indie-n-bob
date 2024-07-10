@@ -27,7 +27,7 @@ async function EditPostPage({ params: { postId } }: EditPostPageProps) {
       <h2 className="py-6 text-3xl font-bold">{title}</h2>
       <BreakLine />
       <p className="py-10">
-        <div>
+        <span>
           {image && (
             <Image
               src={image}
@@ -37,7 +37,7 @@ async function EditPostPage({ params: { postId } }: EditPostPageProps) {
               className="max-w-full max-h-full rounded-xl"
             />
           )}
-        </div>
+        </span>
         <span className="py-10">{content}</span>
       </p>
       <div className="pt-18 pb-4">
