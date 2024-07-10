@@ -31,7 +31,7 @@ const Comment = ({ comment }: PropsType) => {
         <p>{formatDateString(comment.created_at)}</p>
         {/* 지원: 현재 로그인한 유저의 id와 댓글 작성자의 id를 비교해 같은 경우에만 아래 버튼들 렌더링 */}
         <div className="w-[95px] h-[20px] flex justify-between items-center">
-          <CmtEditBtn commentId={comment.comment_id} />
+          <CmtEditBtn comment={comment} />
           <p>|</p>
           <CmtDelBtn />
         </div>

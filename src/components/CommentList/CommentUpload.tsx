@@ -1,9 +1,9 @@
 "use client";
 
 import SITE_URL from "@/constant";
-import { CommentWriter, NewCommentType } from "@/types/Comments";
+import { CommentWriter, NewCommentType, UserDataType } from "@/types/Comments";
 import { createClient } from "@/utils/supabase/client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -12,6 +12,7 @@ import React, { useEffect, useRef, useState } from "react";
 const CommentUpload = ({ postId }: Params) => {
   const contentRef = useRef<HTMLInputElement>(null);
   const [userData, setUserData] = useState<CommentWriter>();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     //현재 로그인된 사용자의 프로필 정보를 가져오는 메서드
@@ -28,11 +29,10 @@ const CommentUpload = ({ postId }: Params) => {
     fetchData();
   }, []);
 
-  console.log(userData);
+  // console.log(userData);
 
-  // const { nickname: userNickname, sub: userId } = user.user_metadata;
   const user = userData?.user_metadata;
-  console.log(user.nickname, user.sub);
+  // console.log(user.nickname, user.sub);
 
   const { mutate: createComment } = useMutation({
     mutationFn: async (item: NewCommentType) => {
@@ -41,10 +41,12 @@ const CommentUpload = ({ postId }: Params) => {
         body: JSON.stringify(item),
       });
     },
-    onSuccess: () => {},
+    onSuccess: () => {
+      // 무슨 타입이지
+      queryClient.invalidateQueries(["comments", postId]);
+    },
   });
 
-  // 로그인 이후에 수정
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!contentRef.current.value) {

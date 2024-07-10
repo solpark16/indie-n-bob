@@ -35,8 +35,6 @@ const CommentsView = ({ postId }: Params) => {
     return <h1>댓글 불러오기 실패 ㅠㅠ</h1>;
   }
 
-  console.log(comments);
-
   return (
     <div className="w-full mt-[5px] text-[18px]">
       <p className="w-full h-[90px] flex items-center text-[#8D8D8D] ">
@@ -45,7 +43,7 @@ const CommentsView = ({ postId }: Params) => {
       {comments?.map((comment) => (
         <Comment key={comment.comment_id} comment={comment} />
       ))}
-      <div className="w-full h-[100px] flex justify-center items-center gap-5">
+      {/* <div className="w-full h-[100px] flex justify-center items-center gap-5">
         {[...Array(5)].map((_, index) => {
           return (
             <button
@@ -59,7 +57,7 @@ const CommentsView = ({ postId }: Params) => {
             </button>
           );
         })}
-      </div>
+      </div> */}
     </div>
   );
 };
