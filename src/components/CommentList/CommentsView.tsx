@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
-import Comment from "./Comment";
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { useQuery } from "@tanstack/react-query";
 import SITE_URL from "@/constant";
 import LoadingComments from "./LoadingComments";
+import Comment from "./Comment";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+import { useState } from "react";
 
 const CommentsView = ({ postId }: Params) => {
   const [pageNo, setPageNo] = useState(1);

@@ -1,4 +1,5 @@
 "use client";
+import MainPage from "@/components/MainPage/MainPage";
 import { Auth } from "@/types/Auth";
 import { createClient } from "@/utils/supabase/client";
 import axios from "axios";
@@ -32,7 +33,7 @@ export default function HomePage() {
   console.log(user);
   return (
     <main>
-      <button onClick={handleLogout}>로그아웃</button>
+      <MainPage />
     </main>
   );
 }
