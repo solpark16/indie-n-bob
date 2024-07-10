@@ -14,6 +14,11 @@ type PostParameter = {
   commentId: number;
   comment: CommentType;
 };
+
+type PutParameter = {
+  commentId: number;
+};
+
 // 게시물 당 댓글목록 Read
 export async function GET(_: NextRequest, params: GetParameter) {
   const {
@@ -37,3 +42,18 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json(postedComment);
 }
+
+// 댓글 수정
+export async function PUT(request: NextRequest) {
+  const supabase = createClient();
+  const item = await request.json();
+  const { comment_id } = item;
+  const { data: editedComment } = await supabase
+    .from(TABLE_NAME)
+    .update(item)
+    .eq("comment_id", comment_id);
+
+  return NextResponse.json(editedComment);
+}
+
+// 댓글 삭제
