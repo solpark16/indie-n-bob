@@ -1,8 +1,11 @@
 import { useState } from 'react';
 
-const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
-  const [nickname, setNickname] = useState('병준원영');
-  const [email, setEmail] = useState('qudwns@naver.com');
+const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData: any }) => {
+  const [nickname, setNickname] = useState(userData.nickname);
+  const [email, setEmail] = useState(userData.email);
+  const [profileImage, setProfileImage] = useState(userData.profile_image);
+  const [favoriteArtist, setFavoriteArtist] = useState(userData.favorite_artist);
+
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -18,11 +21,11 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
 
         {/* 헤더 */}
         <h1 className="text-2xl font-semibold mb-6 text-center text-main-color mt-12">프로필 수정</h1>
-        
+
         {/* 프로필 이미지 */}
         <div className="flex justify-center mb-2">
           <div className="relative">
-            <img src="https://thumb.mt.co.kr/06/2023/09/2023093009220367867_1.jpg" alt="Profile" className="w-52 h-52 rounded-full border border-gray-300" />
+            <img src={profileImage} alt="Profile" className="w-52 h-52 rounded-full border border-gray-300" />
           </div>
         </div>
         <div className="flex justify-center mb-6">
@@ -49,6 +52,17 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
             type="text"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
+            className="w-full p-2 border rounded"
+          />
+        </div>
+
+        {/* 선호하는 뮤지션 */}
+        <div className='mb-6 px-16'>
+          <label className="block text-gray-700 mb-2">선호하는 뮤지션</label>
+          <input
+            type="text"
+            value={favoriteArtist}
+            onChange={(e) => setFavoriteArtist(e.target.value)}
             className="w-full p-2 border rounded"
           />
         </div>

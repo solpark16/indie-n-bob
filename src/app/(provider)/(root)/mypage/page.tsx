@@ -45,7 +45,7 @@ export default async function MyPage() {
                         <div className="w-full">
                             <div className="flex items-center justify-between w-full">
                                 <span className="text-4xl font-bold">{userData[0].nickname}</span>
-                                <ProfileEditButton />
+                                <ProfileEditButton userData={userData[0]} />
                             </div>
                             <hr className="border-gray-300 w-full mt-4" />
                             <div className='mt-2'>
