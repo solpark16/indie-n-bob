@@ -14,4 +14,5 @@ export type PostInDB = {
   author_nickname: string;
   hashtag: { tags: string[] };
   likes?: number; // TODO DB 조인해서 가져와야함
+  image?: string;
 } & Post;

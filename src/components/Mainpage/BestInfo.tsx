@@ -1,7 +1,43 @@
+"use client";
+
 import { FC } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { PostInDB } from "@/types/Post";
+import SITE_URL from "@/constant";
+import { useQuery } from "@tanstack/react-query";
 
-const PerformanceInfo: FC = () => {
+const fetchPosts = async () => {
+  const response = await fetch(`${SITE_URL}/api/posts`, {
+    headers: {
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      Expires: "0",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json() as Promise<PostInDB[]>;
+};
+
+const BestInfo: FC = () => {
+  const {
+    data: posts,
+    error,
+    refetch,
+  } = useQuery<PostInDB[]>({
+    queryKey: ["posts"],
+    queryFn: fetchPosts,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    refetchInterval: 60000,
+  });
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
     <div className="p-5">
       <div className="mb-5 flex justify-between items-center">
@@ -14,33 +50,42 @@ const PerformanceInfo: FC = () => {
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {Array.from({ length: 4 }).map((_, index) => (
-          <div key={index} className="relative rounded-lg overflow-hidden h-70">
-            <img
-              src="/logo.png"
-              className="w-full h- object-cover"
-              alt={`Image ${index + 1}`}
-            />
-            <div className="p-4">
-              <h3 className="text-lg font-semibold">
-                와 ;; 오늘 홍대 실리카겔 버스킹 쩔었다 ;;
-              </h3>
-              <p className="text-gray-600 mt-1">
-                실리카겔 버스킹 보신 분 있나요? 진짜 개 쩔었습니다 ;;...
-              </p>
-              <div className="flex justify-between items-center mt-4">
-                <span className="text-gray-500 text-sm">작성자 재훈재훈</span>
-                <span className="text-gray-500 text-sm">2024.07.08</span>
-              </div>
-              <div className="flex justify-between items-center mt-2">
-                <span className="text-green-600 text-sm">♥ 10</span>
+        {posts && posts.length > 0 ? (
+          posts.slice(0, 4).map((post) => (
+            <div
+              key={post.post_id}
+              className="relative rounded-lg overflow-hidden"
+            >
+              <img
+                src={post.image}
+                alt={post.title}
+                className="w-52 h-32 rounded-2xl"
+              />
+              <div className="p-4">
+                <h3 className="text-lg font-semibold">{post.title}</h3>
+                <p className="text-gray-600 mt-1">{post.content}</p>
+                <div className="flex justify-between items-center mt-4">
+                  <span className="text-gray-500 text-sm">
+                    작성자 {post.author_nickname}
+                  </span>
+                  <span className="text-gray-500 text-sm">
+                    {new Date(post.created_at).toLocaleDateString()}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center mt-2">
+                  <span className="text-green-600 text-sm">
+                    ♥ {post.likes ?? 0}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No posts available.</p>
+        )}
       </div>
     </div>
   );
 };
 
-export default PerformanceInfo;
+export default BestInfo;
