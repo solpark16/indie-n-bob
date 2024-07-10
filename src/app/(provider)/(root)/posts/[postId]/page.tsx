@@ -28,8 +28,6 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
   } = post;
   const createdAt = moment(created_at).format("yyyy.MM.DD");
 
-  // TODO 제대로 된 데이터 없으면 어떻게 처리할 것인지
-
   const isOwnedUser: boolean = true; // TODO 로그인한 사용자 아이디 === author_id 체크 필요
 
   return (
