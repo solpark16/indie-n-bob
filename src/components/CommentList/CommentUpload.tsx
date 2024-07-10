@@ -6,6 +6,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import React, { useEffect, useRef, useState } from "react";
+import Swal from "sweetalert2";
 
 // 댓글 45자 이내
 
@@ -46,7 +47,13 @@ const CommentUpload = ({ postId }: Params) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!contentRef.current.value) {
-      alert("입력하세요");
+      Swal.fire({
+        title: "댓글이 입력되지 않았습니다.",
+        text: "댓글은 40자 이내로 작성해주세요.",
+        icon: "warning",
+        cancelButtonText: "확인",
+        cancelButtonColor: "#A04741",
+      });
       return;
     }
     const newComment: NewCommentType = {

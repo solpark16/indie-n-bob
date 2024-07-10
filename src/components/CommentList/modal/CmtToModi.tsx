@@ -27,6 +27,7 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
           cancelButtonText: "확인",
           cancelButtonColor: "#A04741",
         });
+        return;
       }
 
       const editedComment = {
