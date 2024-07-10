@@ -100,6 +100,23 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
       return;
     }
 
+    // 선호하는 뮤지션 변경 로직
+    const favoriteArtistArray = favoriteArtist.split(',').map(artist => artist.trim());
+    if (JSON.stringify(favoriteArtistArray) !== JSON.stringify(userData.favorite_artist)) {
+      hasChanges = true;
+      const { error: favoriteArtistError } = await supabase
+        .from('users')
+        .update({ favorite_artist: favoriteArtistArray })
+        .eq('user_id', userData.user_id);
+
+      if (favoriteArtistError) {
+        console.error('users 테이블에 선호하는 뮤지션 변경 실패', favoriteArtistError);
+        return;
+      }
+
+      console.log('선호하는 뮤지션 변경 성공');
+    }
+
     if (!hasChanges) {
       alert('변경사항이 없습니다.');
       return;
