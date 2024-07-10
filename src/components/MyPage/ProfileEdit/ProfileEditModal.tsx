@@ -1,10 +1,17 @@
+"use client";
+
+import { createClient } from '@/utils/supabase/client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData: any }) => {
   const [nickname, setNickname] = useState(userData.nickname);
   const [email, setEmail] = useState(userData.email);
   const [profileImage, setProfileImage] = useState(userData.profile_image);
   const [favoriteArtist, setFavoriteArtist] = useState(userData.favorite_artist);
+
+  const supabase = createClient();
+  const router = useRouter();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -14,6 +21,58 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
       };
       reader.readAsDataURL(e.target.files[0]);
     }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log('handleSubmit called');
+    if (profileImage) {
+      const uploadProfileImage = async (file) => {
+        const bucket = "users"
+
+        const { data, error } = await supabase.storage
+        .from(bucket)
+        .upload(`profile/${Date.now()}_${file.name}`, file);
+
+        if (error) {
+          console.error('Error uploading image:', error);
+          return;
+        }
+
+        console.log('Image uploaded:', data);
+
+        const publicUrl = supabase.storage
+          .from(bucket)
+          .getPublicUrl(`profile/${file.name}`).data.publicUrl;
+
+        const { error: updateError } = await supabase
+          .from('users')
+          .update({ profile_image: publicUrl })
+          .eq('user_id', userData.user_id);
+
+        if (updateError) {
+          console.error('Error updating user profile image:', updateError);
+          return;
+        }
+
+        console.log('User profile image updated');
+      }
+
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+      const file = fileInput?.files?.[0];
+      if (file) {
+        await uploadProfileImage(file);
+      } else {
+        console.error('No file selected');
+        return;
+      }
+    } else {
+      console.log('No profile image to upload');
+    }
+
+    onClose();
+    // 완료 버튼을 눌렀을 때 프로필 변경 로직이 성공한 동작한 경우, 의미없는 쿼리스트링 포함시켜서 마이 페이지 캐싱 데이터 삭제
+    router.push(`/mypage?timestamp=${new Date().getTime()}`);
   };
 
   return (
@@ -82,7 +141,7 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
           <button onClick={onClose} className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
             취소
           </button>
-          <button className="flex-1 px-4 py-2 bg-main-color text-white rounded hover:bg-main-color/80">
+          <button onClick={handleSubmit} className="flex-1 px-4 py-2 bg-main-color text-white rounded hover:bg-main-color/80">
             완료
           </button>
         </div>
