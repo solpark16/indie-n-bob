@@ -7,12 +7,16 @@ import { useQuery } from "@tanstack/react-query";
 import PostItemSqure from "./PostItemSqure";
 
 type PostListViewProps = {
-  keyword: string;
+  keyword?: string;
 };
 
 function PostListView({ keyword }: PostListViewProps) {
   // TODO 나중에 추론한 데이터로 변경
-  const { data: posts, isLoading } = useQuery<PostInDB[]>({
+  const {
+    data: posts,
+    isLoading,
+    isError,
+  } = useQuery<PostInDB[]>({
     queryKey: ["posts"],
     queryFn: async () => {
       const response = await fetch(`${SITE_URL}/api/posts`);
@@ -24,14 +28,17 @@ function PostListView({ keyword }: PostListViewProps) {
 
   if (isLoading) {
     return <Loading />;
+  } else if (isError || !posts) {
+    return "검색 결과가 없습니다.";
   }
 
-  const filteredPosts = keyword
-    ? posts.filter((post) => {
-        const { tags } = post.hashtag;
-        return tags.find((tag) => tag === keyword);
-      })
-    : posts;
+  const filteredPosts =
+    (keyword
+      ? posts.filter((post) => {
+          const { tags } = post.hashtag;
+          return tags.find((tag) => tag === keyword);
+        })
+      : posts) ?? [];
 
   // TODO filteredPosts.length === 0 일 때 처리 필요
 

@@ -21,7 +21,7 @@ export async function GET(_: NextRequest, params: parameter) {
   const supabase = createClient();
   const { data: post } = await supabase
     .from(TABLE_NAME)
-    .select()
+    .select("*, author: author_id(nickname, profile_image)")
     .eq(PK_COLUMN_NAME, id)
     .single();
 
