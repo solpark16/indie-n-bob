@@ -23,6 +23,7 @@ export default async function MyPage() {
         .eq('user_id', user.id);
 
     console.log(userData[0]);
+    console.log(posts);
 
     if (postError || userError) {
         return (
