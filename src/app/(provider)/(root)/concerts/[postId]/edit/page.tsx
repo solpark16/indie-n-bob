@@ -1,13 +1,15 @@
 "use client";
 
+import { Concert, ConcertInDB } from "@/types/Concert";
 import { createClient } from "@/utils/supabase/client";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const ConcertWritePage = () => {
+const ConcertEditPage = ({ params }: { params: { postId: string } }) => {
+  const { postId } = params;
   const router = useRouter();
 
   const [title, setTitle] = useState("");
@@ -16,22 +18,37 @@ const ConcertWritePage = () => {
   const [region, setRegion] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [time, setTime] = useState("");
+  const [time, setTime] = useState(0);
   const [age, setAge] = useState("");
   const [price, setPrice] = useState("");
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const supabase = createClient();
-    const fetchData = async () => {
-      const { data, error: getUserError } = await supabase.auth.getUser();
-      setUser(data.user);
-      return data.user;
-    };
-    fetchData();
-  }, []);
+  const { data: targetData, isPending } = useQuery({
+    queryKey: ["concerts", postId],
+    queryFn: async () => {
+      const supabase = createClient();
+      const { data: post, error } = await supabase
+        .from("concert_posts")
+        .select()
+        .eq("post_id", postId)
+        .single();
+
+      setTitle(post.title);
+      setImageUrl(post.image);
+      setRegion(post.region);
+      setStartDate(post.start_date);
+      setEndDate(post.end_date);
+      setTime(post.time);
+      setAge(post.age);
+      setPrice(post.price);
+      setLink(post.link);
+      setContent(post.content);
+
+      return post;
+    },
+  });
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -44,12 +61,27 @@ const ConcertWritePage = () => {
       `https://stfauxrjudaltlmspsnv.supabase.co/storage/v1/object/public/posts/concert/${data.path}`
     );
   };
+  const queryClient = useQueryClient();
+
+  const updatePostMutation = useMutation({
+    mutationFn: async (updateConcert: any) => {
+      const supabase = createClient();
+      await supabase
+        .from("concert_posts")
+        .update(updateConcert)
+        .eq("post_id", postId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["concerts"],
+      });
+      router.push(`/concerts`);
+    },
+  });
 
   const concertAddHandler = async () => {
-    console.log(user);
     // TODO 솔씨 유효성 검사 추가해야합니다~~~
-    const newConcert = {
-      post_id: uuidv4(),
+    updatePostMutation.mutate({
       title,
       image: imageUrl,
       region,
@@ -60,13 +92,7 @@ const ConcertWritePage = () => {
       price,
       link,
       content,
-      author_id: user.id,
-    };
-    console.log(newConcert);
-
-    const supabase = createClient();
-    await supabase.from("concert_posts").insert(newConcert).select();
-    router.push("/concerts");
+    });
   };
 
   return (
@@ -77,6 +103,7 @@ const ConcertWritePage = () => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
+      {/* TODO 이미지 첨부하기 */}
       <div className="mt-[49px] mb-[65px] flex gap-[32px]">
         <Image src={imageUrl} alt="concert-image" width={276} height={276} />
         <div className="mt-auto">
@@ -129,13 +156,11 @@ const ConcertWritePage = () => {
         <div className=" border-b-[1px] border-[#DDDDDD] flex items-center">
           <label className="w-[118px]">공연시간</label>
           <input
-            type="number"
             className="h-[60px] w-full"
             value={time}
             onChange={(e) => {
-              setTime(e.target.value);
+              setTime(+e.target.value);
             }}
-            placeholder="분"
           />
         </div>
         <div className=" border-b-[1px] border-[#DDDDDD] flex items-center">
@@ -190,4 +215,4 @@ const ConcertWritePage = () => {
   );
 };
 
-export default ConcertWritePage;
+export default ConcertEditPage;

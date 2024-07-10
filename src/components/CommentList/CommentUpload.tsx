@@ -11,8 +11,8 @@ import React, { useEffect, useRef, useState } from "react";
 
 const CommentUpload = ({ postId }: Params) => {
   const contentRef = useRef<HTMLInputElement>(null);
-  const [userData, setUserData] = useState<CommentWriter>();
   const queryClient = useQueryClient();
+  const [userData, setUserData] = useState<CommentWriter>();
 
   useEffect(() => {
     //현재 로그인된 사용자의 프로필 정보를 가져오는 메서드

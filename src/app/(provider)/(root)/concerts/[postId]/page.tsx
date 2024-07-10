@@ -1,3 +1,4 @@
+import ConcertDeleteButton from "@/components/ConcertList/ConcertDeleteButton";
 import Hashtag from "@/components/Hashtag";
 import SITE_URL from "@/constant";
 import { ConcertInDB } from "@/types/Concert";
@@ -20,7 +21,6 @@ async function ConcertDetailPage({
     post_id: id,
     title,
     content,
-    author_nickname: nickname,
     image,
     created_at,
     start_date,
@@ -29,25 +29,26 @@ async function ConcertDetailPage({
     price,
     age,
     link,
+    users: { nickname, profile_image },
   } = concert;
+
   const createdAt = moment(created_at).format("yyyy.MM.DD");
   const startDate = moment(start_date).format("yyyy.MM.DD");
   const endDate = moment(end_date).format("yyyy.MM.DD");
-  console.log(time);
+
   return (
     <main>
       <div className="px-[92px]">
         <header className="mb-[22px]">
-          {/* {// TODO 프로필 정보 가져오기...} */}
           <div>
             <>
               <h2 className="text-[45px] mb-[10px]">{title}</h2>
               <p className="text-[25px] text-[#747474]">100</p>
             </>
-            {/* <Link href={`/posts/${postId}/edit`}>
-            <button>수정</button>
-          </Link>
-          <Button>삭제</Button> */}
+            <Link href={`/concerts/${postId}/edit`}>
+              <button>수정</button>
+            </Link>
+            <ConcertDeleteButton postId={postId} />
           </div>
         </header>
         <article
@@ -93,8 +94,13 @@ async function ConcertDetailPage({
         </article>
         <div>
           <div className="text-[18px] flex justify-between mt-[78px] mb-[35px] pb-[24px] border-b-[1px]">
-            {/* TODO 프로필 가져와야돼요 ㅠㅠ */}
-            <p>일병솔</p>
+            <div className="flex">
+              <img
+                className="w-[50px] h-[50px] object-cover rounded-full"
+                src={profile_image}
+              />
+              <p>{nickname}</p>
+            </div>
             {/* TODO 시간 가져오기 */}
             <p className="text-[#A0A0A0]">{createdAt}</p>
           </div>

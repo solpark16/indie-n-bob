@@ -17,7 +17,7 @@ function ConcertListView() {
   if (!isSuccess) {
     return <>로딩중입니다</>;
   }
-  console.log(concerts);
+  // console.log(concerts);
 
   return (
     <>
