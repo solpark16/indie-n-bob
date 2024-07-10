@@ -26,7 +26,7 @@ async function EditPostPage({ params: { postId } }: EditPostPageProps) {
       <h2 className="hidden">게시물 수정</h2>
       <h2 className="py-6 text-3xl font-bold">{title}</h2>
       <BreakLine />
-      <p className="py-10">
+      <div className="py-10">
         <span>
           {image && (
             <Image
@@ -38,8 +38,8 @@ async function EditPostPage({ params: { postId } }: EditPostPageProps) {
             />
           )}
         </span>
-        <span className="py-10">{content}</span>
-      </p>
+        <p className="py-10">{content}</p>
+      </div>
       <div className="pt-18 pb-4">
         <Hashtag tags={hashtag?.tags} size="sm" />
       </div>
