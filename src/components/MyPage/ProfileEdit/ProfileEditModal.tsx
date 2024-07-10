@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import useUserData from '@/hooks/useUserData';
+import { useQueryClient } from '@tanstack/react-query';
 
 const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
   const { data: userData } = useUserData();
@@ -19,6 +20,7 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
 
   const supabase = createClient();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -156,7 +158,8 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
     });
 
     onClose();
-    router.refresh();
+    // router.push('/mypage');
+    queryClient.invalidateQueries({ queryKey: ['myInfo'] });
   };
 
   return (
