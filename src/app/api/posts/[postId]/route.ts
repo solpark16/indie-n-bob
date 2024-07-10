@@ -55,6 +55,7 @@ export async function POST(request: NextRequest) {
  * 게시글 Update
  */
 export async function PUT(request: NextRequest, params: parameter) {
+  // TODO 로그인한 사용자 아이디 === author_id 체크 필요
   // TODO 동작 확인 필요
   const {
     params: { postId: id },
@@ -82,6 +83,7 @@ export async function PUT(request: NextRequest, params: parameter) {
  * 게시글 Delete
  */
 export async function DELETE(_: NextRequest, params: parameter) {
+  // TODO 로그인한 사용자 아이디 === author_id 체크 필요
   // TODO 동작 확인 필요
   const {
     params: { postId: id },
