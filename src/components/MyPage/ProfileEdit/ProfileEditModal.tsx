@@ -41,7 +41,7 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
           const fileName = `${timestamp}_${file.name}`;
           const { data, error } = await supabase.storage
             .from(bucket)
-            .upload(fileName, file);
+            .upload(`profile/${fileName}`, file);
 
           if (error) {
             console.error('버킷 이미지 업로드 실패', error);
@@ -52,7 +52,7 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
 
           const publicUrl = supabase.storage
             .from(bucket)
-            .getPublicUrl(fileName).data.publicUrl;
+            .getPublicUrl(`profile/${fileName}`).data.publicUrl;
 
           const { error: updateError } = await supabase
             .from('users')
