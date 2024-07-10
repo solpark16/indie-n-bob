@@ -2,13 +2,15 @@ import MyProfile from '@/components/MyPage/ProfileEdit/MyProfile';
 import MyPostViewSwitcher from '@/components/MyPage/PostView/MyPostViewSwitcher';
 import { getUser } from '@/utils/getUser';
 import { createClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
 
 export default async function MyPage() {
     const user = await getUser();
 
-    // if (!user) {
-    //     redirect('/auth/login');
-    // }
+    // 인증 정보 없으면 리다이렉트 (미들웨어 추가되기 전까지 임시 사용)
+    if (!user) {
+        redirect('/auth/login');
+    }
 
     const supabase = createClient();
     const { data: posts, error: postError } = await supabase
