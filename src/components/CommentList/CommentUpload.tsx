@@ -23,16 +23,12 @@ const CommentUpload = ({ postId }: Params) => {
         error: getUserError,
       } = await supabase.auth.getUser();
       setUserData(user);
-      console.log(user);
       return;
     };
     fetchData();
   }, []);
 
-  // console.log(userData);
-
   const user = userData?.user_metadata;
-  // console.log(user.nickname, user.sub);
 
   const { mutate: createComment } = useMutation({
     mutationFn: async (item: NewCommentType) => {
@@ -43,7 +39,7 @@ const CommentUpload = ({ postId }: Params) => {
     },
     onSuccess: () => {
       // 무슨 타입이지
-      queryClient.invalidateQueries(["comments", postId]);
+      queryClient.invalidateQueries({ queryKey: ["comments", postId] });
     },
   });
 
@@ -60,6 +56,7 @@ const CommentUpload = ({ postId }: Params) => {
       author_id: user.sub, //로그인한 유저의 아이디
     };
     createComment(newComment);
+    contentRef.current.value = "";
   };
 
   return (

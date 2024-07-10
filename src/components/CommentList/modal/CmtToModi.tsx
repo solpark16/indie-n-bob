@@ -4,6 +4,7 @@ import { CommentType } from "@/types/Comments";
 import { formatDateString } from "@/utils/formatDateString";
 import Image from "next/image";
 import React, { useRef } from "react";
+import Swal from "sweetalert2";
 
 //댓글 45자 이내
 
@@ -14,12 +15,31 @@ interface PropsType {
 
 const CmtToModi = ({ comment, onClose }: PropsType) => {
   const contentRef = useRef<HTMLInputElement>(null);
-  const editedComment = {
-    ...comment,
-    content: contentRef.current.value,
+  const { post_id, author_id, author_nickname } = comment;
+
+  const handleEditBtn = () => {
+    if (contentRef.current) {
+      if (contentRef.current.value.length > 40) {
+        Swal.fire({
+          title: "수정이 제한되었습니다.",
+          text: "댓글은 40자 이내로 작성해주세요.",
+          icon: "warning",
+          cancelButtonText: "확인",
+          cancelButtonColor: "#A04741",
+        });
+      }
+
+      const editedComment = {
+        post_id,
+        author_id,
+        author_nickname,
+        content: contentRef?.current?.value,
+      };
+
+      console.log(editedComment);
+    }
   };
 
-  console.log("edited", editedComment);
   return (
     <>
       <div className="w-[900px] h-[80px] flex justify-between items-center border-t border-b border-[#dddddd] text-[18px]">
@@ -57,6 +77,7 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
         <button
           type="button"
           className="w-[200px] h-[55px] rounded-[10px] bg-[#10AF86] text-white hover:bg-[#0e9a77] transition duration-200"
+          onClick={handleEditBtn}
         >
           확인
         </button>
