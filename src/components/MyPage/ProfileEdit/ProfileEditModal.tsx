@@ -6,6 +6,15 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
   const [profileImage, setProfileImage] = useState(userData.profile_image);
   const [favoriteArtist, setFavoriteArtist] = useState(userData.favorite_artist);
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setProfileImage(event.target?.result as string);
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -29,9 +38,10 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
           </div>
         </div>
         <div className="flex justify-center mb-6">
-          <button className="bg-gray-100  hover:bg-gray-200 w-44 px-4 py-1 mt-4 text-sm text-gray-700 rounded">
+          <label className="bg-gray-100 hover:bg-gray-200 w-44 px-4 py-1 mt-4 text-sm text-gray-700 rounded cursor-pointer text-center">
             이미지 변경
-          </button>
+            <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+          </label>
         </div>
 
         {/* 아이디 */}
