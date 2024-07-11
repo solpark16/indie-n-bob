@@ -49,37 +49,40 @@ const BestInfo: FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {posts && posts.length > 0 ? (
           posts.slice(0, 4).map((post) => (
-            <div
+            <Link
               key={post.post_id}
-              className="relative rounded-lg overflow-hidden"
+              href={`/posts/${post.post_id}`}
+              legacyBehavior
             >
-              <img
-                src={post.image}
-                alt={post.title}
-                className="w-[600px] h-[400px] rounded-2xl"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold truncate-2-lines">
-                  {post.title}
-                </h3>
-                <p className="text-gray-600 mt-1 truncate-3-lines">
-                  {post.content}
-                </p>
-                <div className="flex justify-between items-center mt-4">
-                  <span className="text-gray-500 text-sm">
-                    작성자 {post.author_nickname}
-                  </span>
-                  <span className="text-gray-500 text-sm">
-                    {new Date(post.created_at).toLocaleDateString()}
-                  </span>
+              <a className="relative rounded-lg overflow-hidden block">
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  className="w-[600px] h-[400px] rounded-2xl"
+                />
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold truncate-2-lines text-main-color">
+                    {post.title}
+                  </h3>
+                  <p className="text-gray-600 mt-1 truncate-3-lines">
+                    {post.content}
+                  </p>
+                  <div className="flex justify-between items-center mt-4">
+                    <span className="text-gray-500 text-sm">
+                      작성자 {post.author_nickname}
+                    </span>
+                    <span className="text-gray-500 text-sm">
+                      {new Date(post.created_at).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center mt-2">
+                    <span className="text-green-600 text-sm">
+                      ♥ {post.likes ?? 0}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center mt-2">
-                  <span className="text-green-600 text-sm">
-                    ♥ {post.likes ?? 0}
-                  </span>
-                </div>
-              </div>
-            </div>
+              </a>
+            </Link>
           ))
         ) : (
           <p>No posts available.</p>

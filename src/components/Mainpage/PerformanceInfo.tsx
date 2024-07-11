@@ -28,23 +28,26 @@ const PerformanceInfo: FC = () => {
           </Link>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {concerts.map((concert) => (
-          <div
+          <Link
             key={concert.post_id}
-            className="relative w-80 h-80 lg:w-80 lg:h-80 sm:w-50 sm:h-50 rounded-full overflow-hidden group cursor-pointer transition duration-200"
+            href={`/concerts/${concert.post_id}`}
+            legacyBehavior
           >
-            <Image
-              src={concert.image}
-              alt={`Performance ${concert.post_id}`}
-              fill
-              style={{ objectFit: "cover" }}
-              className="transition z-1"
-            />
-            <div className="absolute inset-0 z-10 flex items-center justify-center text-[#ffffff00] bg-opacity-0 hover:text-[white] hover:bg-[#00000076]">
-              <p className="text-xl">{concert.title}</p>
-            </div>
-          </div>
+            <a className="relative w-80 h-80 lg:w-80 lg:h-80 sm:w-50 sm:h-50 rounded-full overflow-hidden group cursor-pointer transition duration-200">
+              <Image
+                src={concert.image}
+                alt={`Performance ${concert.post_id}`}
+                fill
+                style={{ objectFit: "cover" }}
+                className="transition z-1"
+              />
+              <div className="absolute inset-0 z-10 flex items-center justify-center text-[#ffffff00] bg-opacity-0 hover:text-[white] hover:bg-[#00000076]">
+                <p className="text-xl">{concert.title}</p>
+              </div>
+            </a>
+          </Link>
         ))}
       </div>
     </div>
