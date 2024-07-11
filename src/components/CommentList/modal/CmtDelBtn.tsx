@@ -1,8 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import CmtDelModal from "./CmtDelModal";
+import { CommentType } from "@/types/Comments";
 
-const CmtDelBtn = () => {
+interface PropsType {
+  comment: CommentType;
+}
+
+const CmtDelBtn = ({ comment }: PropsType) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -13,7 +18,9 @@ const CmtDelBtn = () => {
       >
         삭제
       </button>
-      {isModalOpen && <CmtDelModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <CmtDelModal comment={comment} onClose={() => setIsModalOpen(false)} />
+      )}
     </>
   );
 };

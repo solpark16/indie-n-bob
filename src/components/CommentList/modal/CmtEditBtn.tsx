@@ -2,8 +2,13 @@
 
 import React, { useState } from "react";
 import CmtEditModal from "./CmtEditModal";
+import { CommentType } from "@/types/Comments";
 
-const CmtEditBtn = () => {
+interface PropsType {
+  comment: CommentType;
+}
+
+const CmtEditBtn = ({ comment }: PropsType) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
@@ -13,7 +18,9 @@ const CmtEditBtn = () => {
       >
         수정
       </button>
-      {isModalOpen && <CmtEditModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <CmtEditModal comment={comment} onClose={() => setIsModalOpen(false)} />
+      )}
     </>
   );
 };

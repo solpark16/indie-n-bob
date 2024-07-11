@@ -9,6 +9,8 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const supabase = createClient();
 
-  const { data: posts } = await supabase.from("recommendation_posts").select();
+  const { data: posts } = await supabase
+    .from("recommendation_posts")
+    .select("*");
   return NextResponse.json(posts);
 }

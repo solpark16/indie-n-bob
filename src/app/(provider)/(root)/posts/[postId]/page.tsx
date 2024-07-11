@@ -1,4 +1,5 @@
 import BreakLine from "@/components/BreakLine";
+import Comments from "@/components/CommentList/Comments";
 import Hashtag from "@/components/Hashtag";
 import Loading from "@/components/Loading";
 import SITE_URL from "@/constant";
@@ -65,6 +66,7 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
         <Hashtag tags={hashtag?.tags} size="sm" />
       </div>
       <BreakLine />
+      <Comments postId={postId} />
     </main>
   );
 }
