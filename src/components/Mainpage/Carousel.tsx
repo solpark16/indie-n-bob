@@ -12,21 +12,21 @@ const Carousel: FC = () => {
           <div className="carousel-item active">
             <img
               src="/실리카겔 커버3.webp"
-              className="d-block w-[1520px] h-[500px] object-cover"
+              className="d-block w-[100%] h-[500px] object-cover"
               alt="First slide"
             />
           </div>
           <div className="carousel-item">
             <img
               src="/잔나비 커버.jpg"
-              className="d-block w-[1520px] h-[500px] object-cover"
+              className="d-block w-[100%] h-[500px] object-cover"
               alt="Second slide"
             />
           </div>
           <div className="carousel-item">
             <img
               src="/루시 커버.jpg"
-              className="d-block w-[1520px] h-[500px] object-cover"
+              className="d-block w-[100%] h-[500px] object-cover"
               alt="Third slide"
             />
           </div>

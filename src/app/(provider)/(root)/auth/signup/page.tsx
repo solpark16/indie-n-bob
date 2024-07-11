@@ -11,6 +11,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { useAuthStore } from "@/zustand/auth.store";
+import { useAlertStore } from "@/zustand/alert.store";
+import { AlertUi } from "@/components/Alert";
 
 export default function SignUpPage(): JSX.Element {
   const {
@@ -27,14 +29,18 @@ export default function SignUpPage(): JSX.Element {
     setFavoriteArtists,
     setError,
   } = useAuthStore();
+  const { setAlert } = useAlertStore();
   const router = useRouter();
 
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    if (e.target.value.length < 6 || e.target.value.length > 10) {
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,10}$/;
+
+    if (!passwordRegex.test(e.target.value)) {
       setError({
         ...error,
-        password: "비밀번호는 최소 6자 이상입니다.",
+        password: "영문, 숫자, 특수문자 포함 6~10자입니다.",
       });
     } else {
       setError({
@@ -89,19 +95,26 @@ export default function SignUpPage(): JSX.Element {
       console.log("회원가입 실패");
     }
 
-    Swal.fire({
-      icon: "success",
-      title: `${nickname}님 반갑습니다!`,
-      text: "로그인 페이지로 이동합니다.",
-      showConfirmButton: false,
-      timer: 1500,
-    });
-    router.replace("/auth/login");
+    setAlert(
+      true,
+      `${nickname}님 반갑습니다!👋`,
+      "로그인 페이지로 이동합니다."
+    );
+    setTimeout(() => {
+      router.replace("/auth/login");
+    }, 1500);
+    // Swal.fire({
+    //   icon: "success",
+    //   title: `${nickname}님 반갑습니다!`,
+    //   text: "로그인 페이지로 이동합니다.",
+    //   showConfirmButton: false,
+    //   timer: 1500,
+    // });
   };
 
   return (
     <>
-      <div className="w-[1280px] mx-auto flex flex-col justify-center">
+      <div className="flex flex-col justify-center">
         <h1 className="text-center text-2xl font-bold text-main-color my-10">
           회원가입
         </h1>
@@ -132,7 +145,7 @@ export default function SignUpPage(): JSX.Element {
             />
             <HiOutlineMusicalNote className="absolute left-3 top-1/2 transform -translate-y-1/2" />
             {error.nickname && (
-              <p className="text-red-500 absolute bottom-3 text-[11px]">
+              <p className="text-red-500 absolute bottom-0 text-[11px]">
                 {error.nickname}
               </p>
             )}
@@ -149,7 +162,7 @@ export default function SignUpPage(): JSX.Element {
             />
             <HiOutlineLockClosed className="absolute left-3 top-1/2 transform -translate-y-1/2" />
             {error.password && (
-              <p className="text-red-500 absolute bottom-3 text-[11px]">
+              <p className="text-red-500 absolute bottom-0 text-[11px]">
                 {error.password}
               </p>
             )}
@@ -188,7 +201,7 @@ export default function SignUpPage(): JSX.Element {
             * 관리자는 공연일정을 등록할 수 있습니다.
           </p>
 
-          <div className="flex flex-col gap-3 mt-5">
+          <div className="flex flex-col gap-3 ">
             <button
               type="submit"
               className="bg-main-color text-white rounded-md p-3"
@@ -201,6 +214,7 @@ export default function SignUpPage(): JSX.Element {
               </button>
             </Link>
           </div>
+          <AlertUi />
         </form>
       </div>
     </>
