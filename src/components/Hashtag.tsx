@@ -19,9 +19,9 @@ function Hashtag({ tags, size, selectedTag }: HashtagProps) {
           key={i}
           className={`text-${size} ${
             selectedTag === tag
-              ? "text-indiePrimary font-semibold"
+              ? "text-main-color font-semibold"
               : "text-gray-500"
-          }  hover:text-indiePrimary`}
+          }  hover:text-main-color`}
         >
           #{tag}
         </Link>
