@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer";
 import Loading from "@/components/Loading";
 import useMyPosts from "@/hooks/useMyPosts";
 import Image from "next/image";
+import HowManyLikes from "./HowManyLikes";
 
 const MyPostListView = () => {
   const { data, isPending, isError, fetchNextPage, hasNextPage } = useMyPosts();
@@ -46,8 +47,7 @@ const MyPostListView = () => {
               <p className="line-clamp-2 min-h-12">{post.content}</p>
             </div>
             <div className="flex items-center space-x-2 mt-2 text-gray-500 text-sm">
-              <span className="text-main-color">❤</span>
-              <span>10</span>
+              <HowManyLikes postId={post.post_id} />
             </div>
           </div>
         </div>
