@@ -60,9 +60,9 @@ export async function POST(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const supabase = createClient();
   try {
-    const { data: userDataData, error:userError } = await supabase.auth.getUser();
+    const { data: userData, error:userError } = await supabase.auth.getUser();
 
-    if (userError || !userDataData || !userDataData.user) {
+    if (userError || !userData || !userData.user) {
       return NextResponse.json(
         { error: userError?.message || "사용자 정보를 가져올 수 없습니다." },
         { status: 400 }
@@ -80,7 +80,7 @@ export async function DELETE(request: NextRequest) {
     const { error: deleteError } = await supabase
       .from("users")
       .delete()
-      .eq("user_id", userDataData.user.id);
+      .eq("user_id", userData.user.id);
     if (deleteError) {
       return NextResponse.json({ error: deleteError.message }, { status: 400 });
     }

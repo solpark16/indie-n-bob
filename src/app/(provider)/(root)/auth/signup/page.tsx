@@ -74,6 +74,16 @@ export default function SignUpPage(): JSX.Element {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (error.password) {
+      setAlert(true, "비밀번호 오류 🥲", "비밀번호 조건을 확인해주세요.");
+      return;
+    }
+
+    if (error.nickname) {
+      setAlert(true, "닉네임 오류 🥲", "닉네임 조건을 확인해주세요.");
+      return;
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:3000/api/auth/signup",
@@ -95,6 +105,13 @@ export default function SignUpPage(): JSX.Element {
           `${nickname}님 반갑습니다!👋`,
           "로그인 페이지로 이동합니다."
         );
+
+        setEmail("");
+        setPassword("");
+        setNickname("");
+        setIsAdmin(false);
+        setFavoriteArtists([]);
+
         setTimeout(() => {
           router.replace("/auth/login");
         }, 1500);
