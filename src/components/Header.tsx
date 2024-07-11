@@ -78,7 +78,7 @@ const Header: FC = () => {
 
   return (
     <ul
-      className={`nav nav-tabs flex items-center ${
+      className={`nav nav-tabs flex items-center w-[1280px] mx-auto ${
         user ? "logged-in" : "logged-out"
       }`}
     >
@@ -110,7 +110,7 @@ const Header: FC = () => {
 
       <li className="nav-item ms-auto relative mx-2">
         <a
-          className="nav-link dropdown-toggle text-main-color"
+          className="nav-link dropdown-toggle bg-main-color"
           data-bs-toggle="dropdown"
           href="#"
           role="button"
@@ -120,7 +120,7 @@ const Header: FC = () => {
         </a>
         <ul className="dropdown-menu absolute">
           <li>
-            <a className="dropdown-item" href="#">
+            <a className="dropdown-item" href="/mypage">
               마이페이지
             </a>
           </li>
@@ -131,7 +131,7 @@ const Header: FC = () => {
         <li className="nav-item mx-2">
           <button
             onClick={handleLogout}
-            className="no-underline text-[#10AF86]"
+            className="no-underline text-sub-color"
           >
             로그아웃
           </button>

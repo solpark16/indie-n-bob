@@ -32,7 +32,7 @@ const PerformanceInfo: FC = () => {
         {concerts.map((concert) => (
           <div
             key={concert.post_id}
-            className="relative w-80 h-80 lg:w-80 lg:h-80 sm:w-50 sm:h-50 rounded-full overflow-hidden group cursor-pointer"
+            className="relative w-80 h-80 lg:w-80 lg:h-80 sm:w-50 sm:h-50 rounded-full overflow-hidden group cursor-pointer transition duration-200"
           >
             <Image
               src={concert.image}
