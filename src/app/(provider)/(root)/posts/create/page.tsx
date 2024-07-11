@@ -122,7 +122,7 @@ const CreatePostPage = () => {
     });
 
     // ToDo : 쿼리키 무효화가 안 됨 -저승사자-
-    queryClient.invalidateQueries({ queryKey: ["posts"] });
+    await queryClient.invalidateQueries({ queryKey: ["posts"] });
     router.replace("/posts");
     router.refresh();
   };

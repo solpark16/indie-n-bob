@@ -3,34 +3,14 @@
 import Loading from "@/components/Loading";
 import SITE_URL from "@/constant";
 import { Post, PostWithAuthor } from "@/types/Post";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import PostItemSqure from "./PostItemSqure";
-import { createClient } from "@/utils/supabase/client";
 
 type PostListViewProps = {
   keyword?: string;
 };
 
 function PostListView({ keyword }: PostListViewProps) {
-  // const fetchPosts = async () => {
-  //   const supabase = createClient();
-
-  //   const { data: posts } = await supabase
-  //     .from("recommendation_posts")
-  //     .select("*");
-  //   return posts;
-  // };
-
-  // const {
-  //   data: posts,
-  //   isLoading,
-  //   isError,
-  //   error,
-  // } = useQuery<PostWithAuthor[]>({
-  //   queryKey: ["posts"],
-  //   queryFn: fetchPosts,
-  // });
-
   const {
     data: posts,
     isLoading,
@@ -39,15 +19,12 @@ function PostListView({ keyword }: PostListViewProps) {
     queryKey: ["posts"],
     queryFn: async () => {
       const response = await fetch(`${SITE_URL}/api/posts`);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+
       return await response.json();
     },
   });
 
   console.log("posts페이지", posts);
-  //queryClient.invalidateQueries({ queryKey: ["posts"] });
 
   // TODO 무한 스크롤 기능 구현 필요
 
