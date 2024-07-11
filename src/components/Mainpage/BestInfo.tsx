@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PostInDB } from "@/types/Post";
 import SITE_URL from "@/constant";
 import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 
 const fetchPosts = async () => {
   const response = await fetch(`${SITE_URL}/api/posts`, {
@@ -22,7 +23,7 @@ const BestInfo: FC = () => {
   const {
     data: posts,
     error,
-    refetch,
+    isLoading,
   } = useQuery<PostInDB[]>({
     queryKey: ["posts"],
     queryFn: fetchPosts,
@@ -30,6 +31,14 @@ const BestInfo: FC = () => {
     refetchOnWindowFocus: true,
     refetchInterval: 60000,
   });
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Image src="/loading-circle.gif" alt="Loading" width={50} height={50} />
+      </div>
+    );
+  }
 
   if (error) {
     return <div>Error: {error.message}</div>;

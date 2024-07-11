@@ -77,80 +77,82 @@ const Header: FC = () => {
   };
 
   return (
-    <ul
-      className={`nav nav-tabs flex items-center w-[1280px] mx-auto ${
-        user ? "logged-in" : "logged-out"
-      }`}
-    >
-      <li className="nav-item mx-2">
-        <Link href="/" className="no-underline">
-          <div className="nav-link">
-            <img
-              src="/logo.png"
-              alt="Logo"
-              width="40"
-              height="40"
-              className="d-inline-block align-top"
-            />
-          </div>
-        </Link>
-      </li>
-
-      <li className="nav-item mx-2">
-        <Link href="/concerts" className="no-underline">
-          <span className="text-[#10AF86] no-underline">공연정보 게시판</span>
-        </Link>
-      </li>
-
-      <li className="nav-item mx-2">
-        <Link href="/posts" className="no-underline">
-          <span className="text-[#10AF86] no-underline">자유게시판</span>
-        </Link>
-      </li>
-
-      <li className="nav-item ms-auto relative mx-2">
-        <a
-          className="nav-link dropdown-toggle bg-main-color"
-          data-bs-toggle="dropdown"
-          href="#"
-          role="button"
-          aria-expanded="false"
-        >
-          {user ? user.nickname : ""}
-        </a>
-        <ul className="dropdown-menu absolute">
-          <li>
-            <a className="dropdown-item" href="/mypage">
-              마이페이지
-            </a>
-          </li>
-        </ul>
-      </li>
-
-      {user ? (
+    <div className="border-bottom">
+      <ul
+        className={`w-[1280px] mx-auto nav flex items-center ${
+          user ? "logged-in" : "logged-out"
+        }`}
+      >
         <li className="nav-item mx-2">
-          <button
-            onClick={handleLogout}
-            className="no-underline text-sub-color"
-          >
-            로그아웃
-          </button>
+          <Link href="/" className="no-underline">
+            <div className="nav-link">
+              <img
+                src="/logo.png"
+                alt="Logo"
+                width="40"
+                height="40"
+                className="d-inline-block align-top"
+              />
+            </div>
+          </Link>
         </li>
-      ) : (
-        <>
+
+        <li className="nav-item mx-2">
+          <Link href="/concerts" className="no-underline">
+            <span className="text-[#10AF86] no-underline">공연정보</span>
+          </Link>
+        </li>
+
+        <li className="nav-item mx-2">
+          <Link href="/posts" className="no-underline">
+            <span className="text-[#10AF86] no-underline">자유게시판</span>
+          </Link>
+        </li>
+
+        <li className="nav-item ms-auto relative mx-2">
+          <a
+            className="nav-link dropdown-toggle text-main-color"
+            data-bs-toggle="dropdown"
+            href="#"
+            role="button"
+            aria-expanded="false"
+          >
+            {user ? user.nickname : ""}
+          </a>
+          <ul className="dropdown-menu absolute">
+            <li>
+              <Link className="dropdown-item" href="/mypage">
+                마이페이지
+              </Link>
+            </li>
+          </ul>
+        </li>
+
+        {user ? (
           <li className="nav-item mx-2">
-            <Link href="/auth/login" className="no-underline">
-              <p className="text-[#10AF86]">로그인</p>
-            </Link>
+            <button
+              onClick={handleLogout}
+              className="no-underline text-[#10AF86]"
+            >
+              로그아웃
+            </button>
           </li>
-          <li className="nav-item mx-2">
-            <Link href="/auth/signup" className="no-underline">
-              <p className="text-[#2e2e2e]">회원가입</p>
-            </Link>
-          </li>
-        </>
-      )}
-    </ul>
+        ) : (
+          <>
+            <li className="nav-item mx-2">
+              <Link href="/auth/login" className="no-underline">
+                <p className="text-[#10AF86] mb-0">로그인</p>
+              </Link>
+            </li>
+            <li className="nav-item mx-2">
+              <Link href="/auth/signup" className="no-underline">
+                <p className="text-[#2e2e2e] mb-0">회원가입</p>
+              </Link>
+            </li>
+          </>
+        )}
+      </ul>
+    </div>
   );
 };
 

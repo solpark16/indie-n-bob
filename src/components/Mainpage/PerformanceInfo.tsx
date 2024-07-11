@@ -5,7 +5,11 @@ import Image from "next/image";
 import SITE_URL from "@/constant";
 
 const PerformanceInfo: FC = () => {
-  const { data: concerts, isSuccess } = useQuery({
+  const {
+    data: concerts,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ["concerts"],
     queryFn: async () => {
       const response = await fetch(`${SITE_URL}/api/concerts`);
@@ -13,8 +17,16 @@ const PerformanceInfo: FC = () => {
     },
   });
 
-  if (!isSuccess) {
-    return <>로딩중입니다</>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Image src="/loading-circle.gif" alt="Loading" width={50} height={50} />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
   }
 
   return (
@@ -29,7 +41,7 @@ const PerformanceInfo: FC = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {concerts.map((concert) => (
+        {concerts.slice(0, 3).map((concert) => (
           <Link
             key={concert.post_id}
             href={`/concerts/${concert.post_id}`}
