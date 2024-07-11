@@ -54,7 +54,6 @@ export async function PUT(request: NextRequest) {
       .select();
 
     if (error) {
-      console.error("Supabase update error:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 

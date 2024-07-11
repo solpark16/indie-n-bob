@@ -6,6 +6,7 @@ import LoadingComments from "./LoadingComments";
 import Comment from "./Comment";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { useState } from "react";
+import ErrorGetComments from "./ErrorGetComments";
 
 const CommentsView = ({ postId }: Params) => {
   const [pageNo, setPageNo] = useState(1);
@@ -22,7 +23,7 @@ const CommentsView = ({ postId }: Params) => {
   } = useQuery({
     queryKey: ["comments", postId],
     queryFn: async () => {
-      const response = await fetch(`${SITE_URL}/api/posts/${postId}/comments`);
+      const response = await fetch(`${SITE_URL}/api/posts/${postId}/commentss`);
       return await response.json();
     },
   });
@@ -32,7 +33,7 @@ const CommentsView = ({ postId }: Params) => {
   }
 
   if (isError) {
-    return <h1>댓글 불러오기 실패 ㅠㅠ</h1>;
+    return <ErrorGetComments />;
   }
 
   return (
