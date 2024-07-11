@@ -6,6 +6,7 @@ export function AlertUi() {
   const { showAlert, alertTitle, alertMessage, setAlert } = useAlertStore();
 
   if (!showAlert) return null;
+
   return (
     <>
       <div

@@ -40,7 +40,7 @@ export default function LoginPage() {
           timer: 1500,
         }).then(() => {
           console.log("클릭");
-          router.push("/");
+          router.replace("/");
         });
         console.log("로그인 되었습니다.", response.statusText);
       } else {

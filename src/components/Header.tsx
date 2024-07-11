@@ -120,9 +120,9 @@ const Header: FC = () => {
         </a>
         <ul className="dropdown-menu absolute">
           <li>
-            <a className="dropdown-item" href="#">
+            <Link className="dropdown-item" href="/mypage">
               마이페이지
-            </a>
+            </Link>
           </li>
         </ul>
       </li>
