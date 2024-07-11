@@ -1,18 +1,61 @@
+"use client";
+
 import ConcertDeleteButton from "@/components/ConcertList/ConcertDeleteButton";
-import SITE_URL from "@/constant";
-import { ConcertInDB } from "@/types/Concert";
+import { formatDateString } from "@/utils/formatDateString";
+import { createClient } from "@/utils/supabase/client";
+import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 type ConcertDetailPageProps = {
-  params: { postId: number };
+  params: { postId: string };
 };
 
-async function ConcertDetailPage({
-  params: { postId },
-}: ConcertDetailPageProps) {
-  const response = await fetch(`${SITE_URL}/api/concerts/${postId}`);
-  const concert: ConcertInDB = await response.json();
+const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
+  const [user, setUser] = useState(null);
+  const [like, setLike] = useState(0);
+  const [heart, setHeart] = useState(false);
+
+  const supabase = createClient();
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data, error: getUserError } = await supabase.auth.getUser();
+      setUser(data.user);
+    };
+    fetchData();
+  }, []);
+
+  // like 가져오기
+  useEffect(() => {
+    const fetchLike = async () => {
+      const { data, error } = await supabase
+        .from("concert_likes")
+        .select()
+        .eq("post_id", postId);
+      setLike(data.length);
+    };
+    fetchLike();
+  }, [like]);
+
+  const { data: concert, isPending } = useQuery({
+    queryKey: ["concerts", postId],
+    queryFn: async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from("concert_posts")
+        .select("*, users:author_id(*)")
+        .eq("post_id", postId)
+        .single();
+
+      return data;
+    },
+  });
+
+  if (isPending) {
+    return <div>로딩 중입니다...</div>;
+  }
 
   const {
     post_id: id,
@@ -23,89 +66,137 @@ async function ConcertDetailPage({
     start_date,
     end_date,
     time,
+    region,
     price,
     age,
     link,
-    users: { nickname, profile_image },
+    author_id,
+    // users: { nickname, profile_image },
+    users,
   } = concert;
 
   const createdAt = moment(created_at).format("yyyy.MM.DD");
   const startDate = moment(start_date).format("yyyy.MM.DD");
   const endDate = moment(end_date).format("yyyy.MM.DD");
 
+  const onClickLikeHandler = async () => {
+    if (!user) {
+      alert("로그인한 사용자만 가능합니다.");
+      return;
+    }
+    const newLike = {
+      like_id: uuidv4(),
+      post_id: postId,
+      user_id: user.id,
+    };
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from("concert_likes")
+      .select()
+      .eq("post_id", postId)
+      .eq("user_id", user.id);
+    if (data.length) {
+      await supabase
+        .from("concert_likes")
+        .delete()
+        .eq("post_id", postId)
+        .eq("user_id", user.id);
+      setHeart(false);
+      setLike(like - 1);
+    } else {
+      await supabase.from("concert_likes").insert(newLike).select();
+      setHeart(true);
+      setLike(like + 1);
+    }
+  };
   return (
     <main>
-      <div className="px-[92px]">
+      <div className="px-[92px] mt-[140px]">
         <header className="mb-[22px]">
           <div>
             <>
               <h2 className="text-[45px] mb-[10px]">{title}</h2>
-              <p className="text-[25px] text-[#747474]">100</p>
+              <div className="flex justify-between">
+                <p
+                  className="text-[25px] text-[#747474] cursor-pointer"
+                  onClick={onClickLikeHandler}
+                >
+                  {/* {heart ? (
+                    <span className="text-main-color">♥</span>
+                  ) : (
+                    <span className="text-[#E3E3E3]">♥</span>
+                  )}{" "} */}
+                  <span className="text-main-color">♥</span> {like}
+                </p>
+                {user && author_id === user.id && (
+                  <div className="flex gap-[10px]">
+                    <Link href={`/concerts/${postId}/edit`}>
+                      <button className="bg-main-color text-white p-[10px] rounded-[10px]">
+                        수정
+                      </button>
+                    </Link>
+                    <ConcertDeleteButton postId={postId} />
+                  </div>
+                )}
+              </div>
             </>
-            <Link href={`/concerts/${postId}/edit`}>
-              <button>수정</button>
-            </Link>
-            <ConcertDeleteButton postId={postId} />
           </div>
         </header>
-        <article
-          className="flex gap-[76px]"
-          style={{ border: "1px solid red" }}
-        >
+        <article className="flex gap-[76px]">
           <div className="relative min-w-[450px] w-[450px]">
             {/* Image 태그로 변경 필요 */}
             {image && <img src={image} alt={title} />}
           </div>
-          <div
-            className="w-full flex flex-col text-[#2E2E2E]"
-            style={{ border: "1px solid red" }}
-          >
+          <div className="w-full flex flex-col text-[#2E2E2E]">
             <div className="mt-[30px] leading-[60px]">
               <div className="flex text-[25px]">
-                <p className="w-[135px]">장소</p>
-                <p>소극장</p>
+                <p className="min-w-[135px]">장소</p>
+                <p>{region}</p>
               </div>
               <div className="flex text-[25px]">
-                <p className="w-[135px]">공연기간</p>
+                <p className="min-w-[135px]">공연기간</p>
                 <p>
                   {startDate}~{endDate}
                 </p>
               </div>
               <div className="flex text-[25px]">
-                <p className="w-[135px]">공연시간</p>
+                <p className="min-w-[135px]">공연시간</p>
                 <p>{time}분</p>
               </div>
               <div className="flex text-[25px]">
-                <p className="w-[135px]">관람연령</p>
+                <p className="min-w-[135px]">관람연령</p>
                 <p>{age}</p>
               </div>
               <div className="flex text-[25px]">
-                <p className="w-[135px]">가격</p>
+                <p className="min-w-[135px]">가격</p>
                 <p>{price}</p>
               </div>
             </div>
-            <button className="w-full h-[67px] mt-auto bg-[#10AF86] text-white rounded-[10px]">
-              자세히보기
-            </button>
+            {link && (
+              <Link href={link}>
+                <button className="w-full h-[67px] mt-auto bg-[#10AF86] text-white rounded-[10px]">
+                  자세히보기
+                </button>
+              </Link>
+            )}
           </div>
         </article>
         <div>
           <div className="text-[18px] flex justify-between mt-[78px] mb-[35px] pb-[24px] border-b-[1px]">
-            <div className="flex">
+            <div className="flex gap-4 items-center">
               <img
                 className="w-[50px] h-[50px] object-cover rounded-full"
-                src={profile_image}
+                src={users && users.profile_image}
               />
-              <p>{nickname}</p>
+              <p className="m-0">{users && users.nickname}</p>
             </div>
-            {/* TODO 시간 가져오기 */}
-            <p className="text-[#A0A0A0]">{createdAt}</p>
+            <p className="text-[#A0A0A0]">{formatDateString(created_at)}</p>
           </div>
           <p className="text-[25px]">{content}</p>
         </div>
       </div>
     </main>
   );
-}
+};
 
 export default ConcertDetailPage;

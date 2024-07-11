@@ -6,17 +6,26 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Swal from 'sweetalert2';
 import useUserData from "@/hooks/useUserData";
+import { useQueryClient } from "@tanstack/react-query";
 
 const CreatePostPage = () => {
   const router = useRouter();
   const { data: userData } = useUserData();
   const defaultImageUrl = "https://stfauxrjudaltlmspsnv.supabase.co/storage/v1/object/public/posts/public/post_default.png";
+  const queryClient = useQueryClient();
 
   const [title, setTitle] = useState("");
   const [imageUrl, setImageUrl] = useState(defaultImageUrl);
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [hashtag, setHashtag] = useState("");
+  const [selectedKeyword, setSelectedKeyword] = useState("");
+
+  const keywords = ["내요듣", "숨듣명", "내밴소"];
+
+  const handleKeywordClick = (keyword) => {
+    setSelectedKeyword(keyword);
+  };
 
   const postImageUpload = async (file) => {
     const bucket = "posts";
@@ -55,10 +64,10 @@ const CreatePostPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!title.trim() || !content.trim() || !hashtag.trim()) {
+    if (!title.trim() || !content.trim() || !hashtag.trim() || !selectedKeyword) {
       Swal.fire({
         icon: 'error',
-        title: '모든 필드를 채워주세요.',
+        title: !selectedKeyword ? '필수 태그를 선택해주세요.' : '모든 필드를 채워주세요.',
         showConfirmButton: false,
         timer: 1500
       });
@@ -69,6 +78,9 @@ const CreatePostPage = () => {
     if (imageFile) {
       uploadedImageUrl = await postImageUpload(imageFile);
     }
+
+    const tagsArray = [selectedKeyword, ...hashtag.split(',').map(tag => tag.trim())];
+
     const { error: insertError } = await supabase
       .from('recommendation_posts')
       .insert({
@@ -76,7 +88,7 @@ const CreatePostPage = () => {
         title,
         content,
         image: uploadedImageUrl,
-        hashtag: { tags: hashtag.split(',').map(tag => tag.trim()) },
+        hashtag: { tags: tagsArray },
         author_nickname: userData?.userData?.nickname
       });
 
@@ -97,7 +109,11 @@ const CreatePostPage = () => {
       showConfirmButton: false,
       timer: 1500
     });
+    
+    // ToDo : 쿼리키 무효화가 안 됨 -저승사자-
+    queryClient.invalidateQueries({ queryKey: ['posts'] });
     router.push('/posts');
+    router.refresh();
   }
 
   const handleCancel = () => {
@@ -142,6 +158,17 @@ const CreatePostPage = () => {
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
+      <div className="flex gap-[10px] mt-[20px]">
+        {keywords.map((keyword) => (
+          <button
+            key={keyword}
+            className={`px-[15px] py-[10px] rounded-[10px] ${selectedKeyword === keyword ? 'bg-main-color text-white' : 'bg-[#E3E3E3] text-black'}`}
+            onClick={() => handleKeywordClick(keyword)}
+          >
+            {keyword}
+          </button>
+        ))}
+      </div>
       <input
         className="border-b-[1px] border-[#DDDDDD] text-[20px] w-full py-[15px] mt-[20px]"
         placeholder="해쉬태그를 입력하세요 (쉼표로 구분)"

@@ -19,8 +19,6 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
     return <Loading />;
   }
 
-  console.log(post);
-
   const {
     title,
     content,

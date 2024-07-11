@@ -11,23 +11,23 @@ export type Database = {
     Tables: {
       concert_likes: {
         Row: {
-          created_at: string
-          like_id: number
-          post_id: string
-          user_id: string | null
-        }
+          created_at: string;
+          like_id: string;
+          post_id: string;
+          user_id: string | null;
+        };
         Insert: {
-          created_at?: string
-          like_id?: number
-          post_id: string
-          user_id?: string | null
-        }
+          created_at?: string;
+          like_id: string;
+          post_id: string;
+          user_id?: string | null;
+        };
         Update: {
-          created_at?: string
-          like_id?: number
-          post_id?: string
-          user_id?: string | null
-        }
+          created_at?: string;
+          like_id?: string;
+          post_id?: string;
+          user_id?: string | null;
+        };
         Relationships: [
           {
             foreignKeyName: "concert_likes_post_id_fkey"
@@ -47,86 +47,86 @@ export type Database = {
       }
       concert_posts: {
         Row: {
-          age: string | null
-          author_id: string | null
-          content: string | null
-          created_at: string
-          end_date: string | null
-          image: string | null
-          link: string | null
-          post_id: string
-          price: string | null
-          region: string | null
-          start_date: string | null
-          time: number
-          title: string | null
-        }
+          age: string | null;
+          author_id: string | null;
+          content: string | null;
+          created_at: string;
+          end_date: string | null;
+          image: string | null;
+          link: string | null;
+          post_id: string;
+          price: string | null;
+          region: string | null;
+          start_date: string | null;
+          time: string | null;
+          title: string | null;
+        };
         Insert: {
-          age?: string | null
-          author_id?: string | null
-          content?: string | null
-          created_at?: string
-          end_date?: string | null
-          image?: string | null
-          link?: string | null
-          post_id: string
-          price?: string | null
-          region?: string | null
-          start_date?: string | null
-          time: number
-          title?: string | null
-        }
+          age?: string | null;
+          author_id?: string | null;
+          content?: string | null;
+          created_at?: string;
+          end_date?: string | null;
+          image?: string | null;
+          link?: string | null;
+          post_id: string;
+          price?: string | null;
+          region?: string | null;
+          start_date?: string | null;
+          time: string | null;
+          title?: string | null;
+        };
         Update: {
-          age?: string | null
-          author_id?: string | null
-          content?: string | null
-          created_at?: string
-          end_date?: string | null
-          image?: string | null
-          link?: string | null
-          post_id?: string
-          price?: string | null
-          region?: string | null
-          start_date?: string | null
-          time?: number
-          title?: string | null
-        }
+          age?: string | null;
+          author_id?: string | null;
+          content?: string | null;
+          created_at?: string;
+          end_date?: string | null;
+          image?: string | null;
+          link?: string | null;
+          post_id?: string;
+          price?: string | null;
+          region?: string | null;
+          start_date?: string | null;
+          time?: number;
+          title?: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "concert_posts_author_id_fkey1"
-            columns: ["author_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["user_id"]
-          },
-        ]
-      }
+            foreignKeyName: "concert_posts_author_id_fkey1";
+            columns: ["author_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["user_id"];
+          }
+        ];
+      };
       concert_report: {
         Row: {
-          created_at: string
-          post_id: string
-          report_id: number
-          reporter_id: string | null
-        }
+          created_at: string;
+          post_id: string;
+          report_id: number;
+          reporter_id: string | null;
+        };
         Insert: {
-          created_at?: string
-          post_id: string
-          report_id: number
-          reporter_id?: string | null
-        }
+          created_at?: string;
+          post_id: string;
+          report_id: number;
+          reporter_id?: string | null;
+        };
         Update: {
-          created_at?: string
-          post_id?: string
-          report_id?: number
-          reporter_id?: string | null
-        }
+          created_at?: string;
+          post_id?: string;
+          report_id?: number;
+          reporter_id?: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "concert_report_post_id_fkey"
-            columns: ["post_id"]
-            isOneToOne: false
-            referencedRelation: "concert_posts"
-            referencedColumns: ["post_id"]
+            foreignKeyName: "concert_report_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
+            referencedRelation: "concert_posts";
+            referencedColumns: ["post_id"];
           },
           {
             foreignKeyName: "conert_report_reporter_id_fkey"
@@ -139,36 +139,36 @@ export type Database = {
       }
       recommendation_comments: {
         Row: {
-          author_id: string
-          author_nickname: string | null
-          comment_id: number
-          content: string | null
-          created_at: string
-          post_id: number | null
-        }
+          author_id: string;
+          author_nickname: string | null;
+          comment_id: number;
+          content: string | null;
+          created_at: string;
+          post_id: number | null;
+        };
         Insert: {
-          author_id: string
-          author_nickname?: string | null
-          comment_id?: number
-          content?: string | null
-          created_at?: string
-          post_id?: number | null
-        }
+          author_id: string;
+          author_nickname?: string | null;
+          comment_id?: number;
+          content?: string | null;
+          created_at?: string;
+          post_id?: number | null;
+        };
         Update: {
-          author_id?: string
-          author_nickname?: string | null
-          comment_id?: number
-          content?: string | null
-          created_at?: string
-          post_id?: number | null
-        }
+          author_id?: string;
+          author_nickname?: string | null;
+          comment_id?: number;
+          content?: string | null;
+          created_at?: string;
+          post_id?: number | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "recommendation_comments_author_id_fkey"
-            columns: ["author_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["user_id"]
+            foreignKeyName: "recommendation_comments_author_id_fkey";
+            columns: ["author_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["user_id"];
           },
           {
             foreignKeyName: "recommendation_comments_post_id_fkey"
@@ -248,21 +248,21 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "recommendation_posts_author_id_fkey"
-            columns: ["author_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
+            foreignKeyName: "recommendation_posts_author_id_fkey";
+            columns: ["author_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "recommendation_posts_author_id_fkey1"
-            columns: ["author_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["user_id"]
-          },
-        ]
-      }
+            foreignKeyName: "recommendation_posts_author_id_fkey1";
+            columns: ["author_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["user_id"];
+          }
+        ];
+      };
       users: {
         Row: {
           created_at: string

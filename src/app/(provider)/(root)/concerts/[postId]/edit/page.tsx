@@ -26,7 +26,7 @@ const ConcertEditPage = ({ params }: { params: { postId: string } }) => {
   const [user, setUser] = useState(null);
 
   const { data: targetData, isPending } = useQuery({
-    queryKey: ["concerts", postId],
+    queryKey: ["concert"],
     queryFn: async () => {
       const supabase = createClient();
       const { data: post, error } = await supabase
@@ -49,7 +49,7 @@ const ConcertEditPage = ({ params }: { params: { postId: string } }) => {
       return post;
     },
   });
-
+  // console.log(targetData);
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const fileObj = e.target.files[0];
@@ -75,13 +75,30 @@ const ConcertEditPage = ({ params }: { params: { postId: string } }) => {
       queryClient.invalidateQueries({
         queryKey: ["concerts"],
       });
-      router.push(`/concerts`);
+      router.push(`/concerts/${postId}`);
     },
   });
 
   const concertAddHandler = async () => {
-    // TODO 솔씨 유효성 검사 추가해야합니다~~~
+    if (
+      !title.trim() ||
+      !region.trim() ||
+      !startDate.trim() ||
+      !endDate.trim() ||
+      !time ||
+      !age.trim() ||
+      !price.trim() ||
+      !content.trim()
+    ) {
+      alert("관련 링크를 제외한 입력 칸을 모두 채워주세요.");
+      return;
+    }
+    if (imageUrl === "/concert-default-image.png") {
+      alert("공연에 관련된 이미지를 등록해주세요.");
+      return;
+    }
     updatePostMutation.mutate({
+      ...targetData,
       title,
       image: imageUrl,
       region,
@@ -201,7 +218,12 @@ const ConcertEditPage = ({ params }: { params: { postId: string } }) => {
         onChange={(e) => setContent(e.target.value)}
       />
       <div className="flex justify-end gap-[14px] mt-[39px] mb-[100px]">
-        <button className="w-[145px] h-[61px] rounded-[10px] bg-[#E3E3E3]  text-[25px]">
+        <button
+          className="w-[145px] h-[61px] rounded-[10px] bg-[#E3E3E3]  text-[25px]"
+          onClick={() => {
+            router.push(`/concerts/${postId}`);
+          }}
+        >
           취소하기
         </button>
         <button
