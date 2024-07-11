@@ -43,15 +43,12 @@ const Comment = ({ comment }: PropsType) => {
           priority
           className="w-[50px] h-[50px] rounded-full object-cover"
         />
-        <p className="w-[110px] ml-[15px]">
-          {comment.author_nickname.slice(0, 6)}
-        </p>
+        <p className="w-[150px] ml-[15px]">{comment?.users?.nickname}</p>
         {/* 반응형: 상위에 w-full 주고 % 또는 tailwind에서 제공하는 값으로 width주기 ///  min-w 또는 max-w만 px로 값 주기*/}
         <p className="w-auto max-w-[700px]">{comment.content}</p>
       </div>
       <div className="ml-auto flex justify-end items-center gap-[16px] text-[#A0A0A0]">
         <p>{formatDateString(comment.created_at)}</p>
-        {/* 지원: 현재 로그인한 유저의 id와 댓글 작성자의 id를 비교해 같은 경우에만 아래 버튼들 렌더링 */}
         {user?.sub !== comment?.author_id ? (
           <></>
         ) : (

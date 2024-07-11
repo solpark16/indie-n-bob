@@ -23,7 +23,7 @@ const CommentsView = ({ postId }: Params) => {
   } = useQuery({
     queryKey: ["comments", postId],
     queryFn: async () => {
-      const response = await fetch(`${SITE_URL}/api/posts/${postId}/commentss`);
+      const response = await fetch(`${SITE_URL}/api/posts/${postId}/comments`);
       return await response.json();
     },
   });

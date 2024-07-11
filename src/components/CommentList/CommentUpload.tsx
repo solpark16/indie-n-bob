@@ -38,6 +38,11 @@ const CommentUpload = ({ postId }: Params) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["comments", postId] });
+      Swal.fire({
+        title: "댓글이 등록되었습니다.",
+        text: "",
+        icon: "success",
+      });
     },
   });
 
