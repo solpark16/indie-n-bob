@@ -70,18 +70,20 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
             priority
             className="w-[50px] h-[50px] rounded-full object-cover"
           />
-          <p className="w-auto ml-[15px] text-black">
-            {comment.author_nickname}
-          </p>
+          <span className="w-auto ml-[15px] text-black hover:cursor-default">
+            {comment?.users?.nickname}
+          </span>
         </div>
         <div className="w-[250px] flex justify-end items-center gap-[16px] text-[#A0A0A0]">
-          <p>{formatDateString(comment.created_at)}</p>
+          <span className="hover:cursor-default">
+            {formatDateString(comment?.created_at)}
+          </span>
         </div>
       </div>
       <input
         ref={contentRef}
         placeholder="수정할 내용을 입력하세요."
-        defaultValue={comment.content}
+        defaultValue={comment?.content}
         className="w-[850px] h-[25px] text-black text-[20px] mt-[20px] focus:outline-none"
       />
       <div className="flex gap-[20px] pt-[70px] pl-[475px]">
