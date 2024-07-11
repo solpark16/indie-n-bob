@@ -78,7 +78,7 @@ const Header: FC = () => {
 
   return (
     <ul
-      className={`nav nav-tabs flex items-center ${
+      className={`w-[1280px] mx-auto nav nav-tabs flex items-center ${
         user ? "logged-in" : "logged-out"
       }`}
     >
@@ -98,7 +98,7 @@ const Header: FC = () => {
 
       <li className="nav-item mx-2">
         <Link href="/concerts" className="no-underline">
-          <span className="text-[#10AF86] no-underline">공연정보 게시판</span>
+          <span className="text-[#10AF86] no-underline">공연정보</span>
         </Link>
       </li>
 
