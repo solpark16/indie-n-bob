@@ -5,6 +5,9 @@ export type Auth = {
   is_admin: boolean;
   favorite_artist: string[];
   profile_image: string;
+  user_metadata: {
+    nickname: string;
+  };
 };
 
 export type AuthStore = {

@@ -5,10 +5,10 @@ export async function getUser() {
     data: { user },
     error,
   } = await supabase.auth.getUser();
-  
+
   if (error || !user) {
     return null;
   }
-  
+
   return user;
 }
