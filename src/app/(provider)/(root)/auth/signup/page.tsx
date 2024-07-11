@@ -90,26 +90,19 @@ export default function SignUpPage(): JSX.Element {
         console.log(response.data.error);
       } else {
         console.log("회원가입 성공");
+        setAlert(
+          true,
+          `${nickname}님 반갑습니다!👋`,
+          "로그인 페이지로 이동합니다."
+        );
+        setTimeout(() => {
+          router.replace("/auth/login");
+        }, 1500);
       }
     } catch (error) {
       console.log("회원가입 실패");
+      setAlert(true, `Sorry! 🥲`, "이미 사용 중인 이메일 입니다.");
     }
-
-    setAlert(
-      true,
-      `${nickname}님 반갑습니다!👋`,
-      "로그인 페이지로 이동합니다."
-    );
-    setTimeout(() => {
-      router.replace("/auth/login");
-    }, 1500);
-    // Swal.fire({
-    //   icon: "success",
-    //   title: `${nickname}님 반갑습니다!`,
-    //   text: "로그인 페이지로 이동합니다.",
-    //   showConfirmButton: false,
-    //   timer: 1500,
-    // });
   };
 
   return (

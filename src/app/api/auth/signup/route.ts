@@ -8,6 +8,17 @@ export async function POST(request: NextRequest) {
     const { email, password, nickname, is_admin, favorite_artist }: Auth =
       await request.json();
 
+    // 이메일 중복 검사
+    const { data: emailCheckData } = await supabase
+    .from("users")
+    .select("user_id")
+    .eq("email", email)
+    .single();
+
+  if (emailCheckData) {
+    return NextResponse.json({ error: "이미 사용 중인 이메일입니다." }, { status: 400 });
+  }
+
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp(
       {
         email,
@@ -28,7 +39,7 @@ export async function POST(request: NextRequest) {
 
     const { error: insertError } = await supabase.from("users").insert([
       {
-        user_id: signUpData.user.id,
+        user_id: signUpData?.user?.id,
         email,
         nickname,
         is_admin,
@@ -49,7 +60,14 @@ export async function POST(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const supabase = createClient();
   try {
-    const { data: signOutData } = await supabase.auth.getUser();
+    const { data: userDataData, error:userError } = await supabase.auth.getUser();
+
+    if (userError || !userDataData || !userDataData.user) {
+      return NextResponse.json(
+        { error: userError?.message || "사용자 정보를 가져올 수 없습니다." },
+        { status: 400 }
+      );
+    }
 
     const { error: signOutError } = await supabase.auth.signOut();
     if (signOutError) {
@@ -62,7 +80,7 @@ export async function DELETE(request: NextRequest) {
     const { error: deleteError } = await supabase
       .from("users")
       .delete()
-      .eq("user_id", signOutData.user.id);
+      .eq("user_id", userDataData.user.id);
     if (deleteError) {
       return NextResponse.json({ error: deleteError.message }, { status: 400 });
     }
