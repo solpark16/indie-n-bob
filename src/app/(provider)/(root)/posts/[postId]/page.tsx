@@ -5,6 +5,7 @@ import { PostInDB } from "@/types/Post";
 import moment from "moment";
 import Image from "next/image";
 import ButtonsChangePostStatus from "./edit/_components/ButtonsChangePostStatus";
+import Comments from "@/components/CommentList/Comments";
 
 type PostDetailPageProps = {
   params: { postId: number };
@@ -65,6 +66,7 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
         <Hashtag tags={hashtag?.tags} size="sm" />
       </div>
       <BreakLine />
+      <Comments postId={postId} />
     </main>
   );
 }

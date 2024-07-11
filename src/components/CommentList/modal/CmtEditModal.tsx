@@ -1,10 +1,14 @@
 import Image from "next/image";
 import React from "react";
 import CmtToModi from "./CmtToModi";
+import { CommentType } from "@/types/Comments";
 
-//클릭한 comment_id props로 넘겨주기
+interface PropsType {
+  comment: CommentType;
+  onClose: () => void;
+}
 
-const CmtEditModal = ({ onClose }: { onClose: () => void }) => {
+const CmtEditModal = ({ comment, onClose }: PropsType) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="w-[1000px] h-[450px] bg-white rounded-[30px] shadow-modal-custom">
@@ -22,7 +26,7 @@ const CmtEditModal = ({ onClose }: { onClose: () => void }) => {
           <h2 className="w-[900px] mt-[30px] mb-[30px] font-semibold text-[#10AF86] text-[30px]">
             댓글 수정
           </h2>
-          <CmtToModi onClose={onClose} />
+          <CmtToModi comment={comment} onClose={onClose} />
         </div>
       </div>
     </div>
