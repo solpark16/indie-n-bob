@@ -59,8 +59,12 @@ const BestInfo: FC = () => {
                 className="w-[600px] h-[400px] rounded-2xl"
               />
               <div className="p-4">
-                <h3 className="text-lg font-semibold">{post.title}</h3>
-                <p className="text-gray-600 mt-1">{post.content}</p>
+                <h3 className="text-lg font-semibold truncate-2-lines">
+                  {post.title}
+                </h3>
+                <p className="text-gray-600 mt-1 truncate-3-lines">
+                  {post.content}
+                </p>
                 <div className="flex justify-between items-center mt-4">
                   <span className="text-gray-500 text-sm">
                     작성자 {post.author_nickname}
