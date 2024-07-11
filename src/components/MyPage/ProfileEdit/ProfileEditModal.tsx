@@ -2,22 +2,29 @@
 
 import { createClient } from '@/utils/supabase/client';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
+import useUserData from '@/hooks/useUserData';
+import { useQueryClient } from '@tanstack/react-query';
+import Image from 'next/image';
 
-const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData: any }) => {
-  const [nickname, setNickname] = useState(userData.nickname);
-  const [email, setEmail] = useState(userData.email);
-  const [profileImage, setProfileImage] = useState(userData.profile_image);
-  const [favoriteArtist, setFavoriteArtist] = useState(userData.favorite_artist);
-
+const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
   const supabase = createClient();
-  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const { data: userData } = useUserData();
+
+  const [myNickname, setMyNickname] = useState(userData?.userData?.nickname);
+  const [myEmail, setMyEmail] = useState(userData?.userData?.email);
+  const [myProfileImage, setMyProfileImage] = useState(userData?.userData?.profile_image);
+  const [myFavoriteArtist, setMyFavoriteArtist] = useState(userData?.userData?.favorite_artist);
+
+  if (!userData) return <div>유저 정보가 확인되지 않아 마이페이지를 불러올 수 없습니다.</div>;
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (event) => {
-        setProfileImage(event.target?.result as string);
+        setMyProfileImage(event.target?.result as string);
       };
       reader.readAsDataURL(e.target.files[0]);
     }
@@ -25,55 +32,131 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('handleSubmit called');
-    if (profileImage) {
-      const uploadProfileImage = async (file) => {
-        const bucket = "users"
 
-        const { data, error } = await supabase.storage
-        .from(bucket)
-        .upload(`profile/${Date.now()}_${file.name}`, file);
+    // 변경사항이 없는데 완료 버튼을 클릭했는지 별하기 위한 변수
+    let hasChanges = false;
 
-        if (error) {
-          console.error('Error uploading image:', error);
-          return;
+    // 프로필 이미지 변경 로직
+    if (myProfileImage !== userData?.userData?.profile_image) {
+      hasChanges = true;
+      if (myProfileImage) {
+        const uploadProfileImage = async (file) => {
+          const bucket = "users"
+
+          const timestamp = Date.now();
+          const fileName = `${timestamp}_${file.name}`;
+          const { data, error } = await supabase.storage
+            .from(bucket)
+            .upload(`profile/${fileName}`, file);
+
+          if (error) {
+            console.error('버킷 이미지 업로드 실패', error);
+            return;
+          }
+
+          console.log('버킷 이미지 업로드 성공', data);
+
+          const publicUrl = supabase.storage
+            .from(bucket)
+            .getPublicUrl(`profile/${fileName}`).data.publicUrl;
+
+          const { error: updateError } = await supabase
+            .from('users')
+            .update({ profile_image: publicUrl })
+            .eq('user_id', userData.userData.user_id); // userData.userData.user_id로 수정
+
+          if (updateError) {
+            console.error('users 테이블에 프사 url 업데이트 실패:', updateError);
+            return;
+          }
+
+          console.log('유저 프사 변경 성공');
+          setMyProfileImage(publicUrl);
         }
 
-        console.log('Image uploaded:', data);
-
-        const publicUrl = supabase.storage
-          .from(bucket)
-          .getPublicUrl(`profile/${file.name}`).data.publicUrl;
-
-        const { error: updateError } = await supabase
-          .from('users')
-          .update({ profile_image: publicUrl })
-          .eq('user_id', userData.user_id);
-
-        if (updateError) {
-          console.error('Error updating user profile image:', updateError);
+        const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+        const file = fileInput?.files?.[0];
+        if (file) {
+          await uploadProfileImage(file);
+        } else {
+          console.error('파일 선택된 것 없음');
           return;
         }
-
-        console.log('User profile image updated');
-      }
-
-      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
-      const file = fileInput?.files?.[0];
-      if (file) {
-        await uploadProfileImage(file);
       } else {
-        console.error('No file selected');
-        return;
+        console.log('올릴 프로필 사진을 선택하지 않음');
       }
-    } else {
-      console.log('No profile image to upload');
     }
 
+    // 닉네임 변경 로직
+    if (myNickname !== userData?.userData?.nickname && myNickname.length >= 4) {
+      hasChanges = true;
+      const { error: nicknameError } = await supabase
+        .from('users')
+        .update({ nickname: myNickname })
+        .eq('user_id', userData.userData.user_id);
+
+      if (nicknameError) {
+        console.error('users 테이블에 닉네임 업데이트 실패', nicknameError);
+        return;
+      }
+
+      console.log('닉네임 변경 완료');
+      // 닉네임 4글자 (ToDo, 한글-영어 구분?)
+    } else if (myNickname.length < 4) {
+      Swal.fire({
+        icon: 'error',
+        title: '닉네임은 4글자 이상이어야 합니다.',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      return;
+    }
+
+    // 선호하는 뮤지션 변경 로직
+    let favoriteArtistArray = [];
+    if (typeof myFavoriteArtist === 'string') {
+      favoriteArtistArray = myFavoriteArtist.split(',').map(artist => artist.trim());
+    } else if (Array.isArray(myFavoriteArtist)) {
+      favoriteArtistArray = myFavoriteArtist;
+    } else {
+      console.error('Invalid type for myFavoriteArtist');
+      return;
+    }
+
+    if (JSON.stringify(favoriteArtistArray) !== JSON.stringify(userData?.userData?.favorite_artist)) {
+      hasChanges = true;
+      const { error: favoriteArtistError } = await supabase
+        .from('users')
+        .update({ favorite_artist: favoriteArtistArray })
+        .eq('user_id', userData.userData.user_id);
+
+      if (favoriteArtistError) {
+        console.error('users 테이블에 선호하는 뮤지션 변경 실패', favoriteArtistError);
+        return;
+      }
+
+      console.log('선호하는 뮤지션 변경 성공');
+    }
+
+    if (!hasChanges) {
+      Swal.fire({
+        icon: 'info',
+        title: '변경사항이 없습니다.',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      return;
+    }
+
+    Swal.fire({
+      icon: 'success',
+      title: '프로필 수정이 완료되었습니다.',
+      showConfirmButton: false,
+      timer: 1500
+    });
+
     onClose();
-    // 완료 버튼을 눌렀을 때 프로필 변경 로직이 성공한 동작한 경우, 의미없는 쿼리스트링 포함시켜서 마이 페이지 캐싱 데이터 삭제
-    router.push('/mypage');
-    // router.push(`/mypage?timestamp=${new Date().getTime()}`);
+    queryClient.invalidateQueries({ queryKey: ['myInfo'] });
   };
 
   return (
@@ -94,7 +177,13 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
         {/* 프로필 이미지 */}
         <div className="flex justify-center mb-2">
           <div className="relative">
-            <img src={profileImage} alt="Profile" className="w-52 h-52 rounded-full border border-gray-300" />
+            <Image
+              src={myProfileImage}
+              alt="Profile"
+              width={52}
+              height={52}
+              className="w-52 h-52 rounded-full border border-gray-300"
+            />
           </div>
         </div>
         <div className="flex justify-center mb-6">
@@ -109,7 +198,7 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
           <label className="block text-gray-700 mb-2">아이디</label>
           <input
             type="text"
-            value={email}
+            value={myEmail}
             readOnly
             className="w-full p-2 border rounded bg-gray-100 cursor-not-allowed"
           />
@@ -120,8 +209,8 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
           <label className="block text-gray-700 mb-2">닉네임</label>
           <input
             type="text"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
+            value={myNickname}
+            onChange={(e) => setMyNickname(e.target.value)}
             className="w-full p-2 border rounded"
           />
         </div>
@@ -131,8 +220,8 @@ const ProfileEditModal = ({ onClose, userData }: { onClose: () => void, userData
           <label className="block text-gray-700 mb-2">선호하는 뮤지션</label>
           <input
             type="text"
-            value={favoriteArtist}
-            onChange={(e) => setFavoriteArtist(e.target.value)}
+            value={myFavoriteArtist as string}
+            onChange={(e) => setMyFavoriteArtist(e.target.value)}
             className="w-full p-2 border rounded"
           />
         </div>
