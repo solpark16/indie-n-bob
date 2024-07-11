@@ -8,20 +8,11 @@ import useUserData from "@/hooks/useUserData";
 interface User {
   email: string;
   nickname: string;
-  userData: {
-    email: string;
-    is_admin: boolean;
-    nickname: string;
-    profile_image: string;
-    user_id: string;
-  };
 }
 
 const Header: FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const { data: userData } = useUserData<User>();
-
-  console.log(userData);
 
   const supabase = createClient();
 
@@ -33,7 +24,7 @@ const Header: FC = () => {
         console.error("Error getting session:", sessionError);
         setUser(null);
       } else {
-        console.log("Session Data:", sessionData);
+        //console.log("Session Data:", sessionData);
         if (sessionData.session?.user) {
           const { data: profileData, error: profileError } = await supabase
             .from("users")
@@ -121,28 +112,56 @@ const Header: FC = () => {
           </Link>
         </li>
 
-        <li className="nav-item ms-auto relative mx-2">
-          <a
-            className="nav-link dropdown-toggle text-main-color"
-            data-bs-toggle="dropdown"
-            href="#"
-            role="button"
-            aria-expanded="false"
-          >
-            {user && userData && userData?.userData
-              ? userData?.userData?.nickname
-              : ""}
-          </a>
-          <ul className="dropdown-menu absolute">
-            <li>
-              <Link className="dropdown-item" href="/mypage">
-                마이페이지
+        {userData ? (
+          <li className="nav-item ms-auto relative mx-2">
+            <a
+              className="nav-link dropdown-toggle text-main-color"
+              data-bs-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-expanded="false"
+            >
+              <div className="flex items-center">
+                <p className="w-10 h-10 rounded-full overflow-hidden mb-0 mr-2">
+                  <img src={userData.userData.profile_image} />
+                </p>
+                {user && userData && userData?.userData
+                  ? userData?.userData?.nickname
+                  : ""}
+              </div>
+            </a>
+            <ul className="dropdown-menu absolute">
+              <li>
+                <Link className="dropdown-item" href="/mypage">
+                  마이페이지
+                </Link>
+              </li>
+              <li className="nav-item">
+                <button
+                  onClick={handleLogout}
+                  className="dropdown-item no-underline text-[#10AF86]"
+                >
+                  로그아웃
+                </button>
+              </li>
+            </ul>
+          </li>
+        ) : (
+          <>
+            <li className="nav-item mx-2 ms-auto">
+              <Link href="/auth/login" className="no-underline">
+                <p className="text-[#10AF86] mb-0">로그인</p>
               </Link>
             </li>
-          </ul>
-        </li>
+            <li className="nav-item mx-2">
+              <Link href="/auth/signup" className="no-underline">
+                <p className="text-[#2e2e2e] mb-0">회원가입</p>
+              </Link>
+            </li>
+          </>
+        )}
 
-        {user ? (
+        {/* {user ? (
           <li className="nav-item mx-2">
             <button
               onClick={handleLogout}
@@ -164,7 +183,7 @@ const Header: FC = () => {
               </Link>
             </li>
           </>
-        )}
+        )} */}
       </ul>
     </div>
   );

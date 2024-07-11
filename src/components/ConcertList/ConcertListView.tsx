@@ -6,11 +6,14 @@ import ConcertSquare from "../ConcertSquare";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
+import { useAlertStore } from "@/zustand/alert.store";
 
 function ConcertListView() {
   const [user, setUser] = useState(null);
   const [sortedConcerts, setSortedConcerts] = useState([]);
   const [activeSort, setActiveSort] = useState("latest");
+  const { setAlert } = useAlertStore();
+
   // TODO 나중에 추론한 데이터로 변경
   const { data: concerts, isSuccess } = useQuery({
     queryKey: ["concerts"],

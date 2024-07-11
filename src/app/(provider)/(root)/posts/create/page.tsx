@@ -117,6 +117,7 @@ const CreatePostPage = () => {
     Swal.fire({
       icon: "success",
       title: "게시글을 등록하였습니다.",
+      text: "목록 페이지로 이동합니다.",
       showConfirmButton: false,
       timer: 1500,
     });
