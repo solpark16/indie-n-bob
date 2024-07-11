@@ -38,9 +38,9 @@ const CommentsView = ({ postId }: Params) => {
 
   return (
     <div className="w-full mt-[5px] text-[18px]">
-      <p className="w-full h-[90px] flex items-center text-[#8D8D8D] ">
+      <span className="w-full h-[90px] flex items-center text-[#8D8D8D] ">
         댓글 ({comments?.length})
-      </p>
+      </span>
       {comments?.map((comment) => (
         <Comment key={comment.comment_id} comment={comment} />
       ))}

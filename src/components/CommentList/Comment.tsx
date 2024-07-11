@@ -17,7 +17,6 @@ const Comment = ({ comment }: PropsType) => {
   const [userData, setUserData] = useState<User>();
 
   useEffect(() => {
-    //현재 로그인된 사용자의 프로필 정보를 가져오는 메서드
     const supabase = createClient();
     const fetchData = async (): Promise<void> => {
       const {
@@ -43,18 +42,21 @@ const Comment = ({ comment }: PropsType) => {
           priority
           className="w-[50px] h-[50px] rounded-full object-cover"
         />
-        <p className="w-[150px] ml-[15px]">{comment?.users?.nickname}</p>
-        {/* 반응형: 상위에 w-full 주고 % 또는 tailwind에서 제공하는 값으로 width주기 ///  min-w 또는 max-w만 px로 값 주기*/}
-        <p className="w-auto max-w-[700px]">{comment.content}</p>
+        <span className="w-32 max-w-[130px] ml-[15px]">
+          {comment?.users?.nickname}
+        </span>
+        <span className="w-auto max-w-[700px]">{comment.content}</span>
       </div>
-      <div className="ml-auto flex justify-end items-center gap-[16px] text-[#A0A0A0]">
-        <p>{formatDateString(comment.created_at)}</p>
+      <div className="ml-auto flex justify-end items-center gap-[10px] text-[#A0A0A0]">
+        <span className="w-auto min-w-[140px]">
+          {formatDateString(comment.created_at)}
+        </span>
         {user?.sub !== comment?.author_id ? (
           <></>
         ) : (
           <div className="w-[95px] h-[20px] flex justify-between items-center">
             <CmtEditBtn comment={comment} />
-            <p>|</p>
+            <span>|</span>
             <CmtDelBtn comment={comment} />
           </div>
         )}
