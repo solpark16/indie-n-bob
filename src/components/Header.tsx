@@ -3,14 +3,26 @@
 import { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
+import useUserData from "@/hooks/useUserData";
 
 interface User {
   email: string;
   nickname: string;
+  userData: {
+    email: string;
+    is_admin: boolean;
+    nickname: string;
+    profile_image: string;
+    user_id: string;
+  };
 }
 
 const Header: FC = () => {
   const [user, setUser] = useState<User | null>(null);
+  const { data: userData } = useUserData<User>();
+
+  console.log(userData);
+
   const supabase = createClient();
 
   const fetchUser = async () => {
@@ -117,7 +129,9 @@ const Header: FC = () => {
             role="button"
             aria-expanded="false"
           >
-            {user ? user.nickname : ""}
+            {user && userData && userData?.userData
+              ? userData?.userData?.nickname
+              : ""}
           </a>
           <ul className="dropdown-menu absolute">
             <li>

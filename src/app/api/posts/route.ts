@@ -12,5 +12,7 @@ export async function GET() {
   const { data: posts } = await supabase
     .from("recommendation_posts")
     .select("*");
+
+    
   return NextResponse.json(posts);
 }
