@@ -21,7 +21,7 @@ export async function GET(_: NextRequest, params: parameter) {
   const supabase = createClient();
   const { data: post } = await supabase
     .from(TABLE_NAME)
-    .select()
+    .select("*, author: author_id(nickname, profile_image)")
     .eq(PK_COLUMN_NAME, id)
     .single();
 
@@ -33,8 +33,7 @@ export async function GET(_: NextRequest, params: parameter) {
  * @returns post 객체
  */
 export async function POST(request: NextRequest) {
-  const { title, content, nickname, hashtags, image }: Post =
-    await request.json();
+  const { title, content, nickname, hashtags, image }: Post<false> = await request.json();
 
   const supabase = createClient();
   const { data: post } = await supabase
@@ -54,38 +53,28 @@ export async function POST(request: NextRequest) {
 /**
  * 게시글 Update
  */
-export async function PUT(request: NextRequest, params: parameter) {
-  // TODO 동작 확인 필요
-  const {
-    params: { postId: id },
-  } = params;
-  const { title, content, nickname, hashtags, image }: Post =
-    await request.json();
+export async function PUT(request: NextRequest, { params : {postId: id} }: parameter) {
+  const { title, content, hashtags, image } : Post<false> = await request.json();
 
   const supabase = createClient();
-  const { data: post } = await supabase
+  const { data: post, error } =await supabase
     .from(TABLE_NAME)
     .update({
-      title,
-      content,
-      author_nickname: nickname,
-      hashtag: { tags: [...hashtags] },
-      image,
+      post_id : Number(id),
+      title, content,
+      image : image,
+      hashtag: { tags: hashtags },
     })
     .eq(PK_COLUMN_NAME, id)
     .select();
-
+  
   return NextResponse.json(post);
 }
 
 /**
  * 게시글 Delete
  */
-export async function DELETE(_: NextRequest, params: parameter) {
-  // TODO 동작 확인 필요
-  const {
-    params: { postId: id },
-  } = params;
+export async function DELETE(_: NextRequest, { params : {postId: id} }: parameter) {
   const supabase = createClient();
   const { error } = await supabase
     .from(TABLE_NAME)

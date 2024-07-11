@@ -1,18 +1,17 @@
-export type Post = {
-  title: string;
-  content: string;
-  nickname: string;
-  hashtags: string[]; // TODO 일단은 걍 두개 쓰자
-  image?: string;
-};
+import { Tables } from './supabase';
 
-// TODO supabase 타입 추론 전까지 잠시 쓸 것
-export type PostInDB = {
-  post_id: number;
-  created_at: Date;
-  author_id: string;
-  author_nickname: string;
-  hashtag: { tags: string[] };
-  likes?: number; // TODO DB 조인해서 가져와야함
-  image?: string;
-} & Post;
+export type Post<hasFullColumns extends boolean = true>
+  = (hasFullColumns extends true
+    ? (Tables<"recommendation_posts"> & { likes : number })
+    : {
+      title: string;
+      content: string;
+      nickname?: string | null;
+      hashtags: string[];
+      image?: string | null;
+    });
+
+/**
+ *   author 부분은 Tables<"users">의 일부를 가져온 것
+ */
+export type PostWithAuthor = Post<true> & { author: { nickname : string, profile_image : string} }

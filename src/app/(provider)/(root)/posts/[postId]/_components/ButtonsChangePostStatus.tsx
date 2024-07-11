@@ -18,7 +18,7 @@ function ButtonsChangePostStatus({ postId }: Props) {
 
   return (
     <>
-      <Link href={`/posts/${postId}/edit`} className="text-primary mr-4">
+      <Link href={`/posts/${postId}/edit`} className="text-indiePrimary mr-4">
         수정
       </Link>
       <button onClick={handleDeletePost} className="text-gray-400 mr-2">

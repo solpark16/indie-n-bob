@@ -1,11 +1,11 @@
-import { PostInDB } from "@/types/Post";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 import { HeartIcon } from "../../../../../components/HeartIcon";
+import { PostWithAuthor } from "@/types/Post";
 
 type PostSqureProps = {
-  post: PostInDB;
+  post: PostWithAuthor;
 };
 
 function PostItemSqure({ post }: PostSqureProps) {
