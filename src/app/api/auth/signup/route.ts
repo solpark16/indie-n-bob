@@ -50,7 +50,6 @@ export async function DELETE(request: NextRequest) {
   const supabase = createClient();
   try {
     const { data: signOutData } = await supabase.auth.getUser();
-    console.log("signOutData", signOutData);
 
     const { error: signOutError } = await supabase.auth.signOut();
     if (signOutError) {
