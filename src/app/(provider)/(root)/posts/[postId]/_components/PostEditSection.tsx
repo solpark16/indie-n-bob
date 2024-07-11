@@ -4,12 +4,14 @@ import BreakLine from "@/components/BreakLine";
 import Loading from "@/components/Loading";
 import SITE_URL from "@/constant";
 import { Post } from "@/types/Post";
+import { getUser } from "@/utils/getUser";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
   ChangeEventHandler,
   FormEventHandler,
   useCallback,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -42,7 +44,7 @@ function PostEditSection({ id }: Props) {
     queryKey: ["post", id],
     queryFn: async () => {
       const response = await fetch(`${SITE_URL}/api/posts/${id}`);
-      const post = await response.json();
+      const { data: post } = await response.json();
       setPost(post);
 
       const { title, content, hashtag = { tags: [] } } = post;
@@ -52,9 +54,22 @@ function PostEditSection({ id }: Props) {
     },
   });
 
-  // TODO 본인 외에 다른 사람이 수정하러 들어오면 튕겨내기
-
   const route = useRouter();
+  useEffect(() => {
+    if (!post) return;
+
+    (async () => {
+      const user = await getUser();
+      const isOtherPost: boolean = user ? user.id !== post.author_id : false;
+      if (isOtherPost) {
+        alert("다른 사람의 글은 수정할 수 없습니다.");
+        route.replace(`/posts/${id}`);
+        return;
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [post]);
+
   if (isLoading) {
     return <Loading />;
   } else if (isSuccess && !post) {
@@ -67,11 +82,16 @@ function PostEditSection({ id }: Props) {
     if (!post) {
       return;
     }
+
+    const refImageSrc = refInputFile.current?.value;
+    const imageSrc = (refImageSrc?.startsWith("http") && refImageSrc) || post.image;
+
     const newPost: Post<false> = {
       title,
       content,
-      image: refInputFile.current?.value || post.image,
-      nickname: post.author_nickname,
+      image: imageSrc,
+      authorId: post.author_id || "",
+      nickname: post.author_nickname || "",
       hashtags: tagArray,
     };
 
@@ -80,15 +100,20 @@ function PostEditSection({ id }: Props) {
       body: JSON.stringify(newPost),
     })
       .then(async (response) => {
-        const data = await response.json();
-        console.log(data);
-        // route.push("/posts");
+        const { error } = await response.json();
+        if (error) {
+          console.error(error);
+          return;
+        }
+        route.push("/posts");
       })
       .catch((e) => {
         alert("새로고침 후 재시도 해주세요");
         console.error(e);
       });
   };
+
+  // TODO 이미지 업로드 완료 등록 버튼 disabled 처리 필요요
 
   return (
     <section>

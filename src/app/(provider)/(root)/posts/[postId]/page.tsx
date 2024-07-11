@@ -3,6 +3,7 @@ import Comments from "@/components/CommentList/Comments";
 import Hashtag from "@/components/Hashtag";
 import Loading from "@/components/Loading";
 import SITE_URL from "@/constant";
+import { getAuthUesrOnServer } from "@/utils/getAuthUesrOnServer";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,6 +36,7 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
   const {
     title,
     content,
+    author_id,
     image,
     created_at,
     hashtag,
@@ -42,7 +44,9 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
   } = post;
   const createdAt = moment(created_at).format("yyyy.MM.DD");
 
-  const isOwnedUser: boolean = true; // TODO 로그인한 사용자 아이디 === author_id 체크 필요
+  const user = await getAuthUesrOnServer();
+  console.log(user, author_id);
+  const isOwnedUser: boolean = user ? user.id === author_id : false;
 
   return (
     <main className="py-8">

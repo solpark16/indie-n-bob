@@ -6,8 +6,6 @@ const BUCKET_NAME = "posts";
 const BUCKET_PATH = "recommendation";
 
 export async function upload(file: File): Promise<string> {
-  console.log(file, file.name);
-
   const fileEx = file.name.split(".").pop();
   const fileName = `${Date.now()}-${Math.random()}.${fileEx}`;
   const filePath = `${BUCKET_PATH}/${fileName}`;
