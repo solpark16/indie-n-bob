@@ -1,5 +1,4 @@
 import Header from "@/components/Header";
-import Carousel from "@/components/Mainpage/Carousel";
 import { PropsWithChildren } from "react";
 
 function RootLayout({ children }: PropsWithChildren) {

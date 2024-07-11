@@ -13,7 +13,7 @@ export default function HomePage() {
     <div>
       <button onClick={buttonClick}>클릭</button>
       <AlertUi />
-      <Carousel />
+
       <MainPage />
     </div>
   );
