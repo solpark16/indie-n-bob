@@ -31,3 +31,8 @@ export type CommentWriter = {
     sub: string;
   };
 };
+
+export type PaginationParams = {
+  limit: number;
+  offset: number;
+};
