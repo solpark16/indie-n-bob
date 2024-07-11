@@ -1,12 +1,12 @@
 'use client';
 
-import supabase from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import React, { useState } from "react";
-import Swal from 'sweetalert2';
 import useUserData from "@/hooks/useUserData";
+import supabase from "@/utils/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Swal from 'sweetalert2';
 
 const CreatePostPage = () => {
   const router = useRouter();
@@ -74,7 +74,7 @@ const CreatePostPage = () => {
       return;
     }
 
-    let uploadedImageUrl = imageUrl;
+    let uploadedImageUrl :string | undefined = imageUrl;
     if (imageFile) {
       uploadedImageUrl = await postImageUpload(imageFile);
     }
