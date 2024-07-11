@@ -8,6 +8,7 @@ import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 import ButtonsChangePostStatus from "./_components/ButtonsChangePostStatus";
+import LikeButton from "./_components/LikeButton";
 
 type PostDetailPageProps = {
   params: { postId: number };
@@ -77,8 +78,9 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
         )}
         <div className="py-10">{content}</div>
       </div>
-      <div className="pt-18 pb-4">
+      <div className="pt-18 pb-4 flex justify-between items-center">
         <Hashtag tags={hashtag?.tags} size="sm" />
+        <LikeButton postId={postId}/>
       </div>
       <BreakLine />
       <Comments postId={postId} />
