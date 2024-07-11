@@ -66,17 +66,3 @@ export async function PUT(request: NextRequest) {
     );
   }
 }
-
-// 댓글 삭제
-export async function DELETE(request: NextRequest, commentId: DeleteParameter) {
-  const supabase = createClient();
-  console.log(commentId);
-  const { data: deletedComment, error } = await supabase
-    .from(TABLE_NAME)
-    .delete()
-    .eq("comment_id", commentId);
-
-  console.log(deletedComment);
-
-  return NextResponse.json(error ? error : `댓글(${commentId}) 삭제 완료`);
-}

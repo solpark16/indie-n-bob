@@ -13,7 +13,7 @@ interface PropsType {
 }
 
 const CmtToDel = ({ comment, onClose }: PropsType) => {
-  const { post_id, comment_id } = comment;
+  const { post_id } = comment;
   const queryClient = useQueryClient();
 
   const { mutate: deleteComment } = useMutation({
@@ -22,11 +22,16 @@ const CmtToDel = ({ comment, onClose }: PropsType) => {
         method: "DELETE",
       });
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["comments", String(post_id)],
+      });
+    },
   });
 
   const handleDelbtn = (commentId: number) => {
-    //console.log(commentId);
     deleteComment(commentId);
+    onClose();
   };
 
   return (

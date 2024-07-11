@@ -8,12 +8,13 @@ type DeleteParameter = {
 };
 
 // 댓글 삭제
-export async function DELETE(request: NextRequest, params: DeleteParameter) {
+export async function DELETE(_: NextRequest, params: DeleteParameter) {
   const supabase = createClient();
   const {
     params: { commentId },
   } = params;
-  const { data: deletedComment, error } = await supabase
+
+  const { error } = await supabase
     .from(TABLE_NAME)
     .delete()
     .eq("comment_id", commentId);

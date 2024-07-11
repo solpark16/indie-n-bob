@@ -53,7 +53,6 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
         content: contentRef?.current?.value,
       };
 
-      console.log(editedComment);
       editComment(editedComment);
       onClose();
     }
