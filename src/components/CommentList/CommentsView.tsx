@@ -11,7 +11,8 @@ import ErrorGetComments from "./ErrorGetComments";
 const CommentsView = ({ postId }: Params) => {
   const [pageNo, setPageNo] = useState(1); // 페이지 넘버
   const [pageSize, setPageSize] = useState(1); // 클릭 가능한 페이지 수
-  const [commentCount, setCommentCount] = useState(5); // 페이지당 댓글 수
+  const COMMENT_COUNT = 5;
+  //const [commentCount, setCommentCount] = useState(5); // 페이지당 댓글 수
   const [clickedPage, setClickedPage] = useState(1); // 클릭한 페이지 (색상변경용)
 
   const { data: cmtLength } = useQuery({
@@ -33,8 +34,8 @@ const CommentsView = ({ postId }: Params) => {
     queryFn: async () => {
       const response = await fetch(
         `${SITE_URL}/api/posts/${postId}/comments?limit=${
-          commentCount + (pageNo - 1) * commentCount
-        }&offset=${(pageNo - 1) * commentCount}`
+          COMMENT_COUNT + (pageNo - 1) * COMMENT_COUNT
+        }&offset=${(pageNo - 1) * COMMENT_COUNT}`
       );
       return await response.json();
     },
@@ -42,9 +43,9 @@ const CommentsView = ({ postId }: Params) => {
 
   useEffect(() => {
     if (comments && cmtLength) {
-      setPageSize(Math.ceil(cmtLength / commentCount));
+      setPageSize(Math.ceil(cmtLength / COMMENT_COUNT));
     }
-  }, [comments]);
+  }, [comments, cmtLength]);
 
   const handleClickPageBtn = async (num: number) => {
     setClickedPage(num);
