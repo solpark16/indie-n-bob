@@ -24,7 +24,6 @@ const Comment = ({ comment }: PropsType) => {
         error: getUserError,
       } = await supabase.auth.getUser();
       setUserData(user);
-      console.log(user);
       return;
     };
     fetchData();
@@ -32,13 +31,9 @@ const Comment = ({ comment }: PropsType) => {
 
   const user = userData?.user_metadata;
 
-  //console.log(user.sub, comment.author_id);
-
   return (
     <div className="w-full h-[95px] flex justify-between items-center border-b border-[#dddddd]">
       <div className="w-full h-[95px] flex justify-start items-center">
-        {/* 로그인/회원가입 기능 dev에 합쳐진 이후에 */}
-        {/* 댓글 작성자의 id를 갖고 user 테이블에서 profile_image 가져오기 => CommentsView.tsx에서 !!!*/}
         <Image
           src={comment?.users?.profile_image}
           width={50}
@@ -47,7 +42,9 @@ const Comment = ({ comment }: PropsType) => {
           priority
           className="w-[50px] h-[50px] rounded-full object-cover"
         />
-        <p className="w-[110px] ml-[15px]">{comment.author_nickname}</p>
+        <p className="w-[110px] ml-[15px]">
+          {comment.author_nickname.slice(0, 6)}
+        </p>
         {/* 반응형: 상위에 w-full 주고 % 또는 tailwind에서 제공하는 값으로 width주기 ///  min-w 또는 max-w만 px로 값 주기*/}
         <p className="w-[700px]">{comment.content}</p>
       </div>

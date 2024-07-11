@@ -8,15 +8,12 @@ import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import React, { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 
-// 댓글 45자 이내
-
 const CommentUpload = ({ postId }: Params) => {
   const contentRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const [userData, setUserData] = useState<CommentWriter>();
 
   useEffect(() => {
-    //현재 로그인된 사용자의 프로필 정보를 가져오는 메서드
     const supabase = createClient();
     const fetchData = async (): Promise<void> => {
       const {
@@ -39,7 +36,6 @@ const CommentUpload = ({ postId }: Params) => {
       });
     },
     onSuccess: () => {
-      // 무슨 타입이지
       queryClient.invalidateQueries({ queryKey: ["comments", postId] });
     },
   });
@@ -58,9 +54,9 @@ const CommentUpload = ({ postId }: Params) => {
     }
     const newComment: NewCommentType = {
       post_id: +postId,
-      author_nickname: user.nickname, // 로그인한 유저 닉네임
+      author_nickname: user.nickname,
       content: contentRef.current.value,
-      author_id: user.sub, //로그인한 유저의 아이디
+      author_id: user.sub,
     };
     createComment(newComment);
     contentRef.current.value = "";

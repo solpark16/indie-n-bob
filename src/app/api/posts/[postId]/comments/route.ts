@@ -1,4 +1,4 @@
-import { CommentType, NewCommentType } from "@/types/Comments";
+import { CommentType } from "@/types/Comments";
 import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -45,15 +45,29 @@ export async function POST(request: NextRequest) {
 
 // 댓글 수정
 export async function PUT(request: NextRequest) {
-  const supabase = createClient();
-  const item = await request.json();
-  const { comment_id } = item;
-  const { data: editedComment } = await supabase
-    .from(TABLE_NAME)
-    .update(item)
-    .eq("comment_id", comment_id);
+  try {
+    const supabase = createClient();
+    const item = await request.json();
+    const { comment_id } = item;
+    const { data: editedComment, error } = await supabase
+      .from(TABLE_NAME)
+      .update(item)
+      .eq("comment_id", comment_id)
+      .select();
 
-  return NextResponse.json(editedComment);
+    if (error) {
+      console.error("Supabase update error:", error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    console.log(editedComment);
+    return NextResponse.json(editedComment);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
 }
 
 // 댓글 삭제

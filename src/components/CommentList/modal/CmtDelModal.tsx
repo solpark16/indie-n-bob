@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React from "react";
-import CmtToModi from "./CmtToModi";
 import CmtToDel from "./CmtToDel";
 
 const CmtDelModal = ({ onClose }: { onClose: () => void }) => {

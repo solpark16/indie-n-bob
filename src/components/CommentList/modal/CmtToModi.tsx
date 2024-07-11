@@ -1,12 +1,12 @@
 "use client";
 
-import { CommentType } from "@/types/Comments";
+import SITE_URL from "@/constant";
+import { CommentType, NewCommentType } from "@/types/Comments";
 import { formatDateString } from "@/utils/formatDateString";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useRef } from "react";
 import Swal from "sweetalert2";
-
-//댓글 45자 이내
 
 interface PropsType {
   comment: CommentType;
@@ -15,7 +15,22 @@ interface PropsType {
 
 const CmtToModi = ({ comment, onClose }: PropsType) => {
   const contentRef = useRef<HTMLInputElement>(null);
-  const { post_id, author_id, author_nickname } = comment;
+  const { post_id, author_id, author_nickname, comment_id } = comment;
+  const queryClient = useQueryClient();
+
+  const { mutate: editComment } = useMutation({
+    mutationFn: async (item: NewCommentType) => {
+      await fetch(`${SITE_URL}/api/posts/${item.post_id}/comments`, {
+        method: "PUT",
+        body: JSON.stringify(item),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["comments", String(post_id)],
+      });
+    },
+  });
 
   const handleEditBtn = () => {
     if (contentRef.current) {
@@ -34,10 +49,13 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
         post_id,
         author_id,
         author_nickname,
+        comment_id,
         content: contentRef?.current?.value,
       };
 
       console.log(editedComment);
+      editComment(editedComment);
+      onClose();
     }
   };
 
