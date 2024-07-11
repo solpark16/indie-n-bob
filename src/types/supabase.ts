@@ -61,6 +61,10 @@ export type Database = {
           age: string | null;
           price: string | null;
           link: string | null;
+          users?: {
+            nickname: string | null;
+            profile_image: string | null;
+          };
         };
         Insert: {
           author_id?: string | null;

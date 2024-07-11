@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const ConcertDeleteButton = ({ postId }: { postId: number }) => {
+const ConcertDeleteButton = ({ postId }: { postId: string }) => {
   const router = useRouter();
 
   const concertDeleteHandler = async () => {

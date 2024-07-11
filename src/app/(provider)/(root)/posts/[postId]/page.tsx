@@ -14,8 +14,6 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
   const response = await fetch(`${SITE_URL}/api/posts/${postId}`);
   const post: PostInDB = await response.json();
 
-  console.log(post);
-
   const {
     title,
     content,
