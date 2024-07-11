@@ -9,6 +9,10 @@ const config: Config = {
   ],
   theme: {
     colors: {
+      ...colors,
+      indiePrimary: "#10AF86",
+      indieSecondary: "#A04741",
+      indieBlack: "#2E2E2E",
       "main-color": "#10AF86",
       "sub-color": "#A04741",
       "font-color": "#2E2E2E",
