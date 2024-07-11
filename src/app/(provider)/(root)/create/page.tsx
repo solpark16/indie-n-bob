@@ -6,11 +6,13 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Swal from 'sweetalert2';
 import useUserData from "@/hooks/useUserData";
+import { useQueryClient } from "@tanstack/react-query";
 
 const CreatePostPage = () => {
   const router = useRouter();
   const { data: userData } = useUserData();
   const defaultImageUrl = "https://stfauxrjudaltlmspsnv.supabase.co/storage/v1/object/public/posts/public/post_default.png";
+  const queryClient = useQueryClient();
 
   const [title, setTitle] = useState("");
   const [imageUrl, setImageUrl] = useState(defaultImageUrl);
@@ -107,7 +109,11 @@ const CreatePostPage = () => {
       showConfirmButton: false,
       timer: 1500
     });
+    
+    // ToDo : 쿼리키 무효화가 안 됨 -저승사자-
+    queryClient.invalidateQueries({ queryKey: ['posts'] });
     router.push('/posts');
+    router.refresh();
   }
 
   const handleCancel = () => {
