@@ -12,7 +12,7 @@ type DeleteParameter = {
   commentId: number;
 };
 
-// 게시물 당 댓글목록 Read
+// 게시물 당 댓글목록 Read (페이지네이션)
 export async function GET(request: NextRequest, params: GetParameter) {
   const {
     params: { postId: id },
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest, params: GetParameter) {
     .eq(PK_COLUMN_NAME, id)
     .range(offset, offset + limit - 1);
 
-  comments.sort(
+  comments?.sort(
     (a, b) =>
       new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
   );

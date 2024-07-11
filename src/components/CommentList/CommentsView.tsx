@@ -14,6 +14,16 @@ const CommentsView = ({ postId }: Params) => {
   const [commentCount, setCommentCount] = useState(5); // 페이지당 댓글 수
   const [clickedPage, setClickedPage] = useState(1); // 클릭한 페이지 (색상변경용)
 
+  const { data: cmtLength } = useQuery({
+    queryKey: ["comments", postId],
+    queryFn: async () => {
+      const response = await fetch(
+        `${SITE_URL}/api/posts/${postId}/comments/length`
+      );
+      return await response.json();
+    },
+  });
+
   const {
     data: comments,
     isPending,
@@ -31,8 +41,8 @@ const CommentsView = ({ postId }: Params) => {
   });
 
   useEffect(() => {
-    if (comments) {
-      setPageSize(Math.ceil(comments.length / commentCount));
+    if (comments && cmtLength) {
+      setPageSize(Math.ceil(cmtLength / commentCount));
     }
   }, [comments]);
 
@@ -51,7 +61,7 @@ const CommentsView = ({ postId }: Params) => {
   return (
     <div className="w-full mt-[5px] text-[18px]">
       <span className="w-full h-[90px] flex items-center text-[#8D8D8D] ">
-        댓글 ({comments?.length})
+        댓글 ({cmtLength})
       </span>
       {comments?.map((comment) => (
         <Comment key={comment.comment_id} comment={comment} />
