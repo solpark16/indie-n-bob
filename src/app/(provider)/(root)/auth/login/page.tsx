@@ -65,7 +65,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <div className="w-[1280px] mx-auto flex flex-col justify-center">
+      <div className="flex flex-col justify-center">
         <h1 className="text-center text-2xl font-bold text-main-color my-10">
           로그인
         </h1>

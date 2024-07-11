@@ -11,6 +11,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { useAuthStore } from "@/zustand/auth.store";
+import { useAlertStore } from "@/zustand/alert.store";
+import { AlertUi } from "@/components/Alert";
 
 export default function SignUpPage(): JSX.Element {
   const {
@@ -27,6 +29,7 @@ export default function SignUpPage(): JSX.Element {
     setFavoriteArtists,
     setError,
   } = useAuthStore();
+  const { setAlert } = useAlertStore();
   const router = useRouter();
 
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,19 +95,26 @@ export default function SignUpPage(): JSX.Element {
       console.log("회원가입 실패");
     }
 
-    Swal.fire({
-      icon: "success",
-      title: `${nickname}님 반갑습니다!`,
-      text: "로그인 페이지로 이동합니다.",
-      showConfirmButton: false,
-      timer: 1500,
-    });
-    router.replace("/auth/login");
+    setAlert(
+      true,
+      `${nickname}님 반갑습니다!👋`,
+      "로그인 페이지로 이동합니다."
+    );
+    setTimeout(() => {
+      router.replace("/auth/login");
+    }, 1500);
+    // Swal.fire({
+    //   icon: "success",
+    //   title: `${nickname}님 반갑습니다!`,
+    //   text: "로그인 페이지로 이동합니다.",
+    //   showConfirmButton: false,
+    //   timer: 1500,
+    // });
   };
 
   return (
     <>
-      <div className="w-[1280px] mx-auto flex flex-col justify-center">
+      <div className="flex flex-col justify-center">
         <h1 className="text-center text-2xl font-bold text-main-color my-10">
           회원가입
         </h1>
@@ -204,6 +214,7 @@ export default function SignUpPage(): JSX.Element {
               </button>
             </Link>
           </div>
+          <AlertUi />
         </form>
       </div>
     </>

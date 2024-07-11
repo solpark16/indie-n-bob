@@ -11,7 +11,6 @@ export type Auth = {
 };
 
 export type AuthStore = {
-  user: Auth;
   email: string;
   nickname: string;
   password: string;
@@ -22,8 +21,6 @@ export type AuthStore = {
     nickname: string;
   };
 
-  fetchUser: () => Promise<Auth>;
-  setUser: (user: Auth) => void;
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
   setNickname: (nickname: string) => void;
