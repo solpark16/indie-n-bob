@@ -64,10 +64,13 @@ function PostEditSection({ id }: Props) {
   }
 
   const handleOnsubmit: FormEventHandler = (e) => {
+    if (!post) {
+      return;
+    }
     const newPost: Post<false> = {
       title,
       content,
-      image: refInputFile.current.value || post.image,
+      image: refInputFile.current?.value || post.image,
       nickname: post.author_nickname,
       hashtags: tagArray,
     };

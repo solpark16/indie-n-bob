@@ -2,13 +2,13 @@ import { Tables } from './supabase';
 
 export type Post<hasFullColumns extends boolean = true>
   = (hasFullColumns extends true
-    ?  Tables<"recommendation_posts"> 
+    ? (Tables<"recommendation_posts"> & { likes : number })
     : {
       title: string;
       content: string;
-      nickname: string;
+      nickname?: string | null;
       hashtags: string[];
-      image?: string;
+      image?: string | null;
     });
 
 /**

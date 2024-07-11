@@ -1,8 +1,8 @@
-import { FC } from "react";
-import Link from "next/link";
-import { PostInDB } from "@/types/Post";
 import SITE_URL from "@/constant";
+import { Post } from "@/types/Post";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import { FC } from "react";
 
 const fetchPosts = async () => {
   const response = await fetch(`${SITE_URL}/api/posts`, {
@@ -15,7 +15,7 @@ const fetchPosts = async () => {
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
-  return response.json() as Promise<PostInDB[]>;
+  return response.json() as Promise<Post[]>;
 };
 
 const BestInfo: FC = () => {
@@ -23,7 +23,7 @@ const BestInfo: FC = () => {
     data: posts,
     error,
     refetch,
-  } = useQuery<PostInDB[]>({
+  } = useQuery<Post[]>({
     queryKey: ["posts"],
     queryFn: fetchPosts,
     staleTime: 0,

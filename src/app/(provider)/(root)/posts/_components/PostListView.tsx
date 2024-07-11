@@ -2,7 +2,7 @@
 
 import Loading from "@/components/Loading";
 import SITE_URL from "@/constant";
-import { PostWithAuthor } from "@/types/Post";
+import { Post, PostWithAuthor } from "@/types/Post";
 import { useQuery } from "@tanstack/react-query";
 import PostItemSqure from "./PostItemSqure";
 
@@ -32,9 +32,12 @@ function PostListView({ keyword }: PostListViewProps) {
   }
 
   const filteredPosts = keyword
-    ? posts?.filter((post) =>
-        post.hashtag["tags"].find((tag: string) => tag === keyword)
-      )
+    ? posts?.filter((post: Post) => {
+        const { hashtag = { tags: [] } } = post;
+        return hashtag
+          ? hashtag["tags"]?.find((tag: string) => tag === keyword)
+          : false;
+      })
     : posts;
 
   // TODO filteredPosts.length === 0 일 때 처리 필요

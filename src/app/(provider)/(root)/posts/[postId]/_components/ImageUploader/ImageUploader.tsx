@@ -13,15 +13,15 @@ import { upload } from "./upload";
 
 type Props = {
   refInput: MutableRefObject<HTMLInputElement | null>;
-  image: string;
+  image?: string | null;
 } & PropsWithChildren;
 
 function ImageUploader({ children, image, refInput }: Props) {
-  const [fileURL, setFileURL] = useState<string>(image);
+  const [fileURL, setFileURL] = useState<string>(image ?? "");
 
   const handleClick: MouseEventHandler = (e) => {
     e.preventDefault();
-    refInput.current.click();
+    refInput.current?.click();
   };
 
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {

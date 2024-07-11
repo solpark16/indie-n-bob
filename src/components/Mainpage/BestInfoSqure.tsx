@@ -1,9 +1,9 @@
-import React from "react";
-import { PostInDB } from "@/types/Post";
+import { Post } from "@/types/Post";
 import Image from "next/image";
+import React from "react";
 
 type PostSquareProps = {
-  post: PostInDB;
+  post: Post;
 };
 
 const BestInfoSquare: React.FC<PostSquareProps> = ({ post }) => {
