@@ -110,13 +110,13 @@ const Header: FC = () => {
 
       <li className="nav-item ms-auto relative mx-2">
         <a
-          className="nav-link dropdown-toggle"
+          className="nav-link dropdown-toggle text-main-color"
           data-bs-toggle="dropdown"
           href="#"
           role="button"
           aria-expanded="false"
         >
-          {user ? user.nickname : "훈돌라"}
+          {user ? user.nickname : ""}
         </a>
         <ul className="dropdown-menu absolute">
           <li>

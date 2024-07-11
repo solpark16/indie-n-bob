@@ -42,7 +42,7 @@ const BestInfo: FC = () => {
           <h2 className="text-40px text-[#10AF86]">베스트</h2>
           <p className="text-25px">금주의 베스트 게시글 입니다.</p>
         </div>
-        <Link href="/more">
+        <Link href="/posts" className="no-underline">
           <p className="text-gray-500 text-sm">더보기 &gt;</p>
         </Link>
       </div>
@@ -56,7 +56,7 @@ const BestInfo: FC = () => {
               <img
                 src={post.image}
                 alt={post.title}
-                className="w-52 h-32 rounded-2xl"
+                className="w-[600px] h-[400px] rounded-2xl"
               />
               <div className="p-4">
                 <h3 className="text-lg font-semibold">{post.title}</h3>

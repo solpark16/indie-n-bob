@@ -1,6 +1,7 @@
 import React from "react";
-import Carousel from "./Carousel";
+
 import PerformanceInfo from "./PerformanceInfo";
+import Carousel from "./Carousel";
 import BestInfo from "./BestInfo";
 
 const MainPage = () => {
