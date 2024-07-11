@@ -15,7 +15,14 @@ const ConcertDeleteButton = ({ postId }: { postId: string }) => {
     }
   };
 
-  return <button onClick={concertDeleteHandler}>삭제</button>;
+  return (
+    <button
+      className="bg-main-color text-white p-[10px] rounded-[10px] h-fit"
+      onClick={concertDeleteHandler}
+    >
+      삭제
+    </button>
+  );
 };
 
 export default ConcertDeleteButton;

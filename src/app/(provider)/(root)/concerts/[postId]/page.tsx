@@ -1,6 +1,7 @@
 "use client";
 
 import ConcertDeleteButton from "@/components/ConcertList/ConcertDeleteButton";
+import { formatDateString } from "@/utils/formatDateString";
 import { createClient } from "@/utils/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
@@ -48,13 +49,10 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
         .eq("post_id", postId)
         .single();
 
-      console.log(data);
-
       return data;
     },
   });
 
-  // console.log(concert);
   if (isPending) {
     return <div>로딩 중입니다...</div>;
   }
@@ -111,15 +109,14 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
       setLike(like + 1);
     }
   };
-
   return (
     <main>
-      <div className="px-[92px]">
+      <div className="px-[92px] mt-[140px]">
         <header className="mb-[22px]">
           <div>
             <>
               <h2 className="text-[45px] mb-[10px]">{title}</h2>
-              <div className="flex">
+              <div className="flex justify-between">
                 <p
                   className="text-[25px] text-[#747474] cursor-pointer"
                   onClick={onClickLikeHandler}
@@ -131,16 +128,18 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
                   )}{" "} */}
                   <span className="text-main-color">♥</span> {like}
                 </p>
+                {user && author_id === user.id && (
+                  <div className="flex gap-[10px]">
+                    <Link href={`/concerts/${postId}/edit`}>
+                      <button className="bg-main-color text-white p-[10px] rounded-[10px]">
+                        수정
+                      </button>
+                    </Link>
+                    <ConcertDeleteButton postId={postId} />
+                  </div>
+                )}
               </div>
             </>
-            {user && author_id === user.id && (
-              <>
-                <Link href={`/concerts/${postId}/edit`}>
-                  <button>수정</button>
-                </Link>
-                <ConcertDeleteButton postId={postId} />
-              </>
-            )}
           </div>
         </header>
         <article className="flex gap-[76px]">
@@ -151,46 +150,47 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
           <div className="w-full flex flex-col text-[#2E2E2E]">
             <div className="mt-[30px] leading-[60px]">
               <div className="flex text-[25px]">
-                <p className="w-[135px]">장소</p>
+                <p className="min-w-[135px]">장소</p>
                 <p>{region}</p>
               </div>
               <div className="flex text-[25px]">
-                <p className="w-[135px]">공연기간</p>
+                <p className="min-w-[135px]">공연기간</p>
                 <p>
                   {startDate}~{endDate}
                 </p>
               </div>
               <div className="flex text-[25px]">
-                <p className="w-[135px]">공연시간</p>
+                <p className="min-w-[135px]">공연시간</p>
                 <p>{time}분</p>
               </div>
               <div className="flex text-[25px]">
-                <p className="w-[135px]">관람연령</p>
+                <p className="min-w-[135px]">관람연령</p>
                 <p>{age}</p>
               </div>
               <div className="flex text-[25px]">
-                <p className="w-[135px]">가격</p>
+                <p className="min-w-[135px]">가격</p>
                 <p>{price}</p>
               </div>
             </div>
-            <Link href={link}>
-              <button className="w-full h-[67px] mt-auto bg-[#10AF86] text-white rounded-[10px]">
-                자세히보기
-              </button>
-            </Link>
+            {link && (
+              <Link href={link}>
+                <button className="w-full h-[67px] mt-auto bg-[#10AF86] text-white rounded-[10px]">
+                  자세히보기
+                </button>
+              </Link>
+            )}
           </div>
         </article>
         <div>
           <div className="text-[18px] flex justify-between mt-[78px] mb-[35px] pb-[24px] border-b-[1px]">
-            <div className="flex">
+            <div className="flex gap-4 items-center">
               <img
                 className="w-[50px] h-[50px] object-cover rounded-full"
                 src={users && users.profile_image}
               />
-              <p>{users && users.nickname}</p>
+              <p className="m-0">{users && users.nickname}</p>
             </div>
-            {/* TODO 시간 가져오기 */}
-            <p className="text-[#A0A0A0]">{createdAt}</p>
+            <p className="text-[#A0A0A0]">{formatDateString(created_at)}</p>
           </div>
           <p className="text-[25px]">{content}</p>
         </div>

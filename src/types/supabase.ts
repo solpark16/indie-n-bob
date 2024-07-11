@@ -12,20 +12,20 @@ export type Database = {
       concert_likes: {
         Row: {
           created_at: string;
-          like_id: number;
-          post_id: number | null;
+          like_id: string;
+          post_id: string;
           user_id: string | null;
         };
         Insert: {
           created_at?: string;
-          like_id?: number;
-          post_id?: number | null;
+          like_id: string;
+          post_id: string;
           user_id?: string | null;
         };
         Update: {
           created_at?: string;
-          like_id?: number;
-          post_id?: number | null;
+          like_id?: string;
+          post_id?: string;
           user_id?: string | null;
         };
         Relationships: [
@@ -47,81 +47,82 @@ export type Database = {
       };
       concert_posts: {
         Row: {
+          age: string | null;
           author_id: string | null;
-          author_nickname: string | null;
           content: string | null;
           created_at: string;
           end_date: string | null;
           image: string | null;
-          post_id: number;
-          time: number;
+          link: string | null;
+          post_id: string;
+          price: string | null;
           region: string | null;
           start_date: string | null;
+          time: string | null;
           title: string | null;
-          age: string | null;
-          price: string | null;
-          link: string | null;
-          users?: {
-            nickname: string | null;
-            profile_image: string | null;
-          };
         };
         Insert: {
+          age?: string | null;
           author_id?: string | null;
-          author_nickname?: string | null;
           content?: string | null;
           created_at?: string;
           end_date?: string | null;
           image?: string | null;
-          post_id?: number;
+          link?: string | null;
+          post_id: string;
+          price?: string | null;
           region?: string | null;
           start_date?: string | null;
+          time: string | null;
           title?: string | null;
         };
         Update: {
+          age?: string | null;
           author_id?: string | null;
-          author_nickname?: string | null;
           content?: string | null;
           created_at?: string;
           end_date?: string | null;
           image?: string | null;
-          post_id?: number;
+          link?: string | null;
+          post_id?: string;
+          price?: string | null;
           region?: string | null;
           start_date?: string | null;
+          time?: number;
           title?: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: "concert_posts_author_id_fkey";
+            foreignKeyName: "concert_posts_author_id_fkey1";
             columns: ["author_id"];
             isOneToOne: false;
             referencedRelation: "users";
-            referencedColumns: ["id"];
+            referencedColumns: ["user_id"];
           }
         ];
       };
       concert_report: {
         Row: {
           created_at: string;
-          post_id: number | null;
+          post_id: string;
           report_id: number;
           reporter_id: string | null;
         };
         Insert: {
           created_at?: string;
-          post_id?: number | null;
+          post_id: string;
           report_id: number;
           reporter_id?: string | null;
         };
         Update: {
           created_at?: string;
-          post_id?: number | null;
+          post_id?: string;
           report_id?: number;
           reporter_id?: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: "conert_report_post_id_fkey";
+            foreignKeyName: "concert_report_post_id_fkey";
             columns: ["post_id"];
             isOneToOne: false;
             referencedRelation: "concert_posts";
@@ -138,7 +139,7 @@ export type Database = {
       };
       recommendation_comments: {
         Row: {
-          author_id: string | null;
+          author_id: string;
           author_nickname: string | null;
           comment_id: number;
           content: string | null;
@@ -146,7 +147,7 @@ export type Database = {
           post_id: number | null;
         };
         Insert: {
-          author_id?: string | null;
+          author_id: string;
           author_nickname?: string | null;
           comment_id?: number;
           content?: string | null;
@@ -154,7 +155,7 @@ export type Database = {
           post_id?: number | null;
         };
         Update: {
-          author_id?: string | null;
+          author_id?: string;
           author_nickname?: string | null;
           comment_id?: number;
           content?: string | null;
@@ -167,7 +168,7 @@ export type Database = {
             columns: ["author_id"];
             isOneToOne: false;
             referencedRelation: "users";
-            referencedColumns: ["id"];
+            referencedColumns: ["user_id"];
           },
           {
             foreignKeyName: "recommendation_comments_post_id_fkey";
@@ -252,6 +253,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "recommendation_posts_author_id_fkey1";
+            columns: ["author_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["user_id"];
           }
         ];
       };

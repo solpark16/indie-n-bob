@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 
   const { data: concerts } = await supabase
     .from("concert_posts")
-    // .select("*, concert_likes:post_id(*)");
-    .select();
+    .select(`*, concert_likes(post_id)`);
+  // .select();
   return NextResponse.json(concerts);
 }

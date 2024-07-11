@@ -19,7 +19,6 @@ function ConcertListView() {
       return await response.json();
     },
   });
-  console.log(concerts);
 
   // 현재 로그인 된 유저 정보 가져오기
   useEffect(() => {
@@ -43,7 +42,6 @@ function ConcertListView() {
   const latestSort = () => {
     setActiveSort("latest");
     const sorted = [...concerts].sort((a, b) => {
-      console.log(Date.parse(a.created_at), Date.parse(b.created_at));
       return Date.parse(b.created_at) - Date.parse(a.created_at);
     });
     setSortedConcerts(sorted);
@@ -52,7 +50,10 @@ function ConcertListView() {
   // 랭킹순 정렬
   const rankingSort = () => {
     setActiveSort("ranking");
-    // 정렬 로직 추가
+    const sorted = [...concerts].sort((a, b) => {
+      return b.concert_likes.length - a.concert_likes.length;
+    });
+    setSortedConcerts(sorted);
   };
 
   // 공연 종료 임박순 정렬
@@ -95,19 +96,25 @@ function ConcertListView() {
         <div className="flex justify-end gap-[15px]">
           <button
             onClick={latestSort}
-            className={`${activeSort === "latest" ? "text-blue-600" : ""}`}
+            className={`${
+              activeSort === "latest" ? "text-main-color font-bold" : ""
+            }`}
           >
             최신순
           </button>
-          {/* <button
+          <button
             onClick={rankingSort}
-            className={`${activeSort === "ranking" ? "text-blue-600" : ""}`}
+            className={`${
+              activeSort === "ranking" ? "text-main-color font-bold" : ""
+            }`}
           >
             랭킹순
-          </button> */}
+          </button>
           <button
             onClick={imminentSort}
-            className={`${activeSort === "imminent" ? "text-blue-600" : ""}`}
+            className={`${
+              activeSort === "imminent" ? "text-main-color font-bold" : ""
+            }`}
           >
             공연종료임박순
           </button>
@@ -116,7 +123,7 @@ function ConcertListView() {
 
       {/** // TODO key 변경 필요 */}
       {concerts && concerts.length ? (
-        <ul className="grid grid-cols-3 justify-between gap-[31px]">
+        <ul className="grid justify-between gap-[31px] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-0">
           {sortedConcerts.map((concert) => (
             <li key={concert.post_id} className="max-w-[405px] ">
               <ConcertSquare concert={concert}></ConcertSquare>
