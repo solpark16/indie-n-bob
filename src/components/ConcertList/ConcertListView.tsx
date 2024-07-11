@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useAlertStore } from "@/zustand/alert.store";
+import { AlertUi } from "../Alert";
 
 function ConcertListView() {
   const [user, setUser] = useState(null);
@@ -86,14 +87,22 @@ function ConcertListView() {
             <button>공연 등록하기</button>
           </Link>
         ) : (
-          <button
-            onClick={() => {
-              alert("공연 정보는 관리자만 등록할 수 있습니다.");
-            }}
-            className="text-gray-600 bg-[#E3E3E3] p-[15px] rounded-[10px]"
-          >
-            공연 등록하기
-          </button>
+          <>
+            <button
+              onClick={() => {
+                //alert("공연 정보는 관리자만 등록할 수 있습니다.");
+                setAlert(
+                  true,
+                  `Wait! ✋`,
+                  "공연 정보는 관리자만 등록할 수 있습니다."
+                );
+              }}
+              className="text-gray-600 bg-[#E3E3E3] p-[15px] rounded-[10px]"
+            >
+              공연 등록하기
+            </button>
+            <AlertUi />
+          </>
         )}
 
         <div className="flex justify-end gap-[15px]">
