@@ -4,7 +4,7 @@ import Loading from "@/components/Loading";
 import SITE_URL from "@/constant";
 import moment from "moment";
 import Image from "next/image";
-import ButtonsChangePostStatus from "./edit/_components/ButtonsChangePostStatus";
+import ButtonsChangePostStatus from "./_components/ButtonsChangePostStatus";
 
 type PostDetailPageProps = {
   params: { postId: number };

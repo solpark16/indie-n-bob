@@ -2,7 +2,7 @@
 
 import Loading from "@/components/Loading";
 import SITE_URL from "@/constant";
-import { PostInDB } from "@/types/Post";
+import { PostWithAuthor } from "@/types/Post";
 import { useQuery } from "@tanstack/react-query";
 import PostItemSqure from "./PostItemSqure";
 
@@ -11,12 +11,11 @@ type PostListViewProps = {
 };
 
 function PostListView({ keyword }: PostListViewProps) {
-  // TODO 나중에 추론한 데이터로 변경
   const {
     data: posts,
     isLoading,
     isError,
-  } = useQuery<PostInDB[]>({
+  } = useQuery<PostWithAuthor[]>({
     queryKey: ["posts"],
     queryFn: async () => {
       const response = await fetch(`${SITE_URL}/api/posts`);
@@ -28,19 +27,20 @@ function PostListView({ keyword }: PostListViewProps) {
 
   if (isLoading) {
     return <Loading />;
-  } else if (isError || !posts) {
-    return "검색 결과가 없습니다.";
+  } else if (isError) {
+    return "오류로 인하여 데이터를 불러오지 못했습니다. 새로고침 후 다시 시도해주세요";
   }
 
-  const filteredPosts =
-    (keyword
-      ? posts.filter((post) => {
-          const { tags } = post.hashtag;
-          return tags.find((tag) => tag === keyword);
-        })
-      : posts) ?? [];
+  const filteredPosts = keyword
+    ? posts?.filter((post) =>
+        post.hashtag["tags"].find((tag: string) => tag === keyword)
+      )
+    : posts;
 
   // TODO filteredPosts.length === 0 일 때 처리 필요
+  if (!filteredPosts) {
+    return "검색 결과가 없습니다.";
+  }
 
   return (
     <ol className="w-full grid grid-cols-1 gap-6 mt-8 md:grid-cols-2 lg:grid-cols-3">

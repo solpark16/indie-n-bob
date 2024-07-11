@@ -1,10 +1,7 @@
 import ConcertDeleteButton from "@/components/ConcertList/ConcertDeleteButton";
-import Hashtag from "@/components/Hashtag";
 import SITE_URL from "@/constant";
 import { ConcertInDB } from "@/types/Concert";
-import { PostInDB } from "@/types/Post";
 import moment from "moment";
-import Image from "next/image";
 import Link from "next/link";
 
 type ConcertDetailPageProps = {

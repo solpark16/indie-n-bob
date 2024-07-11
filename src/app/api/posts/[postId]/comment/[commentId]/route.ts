@@ -1,5 +1,5 @@
-import { createClient } from "@/supabase/server";
 import { CommentType } from "@/types/Comments";
+import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
 const TABLE_NAME = "recommendation_comments";

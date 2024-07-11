@@ -1,12 +1,12 @@
 import { createClient } from "@/utils/supabase/client";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 /**
  * 게시글 목록 Read
  *
  * @returns post[]
  */
-export async function GET(request: NextRequest) {
+export async function GET() {
   const supabase = createClient();
 
   const { data: posts } = await supabase.from("recommendation_posts").select();

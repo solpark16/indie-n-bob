@@ -7,6 +7,10 @@ const nextConfig = {
         hostname: "stfauxrjudaltlmspsnv.supabase.co",
         pathname: "/storage/v1/object/public/**",
       },
+      {
+        protocol: "https",
+        hostname: "newsimg.sedaily.com",
+      },
     ],
   },
 };
