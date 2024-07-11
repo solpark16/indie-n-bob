@@ -1,13 +1,20 @@
+"use client";
+
 import { ConcertInDB } from "@/types/Concert";
+import { createClient } from "@/utils/supabase/client";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 type ConcertSquareProps = {
   concert: ConcertInDB;
 };
 
 function ConcertSquare({ concert }: ConcertSquareProps) {
+  const supabase = createClient();
+  const [like, setLike] = useState(0);
+
   const {
     post_id: id,
     title,
@@ -18,14 +25,17 @@ function ConcertSquare({ concert }: ConcertSquareProps) {
     start_date,
     end_date,
     time,
+    concert_likes,
   } = concert;
+
+  console.log(concert_likes);
   const createdAt = moment(created_at).format("yyyy.MM.DD");
   const startDate = moment(start_date).format("yyyy.MM.DD");
   const endDate = moment(end_date).format("yyyy.MM.DD");
   return (
     <Link
       href={`/concerts/${id}`}
-      className="flex flex-col justify-center items-center"
+      className="flex flex-col justify-center items-center text-black no-underline"
     >
       <div className="relative">
         {/* // TODO 이미지 없을 때 어떻게 보여줄 것인지." */}
@@ -38,10 +48,13 @@ function ConcertSquare({ concert }: ConcertSquareProps) {
       <div className="w-full flex justify-between mt-[20px]">
         <span className="font-semibold text-[25px]">{title}</span>
         {/* 하트 이미지 및 like 가져와야함 */}
-        <span>100</span>
+        <div className="text-xl">
+          <span className="text-main-color">♥</span>{" "}
+          <span>{concert_likes.length}</span>
+        </div>
       </div>
       <div className="text-gray-700 mt-[17px] w-full">
-        <div className="text-xs text-start">
+        <div className="text-lg text-start">
           <span>
             공연일시 {startDate}~{endDate}
           </span>

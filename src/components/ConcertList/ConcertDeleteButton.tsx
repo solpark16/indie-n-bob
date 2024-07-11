@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const ConcertDeleteButton = ({ postId }: { postId: number }) => {
+const ConcertDeleteButton = ({ postId }: { postId: string }) => {
   const router = useRouter();
 
   const concertDeleteHandler = async () => {
@@ -15,7 +15,14 @@ const ConcertDeleteButton = ({ postId }: { postId: number }) => {
     }
   };
 
-  return <button onClick={concertDeleteHandler}>삭제</button>;
+  return (
+    <button
+      className="bg-main-color text-white p-[10px] rounded-[10px] h-fit"
+      onClick={concertDeleteHandler}
+    >
+      삭제
+    </button>
+  );
 };
 
 export default ConcertDeleteButton;
