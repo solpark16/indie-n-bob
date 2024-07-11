@@ -1,5 +1,6 @@
 "use client";
 
+import { Concert } from "@/types/Concert";
 import { createClient } from "@/utils/supabase/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -28,7 +29,6 @@ const ConcertWritePage = () => {
     const fetchData = async () => {
       const { data, error: getUserError } = await supabase.auth.getUser();
       setUser(data.user);
-      return data.user;
     };
     fetchData();
   }, []);
@@ -46,9 +46,24 @@ const ConcertWritePage = () => {
   };
 
   const concertAddHandler = async () => {
-    console.log(user);
-    // TODO 솔씨 유효성 검사 추가해야합니다~~~
-    const newConcert = {
+    if (
+      !title.trim() ||
+      !region.trim() ||
+      !startDate.trim() ||
+      !endDate.trim() ||
+      !time.trim() ||
+      !age.trim() ||
+      !price.trim() ||
+      !content.trim()
+    ) {
+      alert("관련 링크를 제외한 입력 칸을 모두 채워주세요.");
+      return;
+    }
+    if (imageUrl === "/concert-default-image.png") {
+      alert("공연에 관련된 이미지를 등록해주세요.");
+      return;
+    }
+    const newConcert: Concert = {
       post_id: uuidv4(),
       title,
       image: imageUrl,
@@ -62,7 +77,6 @@ const ConcertWritePage = () => {
       content,
       author_id: user.id,
     };
-    console.log(newConcert);
 
     const supabase = createClient();
     await supabase.from("concert_posts").insert(newConcert).select();
