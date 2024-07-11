@@ -1,4 +1,3 @@
-import { Post } from "@/types/Post";
 import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
