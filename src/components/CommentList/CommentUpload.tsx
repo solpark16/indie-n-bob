@@ -72,9 +72,9 @@ const CommentUpload = ({ postId }: Params) => {
         ref={contentRef}
         type="text"
         placeholder="댓글을 입력해주세요."
-        className="w-[1130px] h-[70px] rounded-[10px] bg-[#f4f4f4] text-[18px] indent-[25px] focus:outline-none"
+        className="w-[87%] h-[70px] rounded-[10px] bg-[#f4f4f4] text-[18px] indent-[25px] focus:outline-none"
       />
-      <button className="w-[135px] h-[70px] rounded-[10px] bg-[#10AF86] text-white text-[25px] hover:bg-[#0e9a77] transition duration-200">
+      <button className="w-[12%] h-[70px] rounded-[10px] bg-[#10AF86] text-white text-[22px] hover:bg-[#0e9a77] transition duration-200">
         등록
       </button>
     </form>

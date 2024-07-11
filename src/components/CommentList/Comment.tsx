@@ -47,7 +47,7 @@ const Comment = ({ comment }: PropsType) => {
           {comment.author_nickname.slice(0, 6)}
         </p>
         {/* 반응형: 상위에 w-full 주고 % 또는 tailwind에서 제공하는 값으로 width주기 ///  min-w 또는 max-w만 px로 값 주기*/}
-        <p className="w-[700px]">{comment.content}</p>
+        <p className="w-auto max-w-[700px]">{comment.content}</p>
       </div>
       <div className="ml-auto flex justify-end items-center gap-[16px] text-[#A0A0A0]">
         <p>{formatDateString(comment.created_at)}</p>
