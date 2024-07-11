@@ -46,17 +46,17 @@ const CmtToDel = ({ comment, onClose }: PropsType) => {
             priority
             className="w-[50px] h-[50px] rounded-full object-cover"
           />
-          <p className="w-auto ml-[15px] text-black">
-            {comment.author_nickname}
-          </p>
+          <span className="w-auto ml-[15px] text-black">
+            {comment?.users?.nickname}
+          </span>
         </div>
         <div className="w-[250px] flex justify-end items-center gap-[16px] text-[#A0A0A0]">
-          <p>{formatDateString(comment.created_at)}</p>
+          <span>{formatDateString(comment?.created_at)}</span>
         </div>
       </div>
-      <p className="w-[850px] h-[25px] text-black text-[20px] mt-[20px]">
-        {comment.content}
-      </p>
+      <span className="w-[850px] h-[25px] text-black text-[20px] mt-[20px]">
+        {comment?.content}
+      </span>
       <div className="flex gap-[20px] pt-[70px] pl-[475px]">
         <button
           type="button"
@@ -68,7 +68,7 @@ const CmtToDel = ({ comment, onClose }: PropsType) => {
         <button
           type="button"
           className="w-[200px] h-[55px] rounded-[10px] bg-[#10AF86] text-white hover:bg-[#0e9a77] transition duration-200"
-          onClick={() => handleDelbtn(comment.comment_id)}
+          onClick={() => handleDelbtn(comment?.comment_id)}
         >
           확인
         </button>

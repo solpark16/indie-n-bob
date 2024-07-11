@@ -52,7 +52,7 @@ const BestInfo: FC = () => {
           <p className="text-25px">금주의 베스트 게시글 입니다.</p>
         </div>
         <Link href="/posts" className="no-underline">
-          <p className="text-gray-500 text-sm">더보기 &gt;</p>
+          <p className="text-gray-500 text-sm text-[#2e2e2e]">더보기 &gt;</p>
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -73,19 +73,19 @@ const BestInfo: FC = () => {
                   <h3 className="text-lg font-semibold truncate-2-lines text-main-color">
                     {post.title}
                   </h3>
-                  <p className="text-gray-600 mt-1 truncate-3-lines">
+                  <p className="text-gray-600 mt-1 truncate-3-lines text-[#2e2e2e]">
                     {post.content}
                   </p>
                   <div className="flex justify-between items-center mt-4">
-                    <span className="text-gray-500 text-sm">
+                    <span className="text-gray-500 text-sm text-[#2e2e2e]">
                       작성자 {post.author_nickname}
                     </span>
-                    <span className="text-gray-500 text-sm">
+                    <span className="text-gray-500 text-sm text-[#2e2e2e]">
                       {new Date(post.created_at).toLocaleDateString()}
                     </span>
                   </div>
                   <div className="flex justify-between items-center mt-2">
-                    <span className="text-green-600 text-sm">
+                    <span className="text-green-600 text-sm text-[#2e2e2e]">
                       ♥ {post.likes ?? 0}
                     </span>
                   </div>
