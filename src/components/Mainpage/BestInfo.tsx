@@ -64,14 +64,13 @@ const BestInfo: FC = () => {
               href={`/posts/${post.post_id}`}
               legacyBehavior
             >
-              <a className="relative rounded-lg overflow-hidden block">
-                <div className="relative w-[600px] h-[400px]">
+              <a className="relative rounded-lg overflow-hidden">
+                <div className="relative h-[400px]">
                   <Image
                     src={post.image}
                     alt={post.title}
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-2xl"
+                    fill
+                    className="object-cover rounded-2xl"
                   />
                 </div>
                 <div className="p-4">
