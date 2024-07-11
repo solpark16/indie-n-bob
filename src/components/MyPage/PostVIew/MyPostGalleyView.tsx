@@ -6,17 +6,23 @@ import Loading from "@/components/Loading";
 import useMyPosts from "@/hooks/useMyPosts";
 import Image from "next/image";
 import HowManyLikes from "./HowManyLikes";
+import { useRouter } from "next/navigation";
 
 const MyPostGalleryView = () => {
     const { data, isPending, isError, fetchNextPage, hasNextPage } = useMyPosts();
     const posts = data?.pages?.flatMap(page => page.posts);
     const { ref, inView } = useInView();
+    const router = useRouter();
 
     useEffect(() => {
         if (inView && hasNextPage) {
             fetchNextPage();
         }
     }, [inView, hasNextPage, fetchNextPage]);
+
+    const handlePostClick = (postId) => {
+        router.push(`/posts/${postId}/detail`);
+    };
 
     if (!posts || posts.length === 0) {
         return <div>게시글을 불러올 수 없습니다.</div>;
@@ -28,7 +34,11 @@ const MyPostGalleryView = () => {
     return (
         <div className="grid grid-cols-3 gap-4">
             {posts.map((post) => (
-                <div key={post.post_id} className="p-4 ease-in-out duration-400 transition-transform transform hover:-translate-y-2">
+                <div
+                    key={post.post_id}
+                    className="p-4 ease-in-out duration-400 transition-transform transform hover:-translate-y-2"
+                    onClick={() => handlePostClick(post.post_id)}
+                >
                     <div className="w-52 h-52 relative">
                         <Image
                             src={post.image}

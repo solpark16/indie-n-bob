@@ -6,17 +6,23 @@ import Loading from "@/components/Loading";
 import useMyPosts from "@/hooks/useMyPosts";
 import Image from "next/image";
 import HowManyLikes from "./HowManyLikes";
+import { useRouter } from "next/navigation";
 
 const MyPostListView = () => {
   const { data, isPending, isError, fetchNextPage, hasNextPage } = useMyPosts();
   const posts = data?.pages?.flatMap(page => page.posts);
   const { ref, inView } = useInView();
+  const router = useRouter();
 
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
+
+  const handlePostClick = (postId) => {
+    router.push(`/posts/${postId}/detail`);
+  };
 
   if (!posts || posts.length === 0) {
     return <div>게시글을 불러올 수 없습니다.</div>;
@@ -28,7 +34,11 @@ const MyPostListView = () => {
   return (
     <div className="space-y-4">
       {posts.map((post) => (
-        <div key={post.post_id} className="post-container flex items-start space-x-4 p-4 ease-in-out duration-400 transition-transform transform hover:-translate-y-2">
+        <div
+          key={post.post_id}
+          className="post-container flex items-start space-x-4 p-4 ease-in-out duration-400 transition-transform transform hover:-translate-y-2"
+          onClick={() => handlePostClick(post.post_id)}
+        >
           <div className="w-48 h-32 relative flex-shrink-0">
             <Image
               src={post.image}
