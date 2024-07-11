@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PostInDB } from "@/types/Post";
 import SITE_URL from "@/constant";
 import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 
 const fetchPosts = async () => {
   const response = await fetch(`${SITE_URL}/api/posts`, {
@@ -22,7 +23,7 @@ const BestInfo: FC = () => {
   const {
     data: posts,
     error,
-    refetch,
+    isLoading,
   } = useQuery<PostInDB[]>({
     queryKey: ["posts"],
     queryFn: fetchPosts,
@@ -30,6 +31,14 @@ const BestInfo: FC = () => {
     refetchOnWindowFocus: true,
     refetchInterval: 60000,
   });
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Image src="/loading-circle.gif" alt="Loading" width={50} height={50} />
+      </div>
+    );
+  }
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -43,43 +52,46 @@ const BestInfo: FC = () => {
           <p className="text-25px">금주의 베스트 게시글 입니다.</p>
         </div>
         <Link href="/posts" className="no-underline">
-          <p className="text-gray-500 text-sm">더보기 &gt;</p>
+          <p className="text-gray-500 text-sm text-[#2e2e2e]">더보기 &gt;</p>
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {posts && posts.length > 0 ? (
           posts.slice(0, 4).map((post) => (
-            <div
+            <Link
               key={post.post_id}
-              className="relative rounded-lg overflow-hidden"
+              href={`/posts/${post.post_id}`}
+              legacyBehavior
             >
-              <img
-                src={post.image}
-                alt={post.title}
-                className="w-[600px] h-[400px] rounded-2xl"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold truncate-2-lines">
-                  {post.title}
-                </h3>
-                <p className="text-gray-600 mt-1 truncate-3-lines">
-                  {post.content}
-                </p>
-                <div className="flex justify-between items-center mt-4">
-                  <span className="text-gray-500 text-sm">
-                    작성자 {post.author_nickname}
-                  </span>
-                  <span className="text-gray-500 text-sm">
-                    {new Date(post.created_at).toLocaleDateString()}
-                  </span>
+              <a className="relative rounded-lg overflow-hidden block">
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  className="w-[600px] h-[400px] rounded-2xl"
+                />
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold truncate-2-lines text-main-color">
+                    {post.title}
+                  </h3>
+                  <p className="text-gray-600 mt-1 truncate-3-lines text-[#2e2e2e]">
+                    {post.content}
+                  </p>
+                  <div className="flex justify-between items-center mt-4">
+                    <span className="text-gray-500 text-sm text-[#2e2e2e]">
+                      작성자 {post.author_nickname}
+                    </span>
+                    <span className="text-gray-500 text-sm text-[#2e2e2e]">
+                      {new Date(post.created_at).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center mt-2">
+                    <span className="text-green-600 text-sm text-[#2e2e2e]">
+                      ♥ {post.likes ?? 0}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center mt-2">
-                  <span className="text-green-600 text-sm">
-                    ♥ {post.likes ?? 0}
-                  </span>
-                </div>
-              </div>
-            </div>
+              </a>
+            </Link>
           ))
         ) : (
           <p>No posts available.</p>

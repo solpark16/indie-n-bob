@@ -18,7 +18,7 @@ const Carousel: FC = () => {
           </div>
           <div className="carousel-item">
             <img
-              src="/잔나비 커버.jpg"
+              src="/잔나비 수정.jpg"
               className="d-block w-[100%] h-[500px] object-cover"
               alt="Second slide"
             />

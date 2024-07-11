@@ -28,3 +28,11 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+a {
+  text-decoration: none !important;
+}
+
+.nav-link {
+  color: #10af86 !important;
+}

@@ -5,7 +5,11 @@ import Image from "next/image";
 import SITE_URL from "@/constant";
 
 const PerformanceInfo: FC = () => {
-  const { data: concerts, isSuccess } = useQuery({
+  const {
+    data: concerts,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ["concerts"],
     queryFn: async () => {
       const response = await fetch(`${SITE_URL}/api/concerts`);
@@ -13,8 +17,16 @@ const PerformanceInfo: FC = () => {
     },
   });
 
-  if (!isSuccess) {
-    return <>로딩중입니다</>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Image src="/loading-circle.gif" alt="Loading" width={50} height={50} />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
   }
 
   return (
@@ -28,23 +40,26 @@ const PerformanceInfo: FC = () => {
           </Link>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        {concerts.map((concert) => (
-          <div
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {concerts.slice(0, 3).map((concert) => (
+          <Link
             key={concert.post_id}
-            className="relative w-80 h-80 lg:w-80 lg:h-80 sm:w-50 sm:h-50 rounded-full overflow-hidden group cursor-pointer"
+            href={`/concerts/${concert.post_id}`}
+            legacyBehavior
           >
-            <Image
-              src={concert.image}
-              alt={`Performance ${concert.post_id}`}
-              fill
-              style={{ objectFit: "cover" }}
-              className="transition z-1"
-            />
-            <div className="absolute inset-0 z-10 flex items-center justify-center text-[#ffffff00] bg-opacity-0 hover:text-[white] hover:bg-[#00000076]">
-              <p className="text-xl">{concert.title}</p>
-            </div>
-          </div>
+            <a className="relative w-80 h-80 lg:w-80 lg:h-80 sm:w-50 sm:h-50 rounded-full overflow-hidden group cursor-pointer transition duration-200">
+              <Image
+                src={concert.image}
+                alt={`Performance ${concert.post_id}`}
+                fill
+                style={{ objectFit: "cover" }}
+                className="transition z-1"
+              />
+              <div className="absolute inset-0 z-10 flex items-center justify-center text-[#ffffff00] bg-opacity-0 hover:text-[white] hover:bg-[#00000076]">
+                <p className="text-xl">{concert.title}</p>
+              </div>
+            </a>
+          </Link>
         ))}
       </div>
     </div>
