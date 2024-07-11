@@ -31,3 +31,7 @@ body {
   overflow          : hidden;
   text-overflow     : ellipsis;
 }
+
+.nav-link {
+  color: #10af86 !important;
+}
