@@ -21,7 +21,7 @@ const MyPostListView = () => {
   }, [inView, hasNextPage, fetchNextPage]);
 
   const handlePostClick = (postId) => {
-    router.push(`/posts/${postId}/detail`);
+    router.push(`/posts/${postId}`);
   };
 
   if (!posts || posts.length === 0) {
