@@ -19,13 +19,17 @@ export async function GET(_: NextRequest, params: parameter) {
   } = params;
 
   const supabase = createClient();
-  const { data: post } = await supabase
+  const { data: post, error } = await supabase
     .from(TABLE_NAME)
     .select("*, author: author_id(nickname, profile_image)")
     .eq(PK_COLUMN_NAME, id)
     .single();
 
-  return NextResponse.json(post);
+  if (error){
+    return NextResponse.json({ error }, { status : 500 });
+  }
+
+  return NextResponse.json({ data : post });
 }
 
 /**

@@ -5,6 +5,7 @@ import Loading from "@/components/Loading";
 import SITE_URL from "@/constant";
 import moment from "moment";
 import Image from "next/image";
+import Link from "next/link";
 import ButtonsChangePostStatus from "./_components/ButtonsChangePostStatus";
 
 type PostDetailPageProps = {
@@ -13,9 +14,21 @@ type PostDetailPageProps = {
 
 async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
   const response = await fetch(`${SITE_URL}/api/posts/${postId}`);
-  const post = await response.json();
+  const { data: post, error } = await response.json();
 
-  if (!post) {
+  if (error) {
+    return (
+      <section className="min-h-[50vh] flex flex-col justify-center items-center">
+        <h2 className="pb-10 text-2xl font-semibold">
+          데이터를 불러오지 못했습니다. <br />
+        </h2>
+        에러메세지 : {JSON.stringify(error)}
+        <Link href="/posts" className="pt-10">
+          다른 게시글 보러가기
+        </Link>
+      </section>
+    );
+  } else if (!post) {
     return <Loading />;
   }
 
