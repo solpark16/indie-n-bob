@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 
 export default async function MyPage() {
   const user = await getUser();
+
   // if (!user) {
   //     redirect('/auth/login');
   // }
@@ -21,8 +22,9 @@ export default async function MyPage() {
     .select("*")
     .eq("user_id", user.id);
 
-  console.log(userData);
+  console.log(userData[0]);
   console.log(posts);
+
   if (postError || userError) {
     return (
       <div className="w-full">
@@ -38,6 +40,7 @@ export default async function MyPage() {
       </div>
     );
   }
+
   return (
     <div className="w-full">
       <div className="p-4 mx-auto max-w-4xl w-full">
