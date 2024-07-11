@@ -71,7 +71,7 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
             priority
             className="w-[50px] h-[50px] rounded-full object-cover"
           />
-          <p className="w-[110px] ml-[15px] text-black">
+          <p className="w-auto ml-[15px] text-black">
             {comment.author_nickname}
           </p>
         </div>

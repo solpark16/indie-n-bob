@@ -1,4 +1,3 @@
-import { CommentType } from "@/types/Comments";
 import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -9,13 +8,7 @@ type GetParameter = {
   params: { postId: number };
 };
 
-type PostParameter = {
-  params: { postId: number };
-  commentId: number;
-  comment: CommentType;
-};
-
-type PutParameter = {
+type DeleteParameter = {
   commentId: number;
 };
 
@@ -31,6 +24,11 @@ export async function GET(_: NextRequest, params: GetParameter) {
     .select("*, users:author_id(*)")
     .eq(PK_COLUMN_NAME, id);
 
+  // 시간순으로 sort해서 넘겨주기
+  comments.sort(
+    (a, b) =>
+      new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+  );
   return NextResponse.json(comments);
 }
 
@@ -60,7 +58,6 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    console.log(editedComment);
     return NextResponse.json(editedComment);
   } catch (error) {
     return NextResponse.json(
@@ -71,3 +68,15 @@ export async function PUT(request: NextRequest) {
 }
 
 // 댓글 삭제
+export async function DELETE(request: NextRequest, commentId: DeleteParameter) {
+  const supabase = createClient();
+  console.log(commentId);
+  const { data: deletedComment, error } = await supabase
+    .from(TABLE_NAME)
+    .delete()
+    .eq("comment_id", commentId);
+
+  console.log(deletedComment);
+
+  return NextResponse.json(error ? error : `댓글(${commentId}) 삭제 완료`);
+}

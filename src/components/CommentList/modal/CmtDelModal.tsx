@@ -1,8 +1,14 @@
 import Image from "next/image";
 import React from "react";
 import CmtToDel from "./CmtToDel";
+import { CommentType } from "@/types/Comments";
 
-const CmtDelModal = ({ onClose }: { onClose: () => void }) => {
+interface PropsType {
+  comment: CommentType;
+  onClose: () => void;
+}
+
+const CmtDelModal = ({ comment, onClose }: PropsType) => {
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -24,7 +30,7 @@ const CmtDelModal = ({ onClose }: { onClose: () => void }) => {
             <p className="w-[900px] mt-[10px] mb-[30px] font-semibold text-[#747474] text-[20px]">
               댓글은 영구적으로 삭제되며, 복구할 수 없습니다.
             </p>
-            <CmtToDel onClose={onClose} />
+            <CmtToDel comment={comment} onClose={onClose} />
           </div>
         </div>
       </div>

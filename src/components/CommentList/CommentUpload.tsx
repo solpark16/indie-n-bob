@@ -1,8 +1,9 @@
 "use client";
 
 import SITE_URL from "@/constant";
-import { CommentWriter, NewCommentType, UserDataType } from "@/types/Comments";
+import { NewCommentType } from "@/types/Comments";
 import { createClient } from "@/utils/supabase/client";
+import { User } from "@supabase/supabase-js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import React, { useEffect, useRef, useState } from "react";
@@ -11,7 +12,7 @@ import Swal from "sweetalert2";
 const CommentUpload = ({ postId }: Params) => {
   const contentRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
-  const [userData, setUserData] = useState<CommentWriter>();
+  const [userData, setUserData] = useState<User>();
 
   useEffect(() => {
     const supabase = createClient();

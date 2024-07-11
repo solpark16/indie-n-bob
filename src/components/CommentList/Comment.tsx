@@ -7,13 +7,14 @@ import CmtDelBtn from "./modal/CmtDelBtn";
 import { CommentType, CommentWriter } from "@/types/Comments";
 import { formatDateString } from "@/utils/formatDateString";
 import { createClient } from "@/utils/supabase/client";
+import { User } from "@supabase/supabase-js";
 
 interface PropsType {
   comment: CommentType;
 }
 
 const Comment = ({ comment }: PropsType) => {
-  const [userData, setUserData] = useState<CommentWriter>();
+  const [userData, setUserData] = useState<User>();
 
   useEffect(() => {
     //현재 로그인된 사용자의 프로필 정보를 가져오는 메서드
@@ -57,7 +58,7 @@ const Comment = ({ comment }: PropsType) => {
           <div className="w-[95px] h-[20px] flex justify-between items-center">
             <CmtEditBtn comment={comment} />
             <p>|</p>
-            <CmtDelBtn />
+            <CmtDelBtn comment={comment} />
           </div>
         )}
       </div>

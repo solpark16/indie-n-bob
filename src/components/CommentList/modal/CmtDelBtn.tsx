@@ -18,7 +18,9 @@ const CmtDelBtn = ({ comment }: PropsType) => {
       >
         삭제
       </button>
-      {isModalOpen && <CmtDelModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <CmtDelModal comment={comment} onClose={() => setIsModalOpen(false)} />
+      )}
     </>
   );
 };
