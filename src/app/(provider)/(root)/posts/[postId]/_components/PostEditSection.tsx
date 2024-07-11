@@ -100,7 +100,7 @@ function PostEditSection({ id }: Props) {
       <BreakLine />
       <div className="py-10">
         <ImageUploader refInput={refInputFile} image={post?.image}>
-          <button className="px-10 py-2 rounded-lg bg-primary text-white">
+          <button className="px-10 py-2 rounded-lg bg-indiePrimary text-white">
             이미지 변경하기
           </button>
         </ImageUploader>
@@ -110,7 +110,7 @@ function PostEditSection({ id }: Props) {
             {tagArray.map((tag, i) => (
               <span
                 key={i}
-                className="px-3 py-1 text-sm rounded-2xl cursor-pointer bg-gray-200 text-gray-700 hover:bg-primary hover:text-white"
+                className="px-3 py-1 text-sm rounded-2xl cursor-pointer bg-gray-200 text-gray-700 hover:bg-indiePrimary hover:text-white"
                 onClick={() => removeTag(tag)}
               >
                 #{tag}
@@ -136,7 +136,7 @@ function PostEditSection({ id }: Props) {
           </button>
           <button
             onClick={handleOnsubmit}
-            className="px-4 py-2 rounded bg-primary text-white hover:brightness-125"
+            className="px-4 py-2 rounded bg-indiePrimary text-white hover:brightness-125"
           >
             등록하기
           </button>
