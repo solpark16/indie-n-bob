@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { HeartIcon } from "../../../../../components/HeartIcon";
 import { PostWithAuthor } from "@/types/Post";
+import useAllLikes from "@/hooks/useAllLIkes";
 
 type PostSqureProps = {
   post: PostWithAuthor;
@@ -18,6 +19,9 @@ function PostItemSqure({ post }: PostSqureProps) {
     created_at,
   } = post;
   const createdAt = moment(created_at).format("yyyy.MM.DD");
+
+  const { data: likesData } = useAllLikes();
+  const likes = likesData?.likes?.filter((like) => like.post_id === id).length;
 
   return (
     <Link
@@ -39,8 +43,7 @@ function PostItemSqure({ post }: PostSqureProps) {
           </h2>
           <span className="flex flex-row items-center text-green-600">
             <HeartIcon className="w-4 h-4 mr-1" />
-            10
-            {/* TODO likes 조인해서 갖고와야 함*/}
+            {likes}
           </span>
         </header>
         <p className="text-sm text-gray-600 util-ellipsis">{content}</p>
