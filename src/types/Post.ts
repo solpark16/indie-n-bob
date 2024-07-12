@@ -6,6 +6,7 @@ export type Post<hasFullColumns extends boolean = true>
     : {
       title: string;
       content: string;
+      authorId?: string;
       nickname?: string | null;
       hashtags: string[];
       image?: string | null;
