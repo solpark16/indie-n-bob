@@ -3,6 +3,7 @@
 import useUserData from "@/hooks/useUserData";
 import ProfileEditButton from "./ProfileEditButton";
 import Loading from "@/components/Loading";
+import Image from 'next/image';
 
 export default function MyProfile() {
 
@@ -18,7 +19,13 @@ export default function MyProfile() {
 
     return (
         <div className="flex items-center space-x-4 w-full">
-            <img src={profile_image} alt="Profile" width={40} height={40} className="rounded-full" />
+            <Image
+                src={profile_image || ''}
+                alt="Profile"
+                width={40}
+                height={40}
+                className="rounded-full"
+            />
             <div className="flex-1 flex items-center justify-between w-full">
                 <div className="w-full">
                     <div className="flex items-center justify-between w-full">
