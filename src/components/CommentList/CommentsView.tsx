@@ -12,8 +12,6 @@ const CommentsView = ({ postId }: Params) => {
   const [pageNo, setPageNo] = useState(1); // 페이지 넘버
   const [pageSize, setPageSize] = useState(1); // 클릭 가능한 페이지 수
   const COMMENT_COUNT = 5;
-  //const [commentCount, setCommentCount] = useState(5); // 페이지당 댓글 수
-  const [clickedPage, setClickedPage] = useState(1); // 클릭한 페이지 (색상변경용)
 
   const { data: cmtLength } = useQuery({
     queryKey: ["comments", postId],
@@ -48,7 +46,6 @@ const CommentsView = ({ postId }: Params) => {
   }, [comments, cmtLength]);
 
   const handleClickPageBtn = async (num: number) => {
-    setClickedPage(num);
     setPageNo(num);
   };
 
@@ -74,7 +71,7 @@ const CommentsView = ({ postId }: Params) => {
               key={index + 1}
               onClick={() => handleClickPageBtn(index + 1)}
               className={`hover:cursor-pointer ${
-                clickedPage === index + 1 ? "text-[#10AF86]" : "text-[#616161]"
+                pageNo === index + 1 ? "text-[#10AF86]" : "text-[#616161]"
               }`}
             >
               {index + 1}
