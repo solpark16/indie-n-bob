@@ -3,7 +3,11 @@
 import SITE_URL from "@/constant";
 import { CommentType, NewCommentType } from "@/types/Comments";
 import { formatDateString } from "@/utils/formatDateString";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useRef } from "react";
 import Swal from "sweetalert2";
@@ -16,8 +20,8 @@ interface PropsType {
 const CmtToModi = ({ comment, onClose }: PropsType) => {
   const contentRef = useRef<HTMLInputElement>(null);
   const { post_id, author_id, author_nickname, comment_id } = comment;
-  const profileImgSrc = comment?.users?.profile_image;
-  const queryClient = useQueryClient();
+  const profileImgSrc: string | null = comment?.users?.profile_image;
+  const queryClient: QueryClient = useQueryClient();
 
   const { mutate: editComment } = useMutation({
     mutationFn: async (item: NewCommentType) => {
@@ -33,7 +37,7 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
     },
   });
 
-  const handleEditBtn = () => {
+  const handleEditBtn = (): void => {
     if (contentRef.current) {
       if (contentRef.current.value.length > 40) {
         Swal.fire({
@@ -63,25 +67,14 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
     <>
       <div className="w-[900px] h-[80px] flex justify-between items-center border-t border-b border-[#dddddd] text-[18px]">
         <div className="w-[850px] h-[80px] flex justify-start items-center">
-          {profileImgSrc ? (
-            <Image
-              src={profileImgSrc}
-              width={50}
-              height={50}
-              alt="프로필 이미지"
-              priority
-              className="w-[50px] h-[50px] rounded-full object-cover"
-            />
-          ) : (
-            <Image
-              src="/concert-default-image.png"
-              width={50}
-              height={50}
-              alt="프로필 이미지"
-              priority
-              className="w-[50px] h-[50px] rounded-full object-cover"
-            />
-          )}
+          <Image
+            src={profileImgSrc ? profileImgSrc : "/user/fallback-avatar.svg"}
+            width={50}
+            height={50}
+            alt="프로필 이미지"
+            priority
+            className="w-[50px] h-[50px] rounded-full object-cover"
+          />
           <span className="w-auto ml-[15px] text-black hover:cursor-default">
             {comment?.users?.nickname}
           </span>
