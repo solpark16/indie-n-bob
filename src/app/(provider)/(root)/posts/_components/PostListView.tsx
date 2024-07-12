@@ -17,13 +17,8 @@ function PostListView({ keyword }: PostListViewProps) {
   const { data: userData } = useUserData();
   const { ref, inView: isEndOfPage } = useInView();
 
-  const {
-    posts,
-    isLoading,
-    isError,
-    fetchNextPage,
-    hasNextPage,
-  } = useInfinitePosts();
+  const { posts, isLoading, isError, fetchNextPage, hasNextPage } =
+    useInfinitePosts();
 
   useEffect(() => {
     if (isEndOfPage && hasNextPage) {
