@@ -12,8 +12,8 @@ const CmtDelModal = ({ comment, onClose }: PropsType) => {
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="w-[1000px] h-[500px] bg-white rounded-[30px] shadow-modal-custom">
-          <div className="w-[1000px] h-[65px] flex justify-end items-center rounded-tl-[30px] rounded-tr-[30px] bg-[#10AF86]">
+        <div className="w-[1000px] min-h-[300px] bg-white rounded-[30px] shadow-modal-custom">
+          <div className="w-[1000px] min-h-[65px] flex justify-end items-center rounded-tl-[30px] rounded-tr-[30px] bg-[#10AF86]">
             <Image
               src="/cancel.png"
               width={50}
@@ -23,7 +23,7 @@ const CmtDelModal = ({ comment, onClose }: PropsType) => {
               onClick={onClose}
             />
           </div>
-          <div className="flex flex-col justify-center items-center">
+          <div className="flex min-h-[300px] flex-col justify-center items-center">
             <h2 className="w-[900px] mt-[30px] font-semibold text-[#10AF86] text-[30px]">
               댓글을 삭제하시겠어요?
             </h2>

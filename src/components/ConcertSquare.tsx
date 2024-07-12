@@ -28,7 +28,6 @@ function ConcertSquare({ concert }: ConcertSquareProps) {
     concert_likes,
   } = concert;
 
-  console.log(concert_likes);
   const createdAt = moment(created_at).format("yyyy.MM.DD");
   const startDate = moment(start_date).format("yyyy.MM.DD");
   const endDate = moment(end_date).format("yyyy.MM.DD");

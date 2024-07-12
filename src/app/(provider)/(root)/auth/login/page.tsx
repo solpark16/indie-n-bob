@@ -7,6 +7,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { useAuthStore } from "@/zustand/auth.store";
+import SITE_URL from "@/constant";
 
 export default function LoginPage() {
   const { email, password, setEmail, setPassword } = useAuthStore();
@@ -23,13 +24,10 @@ export default function LoginPage() {
       return;
     }
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`${SITE_URL}/api/auth/login`, {
+        email,
+        password,
+      });
 
       if (response.data) {
         Swal.fire({
@@ -39,12 +37,9 @@ export default function LoginPage() {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          console.log("클릭");
-          //router.replace("/");
-          window.location.href = "/";
+          router.replace("/");
         });
-        console.log("로그인 되었습니다.", response.statusText);
-      } else {
+
         Swal.fire({
           icon: "error",
           title: `로그인 실패`,

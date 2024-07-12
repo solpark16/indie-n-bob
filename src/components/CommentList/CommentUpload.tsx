@@ -53,13 +53,26 @@ const CommentUpload = ({ postId }: Params) => {
     if (!contentRef?.current?.value) {
       Swal.fire({
         title: "댓글이 입력되지 않았습니다.",
-        text: "댓글은 40자 이내로 작성해주세요.",
+        //text: "댓글은 40자 이내로 작성해주세요.",
         icon: "warning",
         cancelButtonText: "확인",
         cancelButtonColor: "#A04741",
       });
+
       return;
     }
+
+    // if (contentRef?.current?.value.length > 40) {
+    //   Swal.fire({
+    //     title: "등록이 제한되었습니다.",
+    //     text: "댓글은 40자 이내로 작성해주세요.",
+    //     icon: "warning",
+    //     cancelButtonText: "확인",
+    //     cancelButtonColor: "#A04741",
+    //   });
+    //   return;
+    // }
+
     const newComment: NewCommentType = {
       post_id: +postId,
       author_nickname: user?.nickname,

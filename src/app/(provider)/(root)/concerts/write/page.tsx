@@ -2,7 +2,8 @@
 
 import { Concert } from "@/types/Concert";
 import { createClient } from "@/utils/supabase/client";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { User } from "@supabase/supabase-js";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -10,6 +11,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const ConcertWritePage = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const [title, setTitle] = useState("");
   // TODO 기본 이미지 들어가야합니다
@@ -22,28 +24,43 @@ const ConcertWritePage = () => {
   const [price, setPrice] = useState("");
   const [link, setLink] = useState("");
   const [content, setContent] = useState("");
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User>();
 
   useEffect(() => {
     const supabase = createClient();
     const fetchData = async () => {
       const { data, error: getUserError } = await supabase.auth.getUser();
-      setUser(data.user);
+      if (data.user) {
+        setUser(data.user);
+      }
     };
     fetchData();
   }, []);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const fileObj = e.target.files[0];
-    const supabase = createClient();
-    const { data, error } = await supabase.storage
-      .from("posts/concert")
-      .upload(`post_${Date.now()}.png`, fileObj);
-    setImageUrl(
-      `https://stfauxrjudaltlmspsnv.supabase.co/storage/v1/object/public/posts/concert/${data.path}`
-    );
+    if (e.target.files) {
+      const fileObj = e.target.files[0];
+      const supabase = createClient();
+      const { data, error } = await supabase.storage
+        .from("posts/concert")
+        .upload(`post_${Date.now()}.png`, fileObj);
+      setImageUrl(
+        `https://stfauxrjudaltlmspsnv.supabase.co/storage/v1/object/public/posts/concert/${data.path}`
+      );
+    }
   };
+
+  const addMutation = useMutation({
+    mutationFn: async (newConcert: Concert) => {
+      const supabase = createClient();
+      await supabase.from("concert_posts").insert(newConcert).select();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["concerts"] });
+      router.push("/concerts");
+    },
+  });
 
   const concertAddHandler = async () => {
     if (
@@ -63,7 +80,8 @@ const ConcertWritePage = () => {
       alert("공연에 관련된 이미지를 등록해주세요.");
       return;
     }
-    const newConcert: Concert = {
+
+    addMutation.mutate({
       post_id: uuidv4(),
       title,
       image: imageUrl,
@@ -75,12 +93,8 @@ const ConcertWritePage = () => {
       price,
       link,
       content,
-      author_id: user.id,
-    };
-
-    const supabase = createClient();
-    await supabase.from("concert_posts").insert(newConcert).select();
-    router.push("/concerts");
+      author_id: user?.id,
+    });
   };
 
   return (

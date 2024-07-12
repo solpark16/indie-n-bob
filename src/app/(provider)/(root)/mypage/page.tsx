@@ -1,6 +1,6 @@
 import MyProfile from "@/components/MyPage/ProfileEdit/MyProfile";
 import MyPostViewSwitcher from "@/components/MyPage/PostView/MyPostViewSwitcher";
-export default async function MyPage() {
+export default function MyPage() {
   return (
     <div className="w-full">
       <div className="p-4 mx-auto max-w-4xl w-full">

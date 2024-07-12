@@ -10,7 +10,7 @@ const PerformanceInfo: FC = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: ["concerts"],
+    queryKey: ["mainConcerts"],
     queryFn: async () => {
       const response = await fetch(`${SITE_URL}/api/concerts`);
       const data = await response.json();
