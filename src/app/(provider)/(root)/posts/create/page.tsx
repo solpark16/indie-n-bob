@@ -133,7 +133,7 @@ const CreatePostPage = () => {
   };
 
   return (
-    <div>
+    <div className="mb-38">
       <input
         className="border-b-[1px] border-[#DDDDDD] text-[30px] w-full py-[25px]"
         placeholder="제목을 입력하세요"
