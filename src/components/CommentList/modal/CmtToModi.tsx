@@ -3,7 +3,11 @@
 import SITE_URL from "@/constant";
 import { CommentType, NewCommentType } from "@/types/Comments";
 import { formatDateString } from "@/utils/formatDateString";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useRef } from "react";
 import Swal from "sweetalert2";
@@ -16,8 +20,8 @@ interface PropsType {
 const CmtToModi = ({ comment, onClose }: PropsType) => {
   const contentRef = useRef<HTMLInputElement>(null);
   const { post_id, author_id, author_nickname, comment_id } = comment;
-  const profileImgSrc = comment?.users?.profile_image;
-  const queryClient = useQueryClient();
+  const profileImgSrc: string | null = comment?.users?.profile_image;
+  const queryClient: QueryClient = useQueryClient();
 
   const { mutate: editComment } = useMutation({
     mutationFn: async (item: NewCommentType) => {
@@ -33,7 +37,7 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
     },
   });
 
-  const handleEditBtn = () => {
+  const handleEditBtn = (): void => {
     if (contentRef.current) {
       if (contentRef.current.value.length > 40) {
         Swal.fire({
