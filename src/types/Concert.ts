@@ -11,6 +11,8 @@ export type Concert = {
   link: string;
   content: string;
   author_id: string;
+  created_at?: string;
+  users?: { nickname : string, profile_image : string },
 };
 
 export type ConcertInDB = {

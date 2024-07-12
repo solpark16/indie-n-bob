@@ -1,21 +1,21 @@
 "use client";
 
-import SITE_URL from "@/constant";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { Concert } from "@/types/Concert";
 import getConcerts from "@/utils/getConcerts";
-import { useInView } from "react-intersection-observer";
-import Loading from "../Loading";
-import { User } from "@supabase/supabase-js";
+import { createClient } from "@/utils/supabase/client";
 import { useAlertStore } from "@/zustand/alert.store";
+import { User } from "@supabase/supabase-js";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import { AlertUi } from "../Alert";
+import Loading from "../Loading";
 import ConcertSquare from "./ConcertSquare";
 
 function ConcertListView() {
   const [user, setUser] = useState<User>();
-  const [sortedConcerts, setSortedConcerts] = useState([]);
+  const [sortedConcerts, setSortedConcerts] = useState<Concert[]>([]);
   const [activeSort, setActiveSort] = useState("latest");
   const { setAlert } = useAlertStore();
 
@@ -46,7 +46,7 @@ function ConcertListView() {
     const supabase = createClient();
     const fetchData = async () => {
       const { data, error: getUserError } = await supabase.auth.getUser();
-      if (data) {
+      if (data?.user) {
         setUser(data.user);
       }
     };

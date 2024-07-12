@@ -1,10 +1,12 @@
 "use client";
 
 import ConcertDeleteButton from "@/components/ConcertList/ConcertDeleteButton";
-import { formatDateString } from "@/utils/formatDateString";
+import { Concert } from "@/types/Concert";
 import { createClient } from "@/utils/supabase/client";
+import { User } from "@supabase/supabase-js";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -14,7 +16,7 @@ type ConcertDetailPageProps = {
 };
 
 const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [like, setLike] = useState(0);
   const [heart, setHeart] = useState(false);
 
@@ -22,9 +24,11 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
   useEffect(() => {
     const fetchData = async () => {
       const { data, error: getUserError } = await supabase.auth.getUser();
+      if (!data?.user) return;
       setUser(data.user);
     };
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // like 가져오기
@@ -34,9 +38,10 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
         .from("concert_likes")
         .select()
         .eq("post_id", postId);
-      setLike(data.length);
+      setLike(data?.length || 0);
     };
     fetchLike();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [like]);
 
   const { data: concert, isPending } = useQuery({
@@ -73,7 +78,7 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
     author_id,
     // users: { nickname, profile_image },
     users,
-  } = concert;
+  } = concert as unknown as Concert;
 
   const createdAt = moment(created_at).format("yyyy.MM.DD");
   const startDate = moment(start_date).format("yyyy.MM.DD");
@@ -95,7 +100,7 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
       .select()
       .eq("post_id", postId)
       .eq("user_id", user.id);
-    if (data.length) {
+    if (data?.length) {
       await supabase
         .from("concert_likes")
         .delete()
@@ -145,7 +150,15 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
         <article className="flex gap-[76px]">
           <div className="relative min-w-[450px] w-[450px]">
             {/* Image 태그로 변경 필요 */}
-            {image && <img src={image} alt={title} />}
+            {image && (
+              <Image
+                width={450}
+                height={450}
+                src={image}
+                alt={title}
+                className="object-cover"
+              />
+            )}
           </div>
           <div className="w-full flex flex-col text-[#2E2E2E]">
             <div className="mt-[30px] leading-[60px]">
@@ -184,13 +197,16 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
         <div>
           <div className="text-[18px] flex justify-between mt-[78px] mb-[35px] pb-[24px] border-b-[1px]">
             <div className="flex gap-4 items-center">
-              <img
+              <Image
                 className="w-[50px] h-[50px] object-cover rounded-full"
-                src={users && users.profile_image}
+                src={users?.profile_image ?? "/user/fallback-avatar.svg"}
+                alt="프로필 이미지"
+                width={50}
+                height={50}
               />
               <p className="m-0">{users && users.nickname}</p>
             </div>
-            <p className="text-[#A0A0A0]">{formatDateString(created_at)}</p>
+            <p className="text-[#A0A0A0]">{createdAt}</p>
           </div>
           <p className="text-[25px]">{content}</p>
         </div>
