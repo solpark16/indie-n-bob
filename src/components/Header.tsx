@@ -102,13 +102,13 @@ const Header: FC = () => {
 
         <li className="nav-item mx-2">
           <Link href="/concerts" className="no-underline">
-            <span className="text-[#10AF86] no-underline">공연정보</span>
+            <span className="text-main-color no-underline">공연정보</span>
           </Link>
         </li>
 
         <li className="nav-item mx-2">
           <Link href="/posts" className="no-underline">
-            <span className="text-[#10AF86] no-underline">자유게시판</span>
+            <span className="text-main-color no-underline">자유게시판</span>
           </Link>
         </li>
 
@@ -150,12 +150,12 @@ const Header: FC = () => {
           <>
             <li className="nav-item mx-2 ms-auto">
               <Link href="/auth/login" className="no-underline">
-                <p className="text-[#10AF86] mb-0">로그인</p>
+                <p className="text-main-color mb-0">로그인</p>
               </Link>
             </li>
             <li className="nav-item mx-2">
               <Link href="/auth/signup" className="no-underline">
-                <p className="text-[#2e2e2e] mb-0">회원가입</p>
+                <p className="text-sub-color mb-0">회원가입</p>
               </Link>
             </li>
           </>
