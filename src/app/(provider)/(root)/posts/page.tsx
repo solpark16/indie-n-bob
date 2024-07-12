@@ -9,7 +9,7 @@ type PostListPageProps = {
 
 function PostListPage({ searchParams: { keyword } }: PostListPageProps) {
   return (
-    <main className="flex flex-col justify-center items-center">
+    <main className="flex flex-col justify-center items-center mb-38">
       <h2 className="py-8 font-bold text-3xl text-main-color">게시판</h2>
       <Hashtag selectedTag={keyword} size="lg" tags={tags}></Hashtag>
       <PostListView keyword={keyword}></PostListView>

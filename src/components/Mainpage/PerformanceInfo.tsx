@@ -13,7 +13,8 @@ const PerformanceInfo: FC = () => {
     queryKey: ["concerts"],
     queryFn: async () => {
       const response = await fetch(`${SITE_URL}/api/concerts`);
-      return await response.json();
+      const data = await response.json();
+      return data;
     },
   });
 
@@ -29,6 +30,12 @@ const PerformanceInfo: FC = () => {
     return <div>Error: {error.message}</div>;
   }
 
+  const sortedConcerts = concerts.sort((a, b) => {
+    const dateA = new Date(a.created_at);
+    const dateB = new Date(b.created_at);
+    return dateB.getTime() - dateA.getTime();
+  });
+
   return (
     <div className="text-center p-5">
       <div className="mb-5">
@@ -41,7 +48,7 @@ const PerformanceInfo: FC = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {concerts.slice(0, 3).map((concert) => (
+        {sortedConcerts.slice(0, 3).map((concert) => (
           <Link
             key={concert.post_id}
             href={`/concerts/${concert.post_id}`}

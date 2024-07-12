@@ -5,7 +5,7 @@ import Carousel from "./Carousel";
 
 const MainPage = () => {
   return (
-    <div>
+    <div className="mb-38">
       <div className=" absolute left-0 right-0">
         <Carousel />
       </div>

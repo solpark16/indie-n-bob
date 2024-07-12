@@ -1,4 +1,5 @@
 import { FC } from "react";
+import Image from "next/image";
 
 const Carousel: FC = () => {
   return (
@@ -10,25 +11,43 @@ const Carousel: FC = () => {
       >
         <div className="carousel-inner w-full">
           <div className="carousel-item active">
-            <img
-              src="/실리카겔 커버3.webp"
-              className="d-block w-[100%] h-[500px] object-cover"
-              alt="First slide"
-            />
+            <div className="relative w-[100%] h-[500px]">
+              <Image
+                src="/SILICAGEL.webp"
+                layout="fill"
+                className="d-block object-cover"
+                alt="First slide"
+              />
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-white text-2xl p-4">
+                실리카겔(SILICA GEL)
+              </div>
+            </div>
           </div>
           <div className="carousel-item">
-            <img
-              src="/잔나비 수정.jpg"
-              className="d-block w-[100%] h-[500px] object-cover"
-              alt="Second slide"
-            />
+            <div className="relative w-[100%] h-[500px]">
+              <Image
+                src="/Jannabi.jpg"
+                layout="fill"
+                className="d-block object-cover"
+                alt="Second slide"
+              />
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-black text-2xl p-4">
+                잔나비(Jannabi)
+              </div>
+            </div>
           </div>
           <div className="carousel-item">
-            <img
-              src="/루시 커버.jpg"
-              className="d-block w-[100%] h-[500px] object-cover"
-              alt="Third slide"
-            />
+            <div className="relative w-[100%] h-[500px]">
+              <Image
+                src="/Lucy.jpg"
+                layout="fill"
+                className="d-block object-cover"
+                alt="Third slide"
+              />
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-white text-2xl p-4">
+                루시(Lucy)
+              </div>
+            </div>
           </div>
         </div>
         <button
