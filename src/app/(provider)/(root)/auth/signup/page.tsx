@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import { useAuthStore } from "@/zustand/auth.store";
 import { useAlertStore } from "@/zustand/alert.store";
 import { AlertUi } from "@/components/Alert";
+import SITE_URL from "@/constant";
 
 export default function SignUpPage(): JSX.Element {
   const {
@@ -34,6 +35,29 @@ export default function SignUpPage(): JSX.Element {
 
   const onChangeEmail = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
+
+    try {
+      const response = await axios.post(`${SITE_URL}/api/auth/check`, {
+        email: e.target.value,
+      });
+
+      if (response.data.exists) {
+        setError({
+          ...error,
+          email: "이미 사용 중인 이메일입니다.",
+        });
+      } else {
+        setError({
+          ...error,
+          email: "",
+        });
+      }
+    } catch (error) {
+      setError({
+        ...error,
+        email: "이메일 확인 중 오류가 발생했습니다.",
+      });
+    }
   };
 
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,13 +102,13 @@ export default function SignUpPage(): JSX.Element {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (error.password) {
-      setAlert(true, "비밀번호 오류 🥲", "비밀번호 조건을 확인해주세요.");
+    if (error.email) {
+      setAlert(true, "이메일 중복 🥲", "이미 사용 중인 이메일입니다.");
       return;
     }
 
-    if (error.nickname) {
-      setAlert(true, "닉네임 오류 🥲", "닉네임 조건을 확인해주세요.");
+    if (error.password) {
+      setAlert(true, "비밀번호 오류 🥲", "비밀번호 조건을 확인해주세요.");
       return;
     }
 
@@ -148,6 +172,11 @@ export default function SignUpPage(): JSX.Element {
               placeholder="formflet@email.com"
             />
             <AiOutlineUser className="absolute left-3 top-1/2 transform -translate-y-1/2" />
+            {error.email && (
+              <p className="text-red-500 absolute bottom-0 text-[11px]">
+                {error.email}
+              </p>
+            )}
           </div>
 
           <div className="relative">
