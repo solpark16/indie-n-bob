@@ -10,13 +10,13 @@
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href="https://github.com/solpark16"><img src="https://avatars.githubusercontent.com/u/79960346?v=4" width="100px;" alt="image"/><br /><sub><b>팀장 : 박솔 </b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/Captain-Kim"><img src="https://avatars.githubusercontent.com/u/160568904?v=4" width="100px;" alt="image"/><br /><sub><b>팀원 : 김병준</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/hoondolla"><img src="https://avatars.githubusercontent.com/u/162412793?v=4" width="100px;" alt="image"/><br /><sub><b>팀원 : 김재훈</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/solpark16"><img src="https://avatars.githubusercontent.com/u/79960346?v=4" width="200px;" alt="image"/><br /><b>팀장 : 박솔 </b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/Captain-Kim"><img src="https://avatars.githubusercontent.com/u/160568904?v=4" width="200px;" alt="image"/><br /><b>팀원 : 김병준</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/hoondolla"><img src="https://avatars.githubusercontent.com/u/162412793?v=4" width="200px;" alt="image"/><br /><b>팀원 : 김재훈</b></sub></a><br /></td>
        <tr/>
-      <td align="center"><a href="https://github.com/oneieo"><img src="https://avatars.githubusercontent.com/u/140629917?v=4" width="100px;" alt="image"/><br /><sub><b>팀원 : 선지원</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/ejunyang"><img src="https://avatars.githubusercontent.com/u/48206065?v=4" width="100px;" alt="image"/><br /><sub><b>팀원 :양이준</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/reeny404"><img src="https://avatars.githubusercontent.com/u/61840162?v=4" width="100px;" alt="image"/><br /><sub><b>팀원 : 이효현</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/oneieo"><img src="https://avatars.githubusercontent.com/u/140629917?v=4" width="200px;" alt="image"/><br /><b>팀원 : 선지원</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/ejunyang"><img src="https://avatars.githubusercontent.com/u/48206065?v=4" width="200px;" alt="image"/><br /><b>팀원 :양이준</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/reeny404"><img src="https://avatars.githubusercontent.com/u/61840162?v=4" width="200px;" alt="image"/><br /><b>팀원 : 이효현</b></sub></a><br /></td>
     </tr>
   </tbody>
 </table>
