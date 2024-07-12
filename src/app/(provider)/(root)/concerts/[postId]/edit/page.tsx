@@ -12,13 +12,13 @@ const ConcertEditPage = ({ params }: { params: { postId: string } }) => {
   const { postId } = params;
   const router = useRouter();
 
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState<string>("");
   // TODO 기본 이미지 들어가야합니다
   const [imageUrl, setImageUrl] = useState("/concert-default-image.png");
   const [region, setRegion] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState("");
   const [age, setAge] = useState("");
   const [price, setPrice] = useState("");
   const [link, setLink] = useState("");
@@ -35,31 +35,34 @@ const ConcertEditPage = ({ params }: { params: { postId: string } }) => {
         .eq("post_id", postId)
         .single();
 
-      setTitle(post.title);
-      setImageUrl(post.image);
-      setRegion(post.region);
-      setStartDate(post.start_date);
-      setEndDate(post.end_date);
-      setTime(post.time);
-      setAge(post.age);
-      setPrice(post.price);
-      setLink(post.link);
-      setContent(post.content);
+      if (post?.title) setTitle(post.title);
+      if (post?.image) setImageUrl(post.image);
+      if (post?.region) setRegion(post.region);
+      if (post?.start_date) setStartDate(post.start_date);
+      if (post?.end_date) setEndDate(post.end_date);
+      if (post?.time) setTime(post.time);
+      if (post?.age) setAge(post.age);
+      if (post?.price) setPrice(post.price);
+      if (post?.link) setLink(post.link);
+      if (post?.content) setContent(post.content);
 
       return post;
     },
   });
-  // console.log(targetData);
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const fileObj = e.target.files[0];
-    const supabase = createClient();
-    const { data, error } = await supabase.storage
-      .from("posts/concert")
-      .upload(`post_${Date.now()}.png`, fileObj);
-    setImageUrl(
-      `https://stfauxrjudaltlmspsnv.supabase.co/storage/v1/object/public/posts/concert/${data.path}`
-    );
+    if (e.target.files) {
+      const fileObj = e.target.files[0];
+      const supabase = createClient();
+      const { data, error } = await supabase.storage
+        .from("posts/concert")
+        .upload(`post_${Date.now()}.png`, fileObj);
+      if (data) {
+        setImageUrl(
+          `https://stfauxrjudaltlmspsnv.supabase.co/storage/v1/object/public/posts/concert/${data.path}`
+        );
+      }
+    }
   };
   const queryClient = useQueryClient();
 
@@ -176,7 +179,7 @@ const ConcertEditPage = ({ params }: { params: { postId: string } }) => {
             className="h-[60px] w-full"
             value={time}
             onChange={(e) => {
-              setTime(+e.target.value);
+              setTime(e.target.value);
             }}
           />
         </div>

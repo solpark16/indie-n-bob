@@ -1,12 +1,12 @@
+import useAllLikes from "@/hooks/useAllLIkes";
+import { Post } from "@/types/Post";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 import { HeartIcon } from "../../../../../components/HeartIcon";
-import { PostWithAuthor } from "@/types/Post";
-import useAllLikes from "@/hooks/useAllLIkes";
 
 type PostSqureProps = {
-  post: PostWithAuthor;
+  post: Post;
 };
 
 function PostItemSqure({ post }: PostSqureProps) {

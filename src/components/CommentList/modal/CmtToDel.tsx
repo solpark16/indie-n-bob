@@ -43,27 +43,16 @@ const CmtToDel = ({ comment, onClose }: PropsType) => {
 
   return (
     <>
-      <div className="w-[900px] h-[80px] flex justify-between items-center border-t border-b border-[#dddddd] text-[18px]">
-        <div className="w-[850px] h-[80px] flex justify-start items-center">
-          {profileImgSrc ? (
-            <Image
-              src={profileImgSrc}
-              width={50}
-              height={50}
-              alt="프로필 이미지"
-              priority
-              className="w-[50px] h-[50px] rounded-full object-cover"
-            />
-          ) : (
-            <Image
-              src="/concert-default-image.png"
-              width={50}
-              height={50}
-              alt="프로필 이미지"
-              priority
-              className="w-[50px] h-[50px] rounded-full object-cover"
-            />
-          )}
+      <div className="w-[900px] min-h-[80px] flex justify-between items-center border-t border-b border-[#dddddd] text-[18px]">
+        <div className="w-[850px] min-h-[80px] flex justify-start items-center">
+          <Image
+            src={profileImgSrc ? profileImgSrc : "/user/fallback-avatar.svg"}
+            width={50}
+            height={50}
+            alt="프로필 이미지"
+            priority
+            className="w-[50px] h-[50px] rounded-full object-cover"
+          />
           <span className="w-auto ml-[15px] text-black">
             {comment?.users?.nickname}
           </span>
@@ -72,10 +61,10 @@ const CmtToDel = ({ comment, onClose }: PropsType) => {
           <span>{formatDateString(comment?.created_at)}</span>
         </div>
       </div>
-      <span className="w-[850px] h-[25px] text-black text-[20px] mt-[20px]">
+      <span className="w-[850px] min-h-[25px] text-black text-[20px] mt-[20px]">
         {comment?.content}
       </span>
-      <div className="flex gap-[20px] pt-[70px] pl-[475px]">
+      <div className="flex gap-[20px] pt-[25px] pb-[25px] pl-[475px]">
         <button
           type="button"
           className="w-[200px] h-[55px] rounded-[10px] bg-[#EFEFEF] text-[#747474] hover:bg-[#d7d7d7] transition duration-200"

@@ -1,4 +1,4 @@
-import useAllLikes from "@/hooks/useAllLIkes";
+import useAllLikes from "@/hooks/useAllLikes";
 
 const HowManyLikes = ({ postId }) => {
     const { data, isPending, isError } = useAllLikes();

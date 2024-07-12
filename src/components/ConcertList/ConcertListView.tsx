@@ -1,57 +1,75 @@
 "use client";
 
 import SITE_URL from "@/constant";
-import { useQuery } from "@tanstack/react-query";
-import ConcertSquare from "../ConcertSquare";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
+import getConcerts from "@/utils/getConcerts";
+import { useInView } from "react-intersection-observer";
+import Loading from "../Loading";
+import { User } from "@supabase/supabase-js";
 import { useAlertStore } from "@/zustand/alert.store";
 import { AlertUi } from "../Alert";
+import ConcertSquare from "./ConcertSquare";
 
 function ConcertListView() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User>();
   const [sortedConcerts, setSortedConcerts] = useState([]);
   const [activeSort, setActiveSort] = useState("latest");
   const { setAlert } = useAlertStore();
 
   // TODO 나중에 추론한 데이터로 변경
-  const { data: concerts, isSuccess } = useQuery({
-    queryKey: ["concerts"],
-    queryFn: async () => {
-      const response = await fetch(`${SITE_URL}/api/concerts`);
-      return await response.json();
-    },
-  });
+  const { data, isPending, isError, fetchNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: ["concerts"],
+      queryFn: async ({ pageParam = 0 }) => getConcerts(pageParam),
+      getNextPageParam: (lastPage) => {
+        return lastPage.nextCursor !== null ? lastPage.nextCursor : undefined;
+      },
+      initialPageParam: 0,
+      staleTime: Infinity,
+    });
+  const concerts = useMemo(
+    () => data?.pages?.flatMap((page) => page.posts) || [],
+    [data]
+  );
+  const { ref, inView } = useInView();
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
   // 현재 로그인 된 유저 정보 가져오기
   useEffect(() => {
     const supabase = createClient();
     const fetchData = async () => {
       const { data, error: getUserError } = await supabase.auth.getUser();
-      setUser(data.user);
+      if (data) {
+        setUser(data.user);
+      }
     };
     fetchData();
   }, []);
 
   // 최신 순으로 정렬
   useEffect(() => {
-    if (concerts && concerts.length) {
-      latestSort();
+    if (concerts && concerts.length && activeSort === "latest") {
+      const sorted = [...concerts].sort(
+        (a, b) => Date.parse(b.created_at) - Date.parse(a.created_at)
+      );
+      setSortedConcerts(sorted);
     }
-  }, [concerts]);
+  }, [concerts, activeSort]);
 
   // sort 기능
   // 최신순 정렬
   const latestSort = () => {
     setActiveSort("latest");
-    const sorted = [...concerts].sort((a, b) => {
-      return Date.parse(b.created_at) - Date.parse(a.created_at);
-    });
-    setSortedConcerts(sorted);
   };
 
-  // 랭킹순 정렬
+  // // 랭킹순 정렬
   const rankingSort = () => {
     setActiveSort("ranking");
     const sorted = [...concerts].sort((a, b) => {
@@ -60,7 +78,7 @@ function ConcertListView() {
     setSortedConcerts(sorted);
   };
 
-  // 공연 종료 임박순 정렬
+  // // 공연 종료 임박순 정렬
   const imminentSort = () => {
     setActiveSort("imminent");
     const now = new Date().getTime();
@@ -72,10 +90,7 @@ function ConcertListView() {
     setSortedConcerts(sorted);
   };
 
-  if (!isSuccess) {
-    return <>로딩중입니다</>;
-  }
-  console.log(concerts);
+  if (isPending) return <Loading />;
   return (
     <>
       <div className="flex border-t-[1px] pt-[37px] mb-[74px] justify-between">
@@ -137,7 +152,7 @@ function ConcertListView() {
       {concerts && concerts.length ? (
         <ul className="grid justify-between gap-[31px] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-0">
           {sortedConcerts.map((concert) => (
-            <li key={concert.post_id} className="max-w-[405px] ">
+            <li key={concert.post_id} className="max-w-[405px]">
               <ConcertSquare concert={concert}></ConcertSquare>
             </li>
           ))}
@@ -145,6 +160,8 @@ function ConcertListView() {
       ) : (
         <div>등록된 공연 정보가 없습니다.</div>
       )}
+      <div ref={ref}></div>
+      {isPending && <Loading />}
     </>
   );
 }
