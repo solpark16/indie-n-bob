@@ -8,6 +8,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   favorite_artist: [],
   is_admin: false,
   error: {
+    email:"",
     password: "",
     nickname: "",
   },
