@@ -32,7 +32,7 @@ const MyPostGalleryView = () => {
     if (isError) return <div>에러가 발생했습니다.</div>;
 
     return (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {posts?.map((post) => {
                 if (!post) return null;
                 return (
