@@ -32,6 +32,10 @@ export default function SignUpPage(): JSX.Element {
   const { setAlert } = useAlertStore();
   const router = useRouter();
 
+  const onChangeEmail = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     const passwordRegex =
@@ -96,10 +100,7 @@ export default function SignUpPage(): JSX.Element {
         }
       );
 
-      if (response.data.error) {
-        console.log(response.data.error);
-      } else {
-        console.log("회원가입 성공");
+      if (response.data) {
         setAlert(
           true,
           `${nickname}님 반갑습니다!👋`,
@@ -115,10 +116,15 @@ export default function SignUpPage(): JSX.Element {
         setTimeout(() => {
           router.replace("/auth/login");
         }, 1500);
+      } else {
+        setAlert(true, "회원가입 오류 🥲", response.data.error);
       }
     } catch (error) {
-      console.log("회원가입 실패");
-      setAlert(true, `Sorry! 🥲`, "이미 사용 중인 이메일 입니다.");
+      setAlert(
+        true,
+        `Sorry! 🥲`,
+        "서버 오류가 발생했습니다. 다시 시도해주세요."
+      );
     }
   };
 
@@ -138,7 +144,7 @@ export default function SignUpPage(): JSX.Element {
               type="email"
               id="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={onChangeEmail}
               placeholder="formflet@email.com"
             />
             <AiOutlineUser className="absolute left-3 top-1/2 transform -translate-y-1/2" />

@@ -7,17 +7,7 @@ export async function POST(request: NextRequest) {
   try {
     const { email, password, nickname, is_admin, favorite_artist }: Auth =
       await request.json();
-
-    // 이메일 중복 검사
-    const { data: emailCheckData } = await supabase
-    .from("users")
-    .select("user_id")
-    .eq("email", email)
-    .single();
-
-  if (emailCheckData) {
-    return NextResponse.json({ error: "이미 사용 중인 이메일입니다." }, { status: 400 });
-  }
+  
 
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp(
       {
