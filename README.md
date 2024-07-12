@@ -20,6 +20,201 @@
 - **기간** : 2024.07.08 ~ 2024.07.15 (7일 간)
 - **담당 튜터** : 김범수 튜터
 
+## 프로젝트 구조가 어떻게 되나요?
+
+```
+.eslintrc.json
+.gitignore
+.vscode
+│  ├─ extensions.json
+│  └─ settings.json
+README.md
+components.json
+├─ next.config.mjs
+├─ package.json
+├─ postcss.config.mjs
+public
+Gallery_View_icon.svg
+│  ├─ Jannabi.jpg
+│  ├─ LIst_VIew_Icon.svg
+│  ├─ Lucy.jpg
+│  ├─ SILICAGEL.webp
+│  ├─ cancel.png
+│  ├─ concert-default-image.png
+│  ├─ favorite_artist_icon.svg
+│  ├─ font
+│  │  └─ PretendardVariable.woff2
+│  ├─ loading-circle.gif
+│  ├─ logo.png
+│  ├─ next.svg
+│  ├─ post
+│  │  └─ fallback.svg
+│  ├─ user
+│  │  └─ fallback-avatar.svg
+│  ├─ vercel.svg
+│  └─ why.jpg
+├─ src
+│  ├─ app
+│  │  ├─ (provider)
+│  │  │  ├─ (root)
+│  │  │  │  ├─ auth
+│  │  │  │  │  ├─ login
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ signup
+│  │  │  │  │     └─ page.tsx
+│  │  │  │  ├─ concerts
+│  │  │  │  │  ├─ [postId]
+│  │  │  │  │  │  ├─ edit
+│  │  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ page.tsx
+│  │  │  │  │  └─ write
+│  │  │  │  │     └─ page.tsx
+│  │  │  │  ├─ layout.tsx
+│  │  │  │  ├─ mypage
+│  │  │  │  │  ├─ layout.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ page.tsx
+│  │  │  │  └─ posts
+│  │  │  │     ├─ [postId]
+│  │  │  │     │  ├─ _components
+│  │  │  │     │  │  ├─ ButtonsChangePostStatus.tsx
+│  │  │  │     │  │  ├─ ImageUploader
+│  │  │  │     │  │  │  ├─ ImageUploader.tsx
+│  │  │  │     │  │  │  └─ upload.ts
+│  │  │  │     │  │  ├─ LikeButton.tsx
+│  │  │  │     │  │  ├─ PostEditSection.tsx
+│  │  │  │     │  │  └─ TagInput.tsx
+│  │  │  │     │  ├─ edit
+│  │  │  │     │  │  └─ page.tsx
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ _components
+│  │  │  │     │  ├─ PostItemSqure.tsx
+│  │  │  │     │  └─ PostListView.tsx
+│  │  │  │     ├─ create
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     └─ page.tsx
+│  │  │  └─ layout.tsx
+│  │  ├─ api
+│  │  │  ├─ auth
+│  │  │  │  ├─ check
+│  │  │  │  │  └─ route.ts
+│  │  │  │  ├─ login
+│  │  │  │  │  └─ route.ts
+│  │  │  │  └─ signup
+│  │  │  │     └─ route.ts
+│  │  │  ├─ concerts
+│  │  │  │  ├─ [postId]
+│  │  │  │  │  └─ route.ts
+│  │  │  │  └─ route.ts
+│  │  │  └─ posts
+│  │  │     ├─ [postId]
+│  │  │     │  ├─ comments
+│  │  │     │  │  ├─ [commentId]
+│  │  │     │  │  │  └─ route.ts
+│  │  │     │  │  ├─ length
+│  │  │     │  │  │  └─ route.ts
+│  │  │     │  │  └─ route.ts
+│  │  │     │  ├─ likes
+│  │  │     │  │  └─ route.ts
+│  │  │     │  └─ route.ts
+│  │  │     └─ route.ts
+│  │  ├─ favicon.ico
+│  │  ├─ globals.css
+│  │  └─ layout.tsx
+│  ├─ components
+│  │  ├─ Alert.tsx
+│  │  ├─ Backdrop.tsx
+│  │  ├─ BreakLine.tsx
+│  │  ├─ CommentList
+│  │  │  ├─ Comment.tsx
+│  │  │  ├─ CommentUpload.tsx
+│  │  │  ├─ Comments.tsx
+│  │  │  ├─ CommentsView.tsx
+│  │  │  ├─ ErrorGetComments.tsx
+│  │  │  ├─ LoadingComments.tsx
+│  │  │  └─ modal
+│  │  │     ├─ CmtDelBtn.tsx
+│  │  │     ├─ CmtDelModal.tsx
+│  │  │     ├─ CmtEditBtn.tsx
+│  │  │     ├─ CmtEditModal.tsx
+│  │  │     ├─ CmtToDel.tsx
+│  │  │     └─ CmtToModi.tsx
+│  │  ├─ ConcertList
+│  │  │  ├─ ConcertDeleteButton.tsx
+│  │  │  ├─ ConcertListView.tsx
+│  │  │  └─ ConcertSquare.tsx
+│  │  ├─ Footer.tsx
+│  │  ├─ Hashtag.tsx
+│  │  ├─ Header.tsx
+│  │  ├─ HeartIcon.tsx
+│  │  ├─ Loading.tsx
+│  │  ├─ Mainpage
+│  │  │  ├─ BestInfo.tsx
+│  │  │  ├─ Carousel.tsx
+│  │  │  ├─ MainLike.tsx
+│  │  │  ├─ MainPage.tsx
+│  │  │  └─ PerformanceInfo.tsx
+│  │  ├─ MyPage
+│  │  │  ├─ PostVIew
+│  │  │  │  ├─ HowManyLikes.tsx
+│  │  │  │  ├─ MyPostGalleyView.tsx
+│  │  │  │  ├─ MyPostListView.tsx
+│  │  │  │  └─ MyPostViewSwitcher.tsx
+│  │  │  └─ ProfileEdit
+│  │  │     ├─ MyProfile.tsx
+│  │  │     ├─ ProfileEditButton.tsx
+│  │  │     └─ ProfileEditModal.tsx
+│  │  └─ ui
+│  │     └─ alert.tsx
+│  ├─ constant.ts
+│  ├─ hooks
+│  │  ├─ useAllLIkes.ts
+│  │  ├─ useInfinitePosts.tsx
+│  │  ├─ useMyPosts.ts
+│  │  └─ useUserData.ts
+│  ├─ lib
+│  │  └─ utils.ts
+│  ├─ middleware.ts
+│  ├─ types
+│  │  ├─ Auth.ts
+│  │  ├─ Comments.ts
+│  │  ├─ Concert.ts
+│  │  ├─ Post.ts
+│  │  ├─ Tag.ts
+│  │  └─ supabase.ts
+│  ├─ utils
+│  │  ├─ formatDateString.ts
+│  │  ├─ getAuthUesrOnClient.ts
+│  │  ├─ getAuthUesrOnServer.ts
+│  │  ├─ getConcerts.ts
+│  │  ├─ getLikes.ts
+│  │  ├─ getMyInfo.ts
+│  │  ├─ getMyPosts.ts
+│  │  ├─ getUser.ts
+│  │  ├─ myPage
+│  │  │  ├─ getLikes.ts
+│  │  │  ├─ getMyInfo.ts
+│  │  │  ├─ getMyPosts.ts
+│  │  │  └─ getUser.ts
+│  │  └─ supabase
+│  │     ├─ client.ts
+│  │     ├─ middleware.ts
+│  │     └─ server.ts
+│  └─ zustand
+│     ├─ alert.store.ts
+│     └─ auth.store.ts
+├─ supabase
+│  ├─ .gitignore
+│  ├─ .temp
+│  │  └─ cli-latest
+│  ├─ config.toml
+│  └─ seed.sql
+├─ tailwind.config.ts
+├─ tsconfig.json
+└─ yarn.lock
+```
+
 ## 사용한 기술 스택은 어떻게 되나요?
 
 <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
