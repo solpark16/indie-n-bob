@@ -43,7 +43,7 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
     image,
     created_at,
     hashtag,
-    author: { nickname, profile_file: profileImg },
+    author: { nickname, profile_image: profileImg },
   } = post;
   const createdAt = moment(created_at).format("yyyy.MM.DD");
 
@@ -58,6 +58,7 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
           alt="프로필 이미지"
           width="45"
           height="45"
+          className="object-cover w-[45px] h-[45px] rounded-full"
         />
         <span className="text-lg font-semibold">{nickname}</span>
         <div className={`ml-auto ${!isOwnedUser && "hidden"}`}>
