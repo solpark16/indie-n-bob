@@ -198,6 +198,16 @@
 
 - 웹 사이트의 UI를 작성하기 위해 사용
 
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><a href="https://github.com/user-attachments/assets/59327b2c-e7f2-4fd9-a044-ce458189ef6f"><img src="https://github.com/user-attachments/assets/59327b2c-e7f2-4fd9-a044-ce458189ef6f" width="300px;" alt="image"/><br /><b>로그인 페이지</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/b3427ef3-3835-423c-ad3b-161748ff2dbe"><img src="https://github.com/user-attachments/assets/b3427ef3-3835-423c-ad3b-161748ff2dbe" width="300px;" alt="image"/><br /><b>회원가입 페이지</b></sub></a><br /></td>
+    <tr/>
+  </tbody>
+</table>
+
+
 ## 와이어 프레임을 보여주세요!
 
 <table>
