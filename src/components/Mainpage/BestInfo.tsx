@@ -3,8 +3,9 @@ import { Post } from "@/types/Post";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import MainLikes from "./MainLike";
+import useAllLikes from "@/hooks/useAllLIkes"; // 좋아요 데이터 가져오기 훅
 
 const fetchPosts = async () => {
   const response = await fetch(`${SITE_URL}/api/posts`, {
@@ -23,8 +24,8 @@ const fetchPosts = async () => {
 const BestInfo: FC = () => {
   const {
     data: posts,
-    error,
-    isLoading,
+    error: postsError,
+    isLoading: postsLoading,
   } = useQuery<Post[]>({
     queryKey: ["posts"],
     queryFn: fetchPosts,
@@ -33,7 +34,34 @@ const BestInfo: FC = () => {
     refetchInterval: 60000,
   });
 
-  if (isLoading) {
+  const {
+    data: likesData,
+    error: likesError,
+    isLoading: likesLoading,
+  } = useAllLikes();
+
+  const [postsWithLikes, setPostsWithLikes] = useState<
+    (Post & { likesCount: number })[]
+  >([]);
+
+  useEffect(() => {
+    if (posts && likesData && Array.isArray(likesData.likes)) {
+      const postsWithLikes = posts.map((post) => {
+        const likesCount = likesData.likes.filter(
+          (like: any) => like.post_id === post.post_id
+        ).length;
+        return { ...post, likesCount };
+      });
+
+      // 좋아요 수 기준으로 게시글을 내림차순 정렬
+      const sortedPosts = postsWithLikes.sort(
+        (a, b) => b.likesCount - a.likesCount
+      );
+      setPostsWithLikes(sortedPosts);
+    }
+  }, [posts, likesData]);
+
+  if (postsLoading || likesLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
         <Image src="/loading-circle.gif" alt="Loading" width={50} height={50} />
@@ -41,8 +69,8 @@ const BestInfo: FC = () => {
     );
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (postsError || likesError) {
+    return <div>Error: {postsError?.message || likesError?.message}</div>;
   }
 
   return (
@@ -57,8 +85,9 @@ const BestInfo: FC = () => {
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {posts && posts.length > 0 ? (
-          posts.slice(0, 4).map((post) => (
+        {postsWithLikes.slice(0, 4).map((post) => {
+          const imageSrc = post.image ? post.image : "/concerts-default-image";
+          return (
             <Link
               key={post.post_id}
               href={`/posts/${post.post_id}`}
@@ -67,8 +96,8 @@ const BestInfo: FC = () => {
               <a className="relative rounded-lg overflow-hidden">
                 <div className="relative h-[400px]">
                   <Image
-                    src={post.image}
-                    alt={post.title}
+                    src={imageSrc}
+                    alt="공연 정보"
                     fill
                     className="object-cover rounded-2xl"
                   />
@@ -94,10 +123,8 @@ const BestInfo: FC = () => {
                 </div>
               </a>
             </Link>
-          ))
-        ) : (
-          <p>No posts available.</p>
-        )}
+          );
+        })}
       </div>
     </div>
   );
