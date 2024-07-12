@@ -388,7 +388,6 @@ Gallery_View_icon.svg
       <td align="center"><a href="https://github.com/user-attachments/assets/75a7dc00-0fec-488e-a3b6-ae554fae1693"><img src="https://github.com/user-attachments/assets/75a7dc00-0fec-488e-a3b6-ae554fae1693" width="300px;" height="300px;" alt="image"/><br /><b>Slack을 통한 실시간 협업</b></sub></a><br /></td>
     <tr/>
     <tr>
-      <td align="center"><a href="https://github.com/user-attachments/assets/73cd077b-b0ec-4dba-8c2a-e78fc2e512f5"><img src="https://github.com/user-attachments/assets/73cd077b-b0ec-4dba-8c2a-e78fc2e512f5" width="300px;" height="300px;" alt="image"/><br /><b>PR 코드 리뷰</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/user-attachments/assets/f6af7546-e92c-4c31-b33a-4a0e373bfced"><img src="https://github.com/user-attachments/assets/f6af7546-e92c-4c31-b33a-4a0e373bfced" width="300px;" height="300px;" alt="image"/><br /><b>Notion을 통한 프로젝트 문서화</b></sub></a><br /></td>
     <tr/>
   </tbody>
