@@ -3,9 +3,12 @@ import Comments from "@/components/CommentList/Comments";
 import Hashtag from "@/components/Hashtag";
 import Loading from "@/components/Loading";
 import SITE_URL from "@/constant";
+import { getAuthUesrOnServer } from "@/utils/getAuthUesrOnServer";
 import moment from "moment";
 import Image from "next/image";
+import Link from "next/link";
 import ButtonsChangePostStatus from "./_components/ButtonsChangePostStatus";
+import LikeButton from "./_components/LikeButton";
 
 type PostDetailPageProps = {
   params: { postId: number };
@@ -13,15 +16,28 @@ type PostDetailPageProps = {
 
 async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
   const response = await fetch(`${SITE_URL}/api/posts/${postId}`);
-  const post = await response.json();
-  console.log(post);
-  if (!post) {
+  const { data: post, error } = await response.json();
+
+  if (error) {
+    return (
+      <section className="min-h-[50vh] flex flex-col justify-center items-center">
+        <h2 className="pb-10 text-2xl font-semibold">
+          데이터를 불러오지 못했습니다. <br />
+        </h2>
+        에러메세지 : {JSON.stringify(error)}
+        <Link href="/posts" className="pt-10">
+          다른 게시글 보러가기
+        </Link>
+      </section>
+    );
+  } else if (!post) {
     return <Loading />;
   }
 
   const {
     title,
     content,
+    author_id,
     image,
     created_at,
     hashtag,
@@ -29,7 +45,9 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
   } = post;
   const createdAt = moment(created_at).format("yyyy.MM.DD");
 
-  const isOwnedUser: boolean = true; // TODO 로그인한 사용자 아이디 === author_id 체크 필요
+  const user = await getAuthUesrOnServer();
+  console.log(user, author_id);
+  const isOwnedUser: boolean = user ? user.id === author_id : false;
 
   return (
     <main className="py-8">
@@ -60,8 +78,9 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
         )}
         <div className="py-10">{content}</div>
       </div>
-      <div className="pt-18 pb-4">
+      <div className="pt-18 pb-4 flex justify-between items-center">
         <Hashtag tags={hashtag?.tags} size="sm" />
+        <LikeButton postId={postId} />
       </div>
       <BreakLine />
       <Comments postId={postId} />
