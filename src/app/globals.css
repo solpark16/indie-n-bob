@@ -36,3 +36,10 @@ body {
 .nav-link {
   color: #10af86 !important;
 }
+
+.dropdown-toggle::after {
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 0;
+}
