@@ -13,7 +13,7 @@ const Carousel: FC = () => {
           <div className="carousel-item active">
             <div className="relative w-[100%] h-[500px]">
               <Image
-                src="/실리카겔 커버3.webp"
+                src="/SILICAGEL.webp"
                 layout="fill"
                 className="d-block object-cover"
                 alt="First slide"
@@ -26,7 +26,7 @@ const Carousel: FC = () => {
           <div className="carousel-item">
             <div className="relative w-[100%] h-[500px]">
               <Image
-                src="/잔나비 수정.jpg"
+                src="/Jannabi.jpg"
                 layout="fill"
                 className="d-block object-cover"
                 alt="Second slide"
@@ -39,7 +39,7 @@ const Carousel: FC = () => {
           <div className="carousel-item">
             <div className="relative w-[100%] h-[500px]">
               <Image
-                src="/루시 커버.jpg"
+                src="/Lucy.jpg"
                 layout="fill"
                 className="d-block object-cover"
                 alt="Third slide"
