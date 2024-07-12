@@ -48,7 +48,7 @@ export type Database = {
       concert_posts: {
         Row: {
           age: string | null;
-          author_id: string | null;
+          author_id: string;
           content: string | null;
           created_at: string;
           end_date: string | null;
@@ -63,7 +63,7 @@ export type Database = {
         };
         Insert: {
           age?: string | null;
-          author_id?: string | null;
+          author_id?: string;
           content?: string | null;
           created_at?: string;
           end_date?: string | null;
@@ -78,7 +78,7 @@ export type Database = {
         };
         Update: {
           age?: string | null;
-          author_id?: string | null;
+          author_id?: string;
           content?: string | null;
           created_at?: string;
           end_date?: string | null;

@@ -4,14 +4,15 @@ import SITE_URL from "@/constant";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import ConcertSquare from "../ConcertSquare";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import getConcerts from "@/utils/getConcerts";
 import { useInView } from "react-intersection-observer";
 import Loading from "../Loading";
+import { User } from "@supabase/supabase-js";
 
 function ConcertListView() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User>();
   const [sortedConcerts, setSortedConcerts] = useState([]);
   const [activeSort, setActiveSort] = useState("latest");
   // TODO 나중에 추론한 데이터로 변경
@@ -25,42 +26,46 @@ function ConcertListView() {
       initialPageParam: 0,
       staleTime: Infinity,
     });
-  const concerts = data?.pages?.flatMap((page) => page.posts);
+  const concerts = useMemo(
+    () => data?.pages?.flatMap((page) => page.posts) || [],
+    [data]
+  );
   const { ref, inView } = useInView();
-  // useEffect(() => {
-  //   if (inView && hasNextPage) {
-  //     fetchNextPage();
-  //   }
-  // }, [inView, hasNextPage, fetchNextPage]);
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
   // 현재 로그인 된 유저 정보 가져오기
-  // useEffect(() => {
-  //   const supabase = createClient();
-  //   const fetchData = async () => {
-  //     const { data, error: getUserError } = await supabase.auth.getUser();
-  //     setUser(data.user);
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const supabase = createClient();
+    const fetchData = async () => {
+      const { data, error: getUserError } = await supabase.auth.getUser();
+      if (data) {
+        setUser(data.user);
+      }
+    };
+    fetchData();
+  }, []);
 
   // 최신 순으로 정렬
-  // useEffect(() => {
-  //   if (concerts && concerts.length) {
-  //     latestSort();
-  //   }
-  // }, [concerts]);
+  useEffect(() => {
+    if (concerts && concerts.length && activeSort === "latest") {
+      const sorted = [...concerts].sort(
+        (a, b) => Date.parse(b.created_at) - Date.parse(a.created_at)
+      );
+      setSortedConcerts(sorted);
+    }
+  }, [concerts, activeSort]);
 
   // sort 기능
   // 최신순 정렬
   const latestSort = () => {
     setActiveSort("latest");
-    const sorted = [...concerts].sort((a, b) => {
-      return Date.parse(b.created_at) - Date.parse(a.created_at);
-    });
-    setSortedConcerts(sorted);
   };
 
-  // 랭킹순 정렬
+  // // 랭킹순 정렬
   const rankingSort = () => {
     setActiveSort("ranking");
     const sorted = [...concerts].sort((a, b) => {
@@ -69,7 +74,7 @@ function ConcertListView() {
     setSortedConcerts(sorted);
   };
 
-  // 공연 종료 임박순 정렬
+  // // 공연 종료 임박순 정렬
   const imminentSort = () => {
     setActiveSort("imminent");
     const now = new Date().getTime();
@@ -82,7 +87,6 @@ function ConcertListView() {
   };
 
   if (isPending) return <Loading />;
-  console.log(concerts);
   return (
     <>
       <div className="flex border-t-[1px] pt-[37px] mb-[74px] justify-between">
@@ -136,11 +140,7 @@ function ConcertListView() {
       {concerts && concerts.length ? (
         <ul className="grid justify-between gap-[31px] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-0">
           {sortedConcerts.map((concert) => (
-            <li
-              key={concert.post_id}
-              className="max-w-[405px]"
-              style={{ marginBottom: "500px" }}
-            >
+            <li key={concert.post_id} className="max-w-[405px]">
               <ConcertSquare concert={concert}></ConcertSquare>
             </li>
           ))}
@@ -148,7 +148,7 @@ function ConcertListView() {
       ) : (
         <div>등록된 공연 정보가 없습니다.</div>
       )}
-      <div ref={ref}>더 불러올 수 있는가</div>
+      <div ref={ref}></div>
       {isPending && <Loading />}
     </>
   );
