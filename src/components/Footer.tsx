@@ -1,5 +1,6 @@
 import { FC } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Footer: FC = () => {
   return (
@@ -15,16 +16,16 @@ const Footer: FC = () => {
           </p>
           <p className="text-sm text-[#2e2e2e]">
             Follow us on
-            <a
+            <Link
               href="https://teamsparta.notion.site/A10-9c2b3f89d6934fcab6c77c1dedc99a0a"
-              className="text-sub-color mx-1"
+              passHref
             >
-              Team Notion
-            </a>
+              <span className="text-sub-color mx-1">Team Notion</span>
+            </Link>
             ,
-            <a href="https://facebook.com" className="text-sub-color  mx-1">
-              GitHub
-            </a>
+            <Link href="https://github.com/reeny404/indie-n-bob" passHref>
+              <span className="text-sub-color mx-1">GitHub</span>
+            </Link>
           </p>
         </div>
       </div>
