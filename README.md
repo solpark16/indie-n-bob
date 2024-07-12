@@ -201,47 +201,54 @@
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href="https://github.com/user-attachments/assets/59327b2c-e7f2-4fd9-a044-ce458189ef6f"><img src="https://github.com/user-attachments/assets/59327b2c-e7f2-4fd9-a044-ce458189ef6f" width="300px;" alt="image"/><br /><b>로그인 페이지</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/user-attachments/assets/b3427ef3-3835-423c-ad3b-161748ff2dbe"><img src="https://github.com/user-attachments/assets/b3427ef3-3835-423c-ad3b-161748ff2dbe" width="300px;" alt="image"/><br /><b>회원가입 페이지</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/5d781ccb-e7a5-4364-9760-ddbff018fa11"><img src="https://github.com/user-attachments/assets/5d781ccb-e7a5-4364-9760-ddbff018fa11" width="300px;" height="300px;" alt="image"/><br /><b>GitHub 공용 Repository</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/1a33d8b0-ffc0-48df-bf36-a94c7f9b8d10"><img src="https://github.com/user-attachments/assets/1a33d8b0-ffc0-48df-bf36-a94c7f9b8d10" width="300px;" height="300px;" alt="image"/><br /><b>GitHub Issues 활용</b></sub></a><br /></td>
+    <tr/>
+    <tr>
+      <td align="center"><a href="https://github.com/user-attachments/assets/73cd077b-b0ec-4dba-8c2a-e78fc2e512f5"><img src="https://github.com/user-attachments/assets/73cd077b-b0ec-4dba-8c2a-e78fc2e512f5" width="300px;" height="300px;" alt="image"/><br /><b>PR 코드 리뷰</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/75a7dc00-0fec-488e-a3b6-ae554fae1693"><img src="https://github.com/user-attachments/assets/75a7dc00-0fec-488e-a3b6-ae554fae1693" width="300px;" height="300px;" alt="image"/><br /><b>Slack을 통한 실시간 협업</b></sub></a><br /></td>
+    <tr/>
+    <tr>
+      <td align="center"><a href="https://github.com/user-attachments/assets/73cd077b-b0ec-4dba-8c2a-e78fc2e512f5"><img src="https://github.com/user-attachments/assets/73cd077b-b0ec-4dba-8c2a-e78fc2e512f5" width="300px;" height="300px;" alt="image"/><br /><b>PR 코드 리뷰</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/f6af7546-e92c-4c31-b33a-4a0e373bfced"><img src="https://github.com/user-attachments/assets/f6af7546-e92c-4c31-b33a-4a0e373bfced" width="300px;" height="300px;" alt="image"/><br /><b>Notion을 통한 프로젝트 문서화</b></sub></a><br /></td>
     <tr/>
   </tbody>
 </table>
-
 
 ## 와이어 프레임을 보여주세요!
 
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href="https://github.com/user-attachments/assets/ab7db361-3d2b-4ace-ae2a-3a761459664a"><img src="https://github.com/user-attachments/assets/ab7db361-3d2b-4ace-ae2a-3a761459664a" width="300px;" alt="image"/><br /><b>메인페이지</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/ab7db361-3d2b-4ace-ae2a-3a761459664a"><img src="https://github.com/user-attachments/assets/ab7db361-3d2b-4ace-ae2a-3a761459664a" width="300px;" height="300px;" alt="image"/><br /><b>메인페이지</b></sub></a><br /></td>
     </tr>
     <tr>
-      <td align="center"><a href="https://github.com/user-attachments/assets/59327b2c-e7f2-4fd9-a044-ce458189ef6f"><img src="https://github.com/user-attachments/assets/59327b2c-e7f2-4fd9-a044-ce458189ef6f" width="300px;" alt="image"/><br /><b>로그인 페이지</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/user-attachments/assets/b3427ef3-3835-423c-ad3b-161748ff2dbe"><img src="https://github.com/user-attachments/assets/b3427ef3-3835-423c-ad3b-161748ff2dbe" width="300px;" alt="image"/><br /><b>회원가입 페이지</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/59327b2c-e7f2-4fd9-a044-ce458189ef6f"><img src="https://github.com/user-attachments/assets/59327b2c-e7f2-4fd9-a044-ce458189ef6f" width="300px;" height="300px;" alt="image"/><br /><b>로그인 페이지</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/b3427ef3-3835-423c-ad3b-161748ff2dbe"><img src="https://github.com/user-attachments/assets/b3427ef3-3835-423c-ad3b-161748ff2dbe" width="300px;" height="300px;" alt="image"/><br /><b>회원가입 페이지</b></sub></a><br /></td>
     <tr/>
     <tr>
-      <td align="center"><a href="https://github.com/user-attachments/assets/21cd235b-bbb0-45fc-afd7-903c1d9cc0d5"><img src="https://github.com/user-attachments/assets/21cd235b-bbb0-45fc-afd7-903c1d9cc0d5" width="300px;" alt="image"/><br /><b>게시글 작성 페이지</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/user-attachments/assets/f805124e-fe7e-4055-893c-d901c986b117"><img src="https://github.com/user-attachments/assets/f805124e-fe7e-4055-893c-d901c986b117" width="300px;" alt="image"/><br /><b>게시판</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/21cd235b-bbb0-45fc-afd7-903c1d9cc0d5"><img src="https://github.com/user-attachments/assets/21cd235b-bbb0-45fc-afd7-903c1d9cc0d5" width="300px;" height="300px;" alt="image"/><br /><b>게시글 작성 페이지</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/f805124e-fe7e-4055-893c-d901c986b117"><img src="https://github.com/user-attachments/assets/f805124e-fe7e-4055-893c-d901c986b117" width="300px;" height="300px;" alt="image"/><br /><b>게시판</b></sub></a><br /></td>
     <tr/>
     <tr>
-      <td align="center"><a href="https://github.com/user-attachments/assets/ef8051f9-a279-4918-bb33-6f4c11a7c34a"><img src="https://github.com/user-attachments/assets/ef8051f9-a279-4918-bb33-6f4c11a7c34a" width="300px;" alt="image"/><br /><b>게시글 상세 페이지</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/user-attachments/assets/2ce91891-b935-4bde-b069-fbc519ed58fe"><img src="https://github.com/user-attachments/assets/2ce91891-b935-4bde-b069-fbc519ed58fe" width="300px;" alt="image"/><br /><b>게시글 수정 페이지</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/ef8051f9-a279-4918-bb33-6f4c11a7c34a"><img src="https://github.com/user-attachments/assets/ef8051f9-a279-4918-bb33-6f4c11a7c34a" width="300px;" height="300px;" alt="image"/><br /><b>게시글 상세 페이지</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/2ce91891-b935-4bde-b069-fbc519ed58fe"><img src="https://github.com/user-attachments/assets/2ce91891-b935-4bde-b069-fbc519ed58fe" width="300px;" height="300px;" alt="image"/><br /><b>게시글 수정 페이지</b></sub></a><br /></td>
     <tr/>
     <tr>
-      <td align="center"><a href="https://github.com/user-attachments/assets/527db44e-1ad9-4b75-9edf-a562a0bd6b98"><img src="https://github.com/user-attachments/assets/527db44e-1ad9-4b75-9edf-a562a0bd6b98" width="300px;" alt="image"/><br /><b>댓글 수정 모달</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/user-attachments/assets/ba781c73-3cba-4b68-81ef-a213431c7131"><img src="https://github.com/user-attachments/assets/ba781c73-3cba-4b68-81ef-a213431c7131" width="300px;" alt="image"/><br /><b>댓글 삭제 모달</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/527db44e-1ad9-4b75-9edf-a562a0bd6b98"><img src="https://github.com/user-attachments/assets/527db44e-1ad9-4b75-9edf-a562a0bd6b98" width="300px;" height="300px;" alt="image"/><br /><b>댓글 수정 모달</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/ba781c73-3cba-4b68-81ef-a213431c7131"><img src="https://github.com/user-attachments/assets/ba781c73-3cba-4b68-81ef-a213431c7131" width="300px;" height="300px;" alt="image"/><br /><b>댓글 삭제 모달</b></sub></a><br /></td>
     <tr/>
     <tr>
-      <td align="center"><a href="https://github.com/user-attachments/assets/bc12ae78-f228-48d7-836d-b095eeeb3167"><img src="https://github.com/user-attachments/assets/bc12ae78-f228-48d7-836d-b095eeeb3167" width="300px;" alt="image"/><br /><b>마이페이지</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/user-attachments/assets/49e879f3-b167-4796-ac58-2eba67d4ed62"><img src="https://github.com/user-attachments/assets/49e879f3-b167-4796-ac58-2eba67d4ed62" width="300px;" alt="image"/><br /><b>내가 쓴 게시글</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/bc12ae78-f228-48d7-836d-b095eeeb3167"><img src="https://github.com/user-attachments/assets/bc12ae78-f228-48d7-836d-b095eeeb3167" width="300px;" height="300px;" alt="image"/><br /><b>마이페이지</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/49e879f3-b167-4796-ac58-2eba67d4ed62"><img src="https://github.com/user-attachments/assets/49e879f3-b167-4796-ac58-2eba67d4ed62" width="300px;" height="300px;" alt="image"/><br /><b>내가 쓴 게시글</b></sub></a><br /></td>
     <tr/>
     <tr>
-      <td align="center"><a href="https://github.com/user-attachments/assets/dc6d7823-fe35-4b31-b6af-797edbf1eb7e"><img src="https://github.com/user-attachments/assets/dc6d7823-fe35-4b31-b6af-797edbf1eb7e" width="300px;" alt="image"/><br /><b>프로필 수정 모달</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/user-attachments/assets/bb14c321-70e8-443e-8fa3-e8379b77fc84"><img src="https://github.com/user-attachments/assets/bb14c321-70e8-443e-8fa3-e8379b77fc84" width="300px;" alt="image"/><br /><b>공연정보 등록 페이지</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/dc6d7823-fe35-4b31-b6af-797edbf1eb7e"><img src="https://github.com/user-attachments/assets/dc6d7823-fe35-4b31-b6af-797edbf1eb7e" width="300px;" height="300px;" alt="image"/><br /><b>프로필 수정 모달</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/bb14c321-70e8-443e-8fa3-e8379b77fc84"><img src="https://github.com/user-attachments/assets/bb14c321-70e8-443e-8fa3-e8379b77fc84" width="300px;" height="300px;" alt="image"/><br /><b>공연정보 등록 페이지</b></sub></a><br /></td>
     <tr/>
     <tr>
-      <td align="center"><a href="https://github.com/user-attachments/assets/8a1d1c5a-a94e-4a95-9d8f-4760914fa3e7"><img src="https://github.com/user-attachments/assets/8a1d1c5a-a94e-4a95-9d8f-4760914fa3e7" width="300px;" alt="image"/><br /><b>공연정보 리스트 렌더링 페이지</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/user-attachments/assets/c4c8719a-9164-4d66-83fb-af967dd32076"><img src="https://github.com/user-attachments/assets/c4c8719a-9164-4d66-83fb-af967dd32076" width="300px;" alt="image"/><br /><b>공연정보 상세 페이지</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/8a1d1c5a-a94e-4a95-9d8f-4760914fa3e7"><img src="https://github.com/user-attachments/assets/8a1d1c5a-a94e-4a95-9d8f-4760914fa3e7" width="300px;" height="300px;" alt="image"/><br /><b>공연정보 리스트 렌더링 페이지</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/user-attachments/assets/c4c8719a-9164-4d66-83fb-af967dd32076"><img src="https://github.com/user-attachments/assets/c4c8719a-9164-4d66-83fb-af967dd32076" width="300px;" height="300px;" alt="image"/><br /><b>공연정보 상세 페이지</b></sub></a><br /></td>
     <tr/>    
   </tbody>
 </table>
