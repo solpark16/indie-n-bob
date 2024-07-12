@@ -45,25 +45,14 @@ const CmtToDel = ({ comment, onClose }: PropsType) => {
     <>
       <div className="w-[900px] h-[80px] flex justify-between items-center border-t border-b border-[#dddddd] text-[18px]">
         <div className="w-[850px] h-[80px] flex justify-start items-center">
-          {profileImgSrc ? (
-            <Image
-              src={profileImgSrc}
-              width={50}
-              height={50}
-              alt="프로필 이미지"
-              priority
-              className="w-[50px] h-[50px] rounded-full object-cover"
-            />
-          ) : (
-            <Image
-              src="/concert-default-image.png"
-              width={50}
-              height={50}
-              alt="프로필 이미지"
-              priority
-              className="w-[50px] h-[50px] rounded-full object-cover"
-            />
-          )}
+          <Image
+            src={profileImgSrc ? profileImgSrc : "/user/fallback-avatar.svg"}
+            width={50}
+            height={50}
+            alt="프로필 이미지"
+            priority
+            className="w-[50px] h-[50px] rounded-full object-cover"
+          />
           <span className="w-auto ml-[15px] text-black">
             {comment?.users?.nickname}
           </span>
