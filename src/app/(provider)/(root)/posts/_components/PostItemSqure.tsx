@@ -26,7 +26,7 @@ function PostItemSqure({ post }: PostSqureProps) {
   return (
     <Link
       href={`/posts/${id}`}
-      className="flex flex-col justify-center items-center px-2"
+      className="flex flex-col justify-center items-center"
     >
       <div className="w-full h-[260px] relative">
         <Image
