@@ -217,25 +217,7 @@ Gallery_View_icon.svg
 
 ## 사용한 기술 스택은 어떻게 되나요?
 
-<img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
-<img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white">
-<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white">
-<img src="https://img.shields.io/badge/node.js-5fa84e?style=for-the-badge&logo=node.js&logoColor=white">
-<img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white">
-<img src="https://img.shields.io/badge/figma-E34f26?style=for-the-badge&logo=figma&logoColor=white">
-<img src="https://img.shields.io/badge/tailwindCSS-06b6d4?style=for-the-badge&logo=tailwindcss&logoColor=white">
-<img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
-<img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white">
-<img src="https://img.shields.io/badge/supabase-3fcf8e?style=for-the-badge&logo=supabase&logoColor=white">
-<img src="https://img.shields.io/badge/axios-5a29e4?style=for-the-badge&logo=axios&logoColor=white">
-<img src="https://img.shields.io/badge/tanstackquery-ff4154?style=for-the-badge&logo=reactquery&logoColor=white">
-<img src="https://img.shields.io/badge/.env-ecd53f?style=for-the-badge&logo=.env&logoColor=white">
-<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=기술스택아이콘&logoColor=white">
-<img src="https://img.shields.io/badge/json-000000?style=for-the-badge&logo=json&logoColor=white">
-<img src="https://img.shields.io/badge/slack-4a154b?style=for-the-badge&logo=slack&logoColor=white">
-<img src="https://img.shields.io/badge/markdown-000000?style=for-the-badge&logo=markdown&logoColor=white">
-<img src="https://img.shields.io/badge/eslint-4b32c3?style=for-the-badge&logo=eslint&logoColor=white">
-<img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
+<img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white"> <img src="https://img.shields.io/badge/node.js-5fa84e?style=for-the-badge&logo=node.js&logoColor=white"> <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"> <img src="https://img.shields.io/badge/figma-E34f26?style=for-the-badge&logo=figma&logoColor=white"> <img src="https://img.shields.io/badge/tailwindCSS-06b6d4?style=for-the-badge&logo=tailwindcss&logoColor=white"> <img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white"> <img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white"> <img src="https://img.shields.io/badge/supabase-3fcf8e?style=for-the-badge&logo=supabase&logoColor=white"> <img src="https://img.shields.io/badge/axios-5a29e4?style=for-the-badge&logo=axios&logoColor=white"> <img src="https://img.shields.io/badge/tanstackquery-ff4154?style=for-the-badge&logo=reactquery&logoColor=white"> <img src="https://img.shields.io/badge/.env-ecd53f?style=for-the-badge&logo=.env&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/json-000000?style=for-the-badge&logo=json&logoColor=white"> <img src="https://img.shields.io/badge/slack-4a154b?style=for-the-badge&logo=slack&logoColor=white"> <img src="https://img.shields.io/badge/markdown-000000?style=for-the-badge&logo=markdown&logoColor=white"> <img src="https://img.shields.io/badge/eslint-4b32c3?style=for-the-badge&logo=eslint&logoColor=white"> <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
 
 
 ### 프레임워크 및 언어
@@ -283,7 +265,7 @@ Gallery_View_icon.svg
        <tr/>
       <td align="center"><a href="https://github.com/oneieo"><img src="https://images.khan.co.kr/article/2022/11/08/news-p.v1.20221108.1deab8c7f6ed4c5282a8c3e604470063_P1.jpg" width="200px;" height=
     "200px;" height="200px;" alt="image"/><br /><b>팀원 : 선지원</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/ejunyang"><img src="https://cdn.imweb.me/upload/S202207215f9bbbf5e9735/a4c1af2bfa743.jpg" width="200px;" height="200px;" alt="image"/><br /><b>팀원 :양이준</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/ejunyang"><img src="https://cdn.imweb.me/upload/S202207215f9bbbf5e9735/a4c1af2bfa743.jpg" width="200px;" height="200px;" alt="image"/><br /><b>팀원 : 양이준</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/reeny404"><img src="https://cdn.9oodnews.com/news/photo/202208/18292_27051_2611.jpg" width="200px;" height="200px;" alt="image"/><br /><b>팀원 : 이효현</b></sub></a><br /></td>
     </tr>
   </tbody>
