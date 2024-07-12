@@ -11,8 +11,8 @@ interface PropsType {
 const CmtEditModal = ({ comment, onClose }: PropsType) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="w-[1000px] h-[450px] bg-white rounded-[30px] shadow-modal-custom">
-        <div className="w-[1000px] h-[65px] flex justify-end items-center rounded-tl-[30px] rounded-tr-[30px] bg-[#10AF86]">
+      <div className="w-[1000px] min-h-[300px] bg-white rounded-[30px] shadow-modal-custom">
+        <div className="w-[1000px] min-h-[65px] flex justify-end items-center rounded-tl-[30px] rounded-tr-[30px] bg-[#10AF86]">
           <Image
             src="/cancel.png"
             width={50}

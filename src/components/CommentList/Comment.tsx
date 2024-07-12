@@ -35,8 +35,8 @@ const Comment = ({ comment }: PropsType) => {
   const isOwnedUser: boolean = user?.sub === comment?.author_id;
 
   return (
-    <div className="w-full h-[95px] flex justify-between items-center border-b border-[#dddddd]">
-      <div className="w-full min-w-[300px] h-[95px] flex justify-start items-center">
+    <div className="w-full h-full flex justify-between items-start border-b border-[#dddddd]">
+      <div className="w-full min-w-[300px] min-h-[95px] flex justify-start items-start pt-4 pb-4">
         <Image
           src={profileImgSrc ? profileImgSrc : "/user/fallback-avatar.svg"}
           width={50}
@@ -45,14 +45,14 @@ const Comment = ({ comment }: PropsType) => {
           priority
           className="w-[50px] h-[50px] rounded-full object-cover"
         />
-        <span className="w-32 min-w-[128px] ml-[15px]">
+        <span className="w-32 min-w-[128px] ml-[15px] pt-[10px]">
           {comment?.users?.nickname}
         </span>
-        <span className="w-auto max-w-[700px] min-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap ">
+        <span className="w-auto max-w-[700px] min-w-[100px] pt-[10px] pb-[10px]">
           {comment.content}
         </span>
       </div>
-      <div className="ml-auto flex justify-end items-center gap-[10px] text-[#A0A0A0]">
+      <div className="ml-auto min-w-[250px] min-h-[95px] flex justify-end items-center gap-[10px] text-[#A0A0A0]">
         <span className="w-auto min-w-[140px]">
           {formatDateString(comment.created_at)}
         </span>
