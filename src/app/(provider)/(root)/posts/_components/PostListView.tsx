@@ -1,12 +1,13 @@
 "use client";
 
 import Loading from "@/components/Loading";
-import SITE_URL from "@/constant";
-import { Post, PostWithAuthor } from "@/types/Post";
-import { useQuery } from "@tanstack/react-query";
-import PostItemSqure from "./PostItemSqure";
-import Link from "next/link";
+import useInfinitePosts from "@/hooks/useInfinitePosts";
 import useUserData from "@/hooks/useUserData";
+import { Post } from "@/types/Post";
+import Link from "next/link";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import PostItemSqure from "./PostItemSqure";
 
 type PostListViewProps = {
   keyword?: string;
@@ -14,21 +15,16 @@ type PostListViewProps = {
 
 function PostListView({ keyword }: PostListViewProps) {
   const { data: userData } = useUserData();
+  const { ref, inView: isEndOfPage } = useInView();
 
-  const {
-    data: posts,
-    isLoading,
-    isError,
-  } = useQuery<PostWithAuthor[]>({
-    queryKey: ["posts"],
-    queryFn: async () => {
-      const response = await fetch(`${SITE_URL}/api/posts`);
+  const { posts, isLoading, isError, fetchNextPage, hasNextPage } =
+    useInfinitePosts();
 
-      return await response.json();
-    },
-  });
-
-  // TODO 무한 스크롤 기능 구현 필요
+  useEffect(() => {
+    if (isEndOfPage && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [isEndOfPage, hasNextPage, fetchNextPage]);
 
   if (isLoading) {
     return <Loading />;
@@ -45,8 +41,7 @@ function PostListView({ keyword }: PostListViewProps) {
       })
     : posts;
 
-  // TODO filteredPosts.length === 0 일 때 처리 필요
-  if (!filteredPosts) {
+  if (!filteredPosts?.length) {
     return "검색 결과가 없습니다.";
   }
 
@@ -71,6 +66,7 @@ function PostListView({ keyword }: PostListViewProps) {
           </li>
         ))}
       </ol>
+      <div ref={ref}></div>
     </>
   );
 }

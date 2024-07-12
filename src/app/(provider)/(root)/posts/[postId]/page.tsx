@@ -4,6 +4,7 @@ import Hashtag from "@/components/Hashtag";
 import Loading from "@/components/Loading";
 import SITE_URL from "@/constant";
 import { getAuthUesrOnServer } from "@/utils/getAuthUesrOnServer";
+import axios from "axios";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,8 +16,9 @@ type PostDetailPageProps = {
 };
 
 async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
-  const response = await fetch(`${SITE_URL}/api/posts/${postId}`);
-  const { data: post, error } = await response.json();
+  const {
+    data: { data: post, error },
+  } = await axios.get(`${SITE_URL}/api/posts/${postId}`);
 
   if (error) {
     return (
@@ -41,12 +43,11 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
     image,
     created_at,
     hashtag,
-    author: { nickname, profile_file: profileImg },
+    author: { nickname, profile_image: profileImg },
   } = post;
   const createdAt = moment(created_at).format("yyyy.MM.DD");
 
   const user = await getAuthUesrOnServer();
-  console.log(user, author_id);
   const isOwnedUser: boolean = user ? user.id === author_id : false;
 
   return (
@@ -57,6 +58,7 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
           alt="프로필 이미지"
           width="45"
           height="45"
+          className="object-cover w-[45px] h-[45px] rounded-full"
         />
         <span className="text-lg font-semibold">{nickname}</span>
         <div className={`ml-auto ${!isOwnedUser && "hidden"}`}>
