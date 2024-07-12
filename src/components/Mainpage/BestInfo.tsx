@@ -46,8 +46,6 @@ const BestInfo: FC = () => {
     (Post & { likesCount: number })[]
   >([]);
 
-  if (postsLoading) {
-  }
   useEffect(() => {
     if (posts && likesData && Array.isArray(likesData.likes)) {
       const postsWithLikes = posts.map((post) => {
