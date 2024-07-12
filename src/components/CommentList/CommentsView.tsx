@@ -7,10 +7,11 @@ import Comment from "./Comment";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { useEffect, useState } from "react";
 import ErrorGetComments from "./ErrorGetComments";
+import { CommentType } from "@/types/Comments";
 
 const CommentsView = ({ postId }: Params) => {
-  const [pageNo, setPageNo] = useState(1); // 페이지 넘버
-  const [pageSize, setPageSize] = useState(1); // 클릭 가능한 페이지 수
+  const [pageNo, setPageNo] = useState(1);
+  const [pageSize, setPageSize] = useState(1);
   const COMMENT_COUNT = 5;
 
   const { data: cmtLength } = useQuery({
@@ -35,7 +36,7 @@ const CommentsView = ({ postId }: Params) => {
           (pageNo - 1) * COMMENT_COUNT
         }`
       );
-      return await response.json();
+      return (await response.json()) as CommentType[];
     },
   });
 
