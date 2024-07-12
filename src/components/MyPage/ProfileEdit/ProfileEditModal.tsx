@@ -13,14 +13,14 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
 
   const { data: userData, error: userDataError } = useUserData();
 
-  if (userDataError || !userData) {
-    return <div>유저 정보가 확인되지 않아 마이페이지를 불러올 수 없습니다.</div>;
-  }
-
   const [myNickname, setMyNickname] = useState(userData?.userData?.nickname);
   const [myEmail, setMyEmail] = useState(userData?.userData?.email);
   const [myProfileImage, setMyProfileImage] = useState(userData?.userData?.profile_image);
   const [myFavoriteArtist, setMyFavoriteArtist] = useState(userData?.userData?.favorite_artist);
+
+  if (userDataError || !userData) {
+    return <div>유저 정보가 확인되지 않아 마이페이지를 불러올 수 없습니다.</div>;
+  }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
