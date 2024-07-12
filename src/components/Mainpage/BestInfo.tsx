@@ -55,7 +55,6 @@ const BestInfo: FC = () => {
         return { ...post, likesCount };
       });
 
-      // 좋아요 수 기준으로 게시글을 내림차순 정렬
       const sortedPosts = postsWithLikes.sort(
         (a, b) => b.likesCount - a.likesCount
       );
