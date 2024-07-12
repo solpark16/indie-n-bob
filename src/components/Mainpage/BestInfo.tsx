@@ -27,7 +27,7 @@ const BestInfo: FC = () => {
     error: postsError,
     isLoading: postsLoading,
   } = useQuery({
-    queryKey: ["posts"],
+    queryKey: ["mainPosts"],
     queryFn: fetchPosts,
     staleTime: 0,
     refetchOnWindowFocus: true,

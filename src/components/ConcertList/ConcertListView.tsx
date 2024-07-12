@@ -2,7 +2,6 @@
 
 import SITE_URL from "@/constant";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import ConcertSquare from "../ConcertSquare";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
@@ -12,6 +11,7 @@ import Loading from "../Loading";
 import { User } from "@supabase/supabase-js";
 import { useAlertStore } from "@/zustand/alert.store";
 import { AlertUi } from "../Alert";
+import ConcertSquare from "./ConcertSquare";
 
 function ConcertListView() {
   const [user, setUser] = useState<User>();
