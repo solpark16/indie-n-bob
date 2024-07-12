@@ -130,7 +130,7 @@ export default function SignUpPage(): JSX.Element {
 
   return (
     <>
-      <div className="flex flex-col justify-center">
+      <div className="flex flex-col justify-center mb-38">
         <h1 className="text-center text-2xl font-bold text-main-color my-10">
           회원가입
         </h1>

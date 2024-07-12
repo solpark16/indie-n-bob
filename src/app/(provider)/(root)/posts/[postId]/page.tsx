@@ -50,8 +50,8 @@ async function PostDetailPage({ params: { postId } }: PostDetailPageProps) {
   const isOwnedUser: boolean = user ? user.id === author_id : false;
 
   return (
-    <main className="py-8">
-      <div className="flex flex-row items-center gap-x-3">
+    <main className="py-8 mb-38">
+      <div className="flex flex-row items-center gap-x-3 ">
         <Image
           src={profileImg ?? "/user/fallback-avatar.svg"}
           alt="프로필 이미지"
