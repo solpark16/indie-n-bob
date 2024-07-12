@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import CmtEditBtn from "./modal/CmtEditBtn";
 import CmtDelBtn from "./modal/CmtDelBtn";
-import { CommentType, CommentWriter } from "@/types/Comments";
+import { CommentType } from "@/types/Comments";
 import { formatDateString } from "@/utils/formatDateString";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
@@ -21,7 +21,6 @@ const Comment = ({ comment }: PropsType) => {
     const fetchData = async (): Promise<void> => {
       const {
         data: { user },
-        error: getUserError,
       } = await supabase.auth.getUser();
       if (user) {
         setUserData(user);
@@ -37,7 +36,7 @@ const Comment = ({ comment }: PropsType) => {
 
   return (
     <div className="w-full h-[95px] flex justify-between items-center border-b border-[#dddddd]">
-      <div className="w-full h-[95px] flex justify-start items-center">
+      <div className="w-full min-w-[300px] h-[95px] flex justify-start items-center">
         <Image
           src={profileImgSrc ? profileImgSrc : "/user/fallback-avatar.svg"}
           width={50}
@@ -46,10 +45,12 @@ const Comment = ({ comment }: PropsType) => {
           priority
           className="w-[50px] h-[50px] rounded-full object-cover"
         />
-        <span className="w-32 max-w-[130px] ml-[15px]">
+        <span className="w-32 min-w-[128px] ml-[15px]">
           {comment?.users?.nickname}
         </span>
-        <span className="w-auto max-w-[700px]">{comment.content}</span>
+        <span className="w-auto max-w-[700px] min-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap ">
+          {comment.content}
+        </span>
       </div>
       <div className="ml-auto flex justify-end items-center gap-[10px] text-[#A0A0A0]">
         <span className="w-auto min-w-[140px]">
