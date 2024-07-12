@@ -54,18 +54,18 @@ const PerformanceInfo: FC = () => {
             href={`/concerts/${concert.post_id}`}
             legacyBehavior
           >
-            <a className="relative w-80 h-80 lg:w-80 lg:h-80 sm:w-50 sm:h-50 rounded-full overflow-hidden group cursor-pointer transition duration-200">
+            <div className="relative w-80 h-80 lg:w-80 lg:h-80 sm:w-50 sm:h-50 rounded-full overflow-hidden group cursor-pointer">
               <Image
                 src={concert.image}
                 alt={`Performance ${concert.post_id}`}
                 fill
                 style={{ objectFit: "cover" }}
-                className="transition z-1"
+                className="transition z-1 "
               />
-              <div className="absolute inset-0 z-10 flex items-center justify-center text-[#ffffff00] bg-opacity-0 hover:text-[white] hover:bg-[#00000076]">
+              <div className="absolute inset-0 z-10 flex items-center justify-center text-[#ffffff00] bg-opacity-0 hover:text-[white] hover:bg-[#00000076] duration-200">
                 <p className="text-xl">{concert.title}</p>
               </div>
-            </a>
+            </div>
           </Link>
         ))}
       </div>

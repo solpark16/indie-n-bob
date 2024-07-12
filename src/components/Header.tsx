@@ -82,7 +82,7 @@ const Header: FC = () => {
   return (
     <div className="border-bottom">
       <ul
-        className={`w-[1280px] mx-auto nav flex items-center ${
+        className={`w-100% mx-auto nav flex items-center ${
           user ? "logged-in" : "logged-out"
         }`}
       >
