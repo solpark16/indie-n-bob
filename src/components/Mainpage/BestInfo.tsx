@@ -1,11 +1,11 @@
 import SITE_URL from "@/constant";
+import useAllLikes from "@/hooks/useAllLIkes"; // 좋아요 데이터 가져오기 훅
 import { Post } from "@/types/Post";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
 import MainLikes from "./MainLike";
-import useAllLikes from "@/hooks/useAllLIkes"; // 좋아요 데이터 가져오기 훅
 
 const fetchPosts = async () => {
   const response = await fetch(`${SITE_URL}/api/posts`, {
@@ -18,21 +18,23 @@ const fetchPosts = async () => {
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
-  return response.json() as Promise<Post[]>;
+  return response.json();
 };
 
 const BestInfo: FC = () => {
   const {
-    data: posts,
+    data,
     error: postsError,
     isLoading: postsLoading,
-  } = useQuery<Post[]>({
+  } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
     staleTime: 0,
     refetchOnWindowFocus: true,
     refetchInterval: 60000,
   });
+
+  const posts: Post[] = data ? data.posts : [];
 
   const {
     data: likesData,
@@ -44,6 +46,8 @@ const BestInfo: FC = () => {
     (Post & { likesCount: number })[]
   >([]);
 
+  if (postsLoading) {
+  }
   useEffect(() => {
     if (posts && likesData && Array.isArray(likesData.likes)) {
       const postsWithLikes = posts.map((post) => {
