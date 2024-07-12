@@ -6,7 +6,7 @@ import Loading from "@/components/Loading";
 import useMyPosts from "@/hooks/useMyPosts";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import HowManyLikes from "../PostVIew/HowManyLikes";
+import HowManyLikes from "./HowManyLikes";
 
 const MyPostListView = () => {
   const { data, isPending, isError, fetchNextPage, hasNextPage } = useMyPosts();
