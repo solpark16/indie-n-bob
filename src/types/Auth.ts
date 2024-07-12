@@ -17,6 +17,7 @@ export type AuthStore = {
   favorite_artist: string[];
   is_admin: boolean;
   error: {
+    email:string;
     password: string;
     nickname: string;
   };
