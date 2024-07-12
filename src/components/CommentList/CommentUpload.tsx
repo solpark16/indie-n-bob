@@ -57,7 +57,17 @@ const CommentUpload = ({ postId }: Params) => {
         cancelButtonText: "확인",
         cancelButtonColor: "#A04741",
       });
+      return;
+    }
 
+    if (!user) {
+      Swal.fire({
+        title: "로그인 후에 작성해주세요.",
+        icon: "warning",
+        cancelButtonText: "확인",
+        cancelButtonColor: "#A04741",
+      });
+      contentRef.current.value = "";
       return;
     }
 
