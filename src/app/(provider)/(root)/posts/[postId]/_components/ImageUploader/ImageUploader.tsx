@@ -17,7 +17,9 @@ type Props = {
 } & PropsWithChildren;
 
 function ImageUploader({ children, image, refInput }: Props) {
-  const [fileURL, setFileURL] = useState<string>(image ?? "");
+  const [fileURL, setFileURL] = useState<string>(
+    image?.startsWith("http") ? image : ""
+  );
 
   const handleClick: MouseEventHandler = (e) => {
     e.preventDefault();

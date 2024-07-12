@@ -1,7 +1,14 @@
+import { Tables } from '@/types/supabase';
+import { PostgrestError } from '@supabase/supabase-js';
 import { getUser } from "./getUser";
 import supabase from "./supabase/client";
 
-export default async function getMyInfo() {
+type MyInfo = {
+    userData : Tables<"users"> | null; 
+    userError : PostgrestError | null; 
+};
+
+export default async function getMyInfo() : Promise<MyInfo | null> {
 
     const user = await getUser();
     if (!user) {
@@ -11,7 +18,8 @@ export default async function getMyInfo() {
     const { data: userData, error: userError } = await supabase
         .from('users')
         .select('*')
-        .eq('user_id', user.id);
+        .eq('user_id', user.id)
+        .single();
 
-    return { userData: userData[0], userError };
+    return { userData: userData, userError };
 }

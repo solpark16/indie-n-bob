@@ -1,8 +1,8 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
-import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
+import Link from "next/link";
+import { FC, useEffect, useState } from "react";
 
 interface User {
   email: string;
@@ -79,7 +79,7 @@ const Header: FC = () => {
   return (
     <div className="border-bottom">
       <ul
-        className={`w-[1280px] mx-auto nav flex items-center ${
+        className={`w-full mx-auto nav flex items-center ${
           user ? "logged-in" : "logged-out"
         }`}
       >
