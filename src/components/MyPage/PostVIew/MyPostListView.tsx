@@ -33,7 +33,8 @@ const MyPostListView = () => {
 
   return (
     <div className="space-y-4">
-      {posts.map((post) => (
+      {posts?.map((post) => (
+        post && (
         <div
           key={post.post_id}
           className="post-container flex items-start space-x-4 p-4 ease-in-out duration-400 transition-transform transform hover:-translate-y-2"
@@ -41,8 +42,8 @@ const MyPostListView = () => {
         >
           <div className="w-48 h-32 relative flex-shrink-0">
             <Image
-              src={post.image}
-              alt={post.title}
+              src={post.image || "/default-image.jpg"}
+              alt={post.title || "기본 이미지"}
               layout="fill"
               objectFit="cover"
               className="rounded-2xl"
@@ -61,6 +62,7 @@ const MyPostListView = () => {
             </div>
           </div>
         </div>
+        )
       ))}
       <div ref={ref} />
       {isPending && <Loading />}
