@@ -33,6 +33,7 @@ const Comment = ({ comment }: PropsType) => {
 
   const user = userData?.user_metadata;
   const profileImgSrc = comment?.users?.profile_image;
+  const isOwnedUser: boolean = user?.sub === comment?.author_id;
 
   return (
     <div className="w-full h-[95px] flex justify-between items-center border-b border-[#dddddd]">
@@ -54,15 +55,15 @@ const Comment = ({ comment }: PropsType) => {
         <span className="w-auto min-w-[140px]">
           {formatDateString(comment.created_at)}
         </span>
-        {user?.sub !== comment?.author_id ? (
-          <></>
-        ) : (
-          <div className="w-[95px] h-[20px] flex justify-between items-center">
-            <CmtEditBtn comment={comment} />
-            <span>|</span>
-            <CmtDelBtn comment={comment} />
-          </div>
-        )}
+        <div
+          className={`w-[95px] h-[20px] flex justify-between items-center ${
+            !isOwnedUser && "hidden"
+          }`}
+        >
+          <CmtEditBtn comment={comment} />
+          <span>|</span>
+          <CmtDelBtn comment={comment} />
+        </div>
       </div>
     </div>
   );
