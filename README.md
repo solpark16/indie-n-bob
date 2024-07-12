@@ -447,3 +447,98 @@ Gallery_View_icon.svg
     <tr/>    
   </tbody>
 </table>
+
+## 멋진 웹 사이트를 보고 싶어요!
+
+### 메인 페이지
+
+![CleanShot 2024-07-13 at 00 48 47](https://github.com/user-attachments/assets/625f4a0c-ccbf-4e2d-90c9-4a737ddf83ae)
+
+- Bootstrap 캐러셀을 사용하여 정적인 페이지에 생동감을 불어 넣었습니다.
+- 공연정보와 인디 가수 추천 게시판을 다른 UI로 렌더링하여 생동감을 불어 넣었습니다.
+- 모든 게시글을 불러오지 않고 더보기 기능을 활용하여 초기 렌더링 속도를 높였습니다.
+- '좋아요'가 많이 눌린 게시글 순으로 정렬하여 사용자가 양질의 정보에 쉽게 접근할 수 있도록 사용자 경험을 높였습니다.
+
+### 게시글 렌더링 페이지
+
+![CleanShot 2024-07-13 at 01 08 11](https://github.com/user-attachments/assets/e5632140-e39c-4bf2-bd07-27e3d9360478)
+
+- 필수 헤시태그로 게시글을 필터링하여 사용자가 다양한 정보에서 원하는 정보에 빠르게 접근할 수 있도록 사용자 경험을 높였습니다.
+- TanStack Query로 데이터를 캐싱하여 사용자가 메뉴를 전환하더라도 빠르게 렌더링 할 수 있도록 하였습니다.
+- Infinite Scroll을 구현하여 초기 렌더링 속도를 높였습니다.
+
+### 글쓰기 페이지
+
+![CleanShot 2024-07-13 at 01 14 27](https://github.com/user-attachments/assets/9c27c6ae-559b-4c97-9907-dc3a44f3bbcf)
+
+- 사용자가 이미지 선택 시 optimistic한 preview를 제공하여 실제 서버 업로드 없이도 사용자에게 직관적인 피드백을 제공합니다.
+- 입력 필드 별 유효성 검사 메시지를 띄워 database에 null값이 생성되지 않도록 하였습니다.
+- 유효성 검사 별 출력되는 경고문을 달리하여 UX를 높였습니다.
+
+### 댓글 CRUD
+
+![CleanShot 2024-07-13 at 01 21 21](https://github.com/user-attachments/assets/4501565f-f2a5-48f5-8d0b-afb6eb686814)
+
+- 유효성 검사를 통하여 database에 null 값이 생기지 않도록 하였습니다.
+- 자신의 댓글만 수정 및 삭제할 수 있도록 인가 처리를 하였습니다.
+
+### 게시글 수정/삭제
+
+![CleanShot 2024-07-13 at 01 26 38](https://github.com/user-attachments/assets/a9f0fe4b-c90d-464f-bce0-5dca76aad62c)
+
+- 사용자가 자신의 게시글만 수정/삭제 할 수 있도록 인가 처리하였습니다.
+- 게시글 내에서 사용자가 입력한 모든 정보를 수정할 수 있습니다.
+
+### 공연정보 리스트 페이지
+
+![CleanShot 2024-07-13 at 01 35 01](https://github.com/user-attachments/assets/40217235-1eee-4d08-9a39-c4dedf71ef32)
+
+- TanStack Query로 데이터를 캐싱하여 빠른 렌더링이 가능하도록 하였습니다.
+- 최신순/랭킹순(좋아요 순)/공연종료임박순으로 필터링 기능을 제공하여 사용자 경험을 높였습니다.
+- Infinite scroll을 구현하여 초기 렌더링 속도를 높였습니다.
+
+### 공연정보 등록 페이지
+
+![CleanShot 2024-07-13 at 01 40 31](https://github.com/user-attachments/assets/01e5d2bc-b245-47dc-a6bc-259ea8ade3d3)
+
+- 관리자 등급의 사용자만 입력할 수 있도록 인가 처리하였습니다.
+- 추가 링크 입력 시 '자세히보기'를 조건부 렌더링하여 링크가 없을 때 불필요한 UI 렌더링되지 않도록 사용자 경험을 높였습니다.
+- 각 입력 필드의 유효성 검사를 통하여 database에 null 값이 생성되지 않도록 구현하였습니다.
+
+### 공연정보 수정/삭제 기능
+
+![CleanShot 2024-07-13 at 01 44 53](https://github.com/user-attachments/assets/253d7ad2-64fc-4fe6-bb58-f9d78f3bc6f9)
+
+- 기본적으로 인가된 사용자만 접근이 가능하도록 구현하였습니다.
+- 게시글 수정/삭제 시 TanStack Query의 queryKey를 invalidateg하여 사용자가 서버의 최신 데이터를 볼 수 있도록 구현하였습니다.
+
+### 좋아요 기능
+
+![CleanShot 2024-07-13 at 01 43 44](https://github.com/user-attachments/assets/30ada7eb-4071-47d3-b268-a496eb3556e6)
+
+- optimistic update 기법으로 즉각적인 반응을 제공해 사용자 경험을 높였습니다.
+
+### 마이페이지
+
+![CleanShot 2024-07-13 at 01 48 29](https://github.com/user-attachments/assets/82f9e863-a656-4e41-a247-30f64c8f7494)
+
+- TanStack Query로 데이터를 캐싱하여 사용자에게 즉각적인 렌더링을 제공합니다.
+- 리스트형, 갤러리형 보기 옵션을 제공하여 정적인 페이지에 생동감을 불어 넣었습니다.
+- Infinite scroll을 통해 초기 렌더링 속도를 높였습니다.
+- 프로필 수정 페이지를 모달 컴포넌트로 제작하는 방식으로 사용자의 페이지 이용 흐름을 유지시키며 사용자 경험을 높였습니다.
+
+### 회원 정보 수정 기능
+
+![CleanShot 2024-07-13 at 01 53 59](https://github.com/user-attachments/assets/d72ddadc-f2b6-47e9-9ffb-ffc3d30bd7be)
+
+- 인증된 사용자의 정보에만 접근 및 수정할 수 있도록 인가 처리하였습니다.
+- 프로필 이미지 변경 시 optimistic preview를 제공하여 데이터 서버와의 통신 상태에 영향을 받지 않고 즉각적인 피드백이 가능하도록 하였습니다.
+- 각 입력 필드의 유효성 검사를 통해 변경 사항이 없을 때 사용자에게 경고 alert을 띄워 피드백을 제공하였습니다.
+- 회원정보 수정 시 기존 프로필 정보의 queryKey를 invalidate하여 사용자가 서버의 최신 데이터를 볼 수 있도록 구현하였습니다.
+
+### 헤더/푸터
+
+![CleanShot 2024-07-13 at 01 59 20](https://github.com/user-attachments/assets/27c31c4a-62fe-4b0a-aaff-99f4ad055c63)
+
+- Next.js 프레임워크에서 제공하는 prefetching 컴포넌트를 활용하여 사용자가 다른 페이지로 이동할 때 해당 페이지의 데이터를 미리 불러오고 캐싱하여 사용자가 해당 페이지로 이동할 때 빠르게 렌더링 할 수 있도록 하였습니다.
+- 사용자가 웹 사이트를 이용하며 필요로 하는 메뉴를 제공하여 사용자 경험을 높였습니다.
