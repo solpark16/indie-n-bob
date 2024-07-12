@@ -10,7 +10,6 @@ import {
 } from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useRef } from "react";
-import Swal from "sweetalert2";
 
 interface PropsType {
   comment: CommentType;
@@ -39,17 +38,6 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
 
   const handleEditBtn = (): void => {
     if (contentRef.current) {
-      // if (contentRef.current.value.length > 40) {
-      //   Swal.fire({
-      //     title: "수정이 제한되었습니다.",
-      //     text: "댓글은 40자 이내로 작성해주세요.",
-      //     icon: "warning",
-      //     cancelButtonText: "확인",
-      //     cancelButtonColor: "#A04741",
-      //   });
-      //   return;
-      // }
-
       const editedComment = {
         post_id,
         author_id,
