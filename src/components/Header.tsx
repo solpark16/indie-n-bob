@@ -1,9 +1,9 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
-import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import useUserData from "@/hooks/useUserData";
+import Link from "next/link";
+import { FC, useEffect, useState } from "react";
 
 interface User {
   email: string;
@@ -160,30 +160,6 @@ const Header: FC = () => {
             </li>
           </>
         )}
-
-        {/* {user ? (
-          <li className="nav-item mx-2">
-            <button
-              onClick={handleLogout}
-              className="no-underline text-[#10AF86]"
-            >
-              로그아웃
-            </button>
-          </li>
-        ) : (
-          <>
-            <li className="nav-item mx-2">
-              <Link href="/auth/login" className="no-underline">
-                <p className="text-[#10AF86] mb-0">로그인</p>
-              </Link>
-            </li>
-            <li className="nav-item mx-2">
-              <Link href="/auth/signup" className="no-underline">
-                <p className="text-[#2e2e2e] mb-0">회원가입</p>
-              </Link>
-            </li>
-          </>
-        )} */}
       </ul>
     </div>
   );
