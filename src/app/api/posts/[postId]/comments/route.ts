@@ -22,8 +22,6 @@ export async function GET(request: NextRequest, params: GetParameter) {
   const limit = parseInt(searchParams.get("limit") || "5");
   const offset = parseInt(searchParams.get("offset") || "5");
 
-  console.log(limit, offset);
-
   const supabase = createClient();
   const { data: comments } = await supabase
     .from(TABLE_NAME)

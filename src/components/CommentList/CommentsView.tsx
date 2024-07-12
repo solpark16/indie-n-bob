@@ -33,9 +33,9 @@ const CommentsView = ({ postId }: Params) => {
     queryKey: ["comments", postId, pageNo],
     queryFn: async () => {
       const response = await fetch(
-        `${SITE_URL}/api/posts/${postId}/comments?limit=${
-          COMMENT_COUNT + (pageNo - 1) * COMMENT_COUNT
-        }&offset=${(pageNo - 1) * COMMENT_COUNT}`
+        `${SITE_URL}/api/posts/${postId}/comments?limit=${COMMENT_COUNT}&offset=${
+          (pageNo - 1) * COMMENT_COUNT
+        }`
       );
       return await response.json();
     },
