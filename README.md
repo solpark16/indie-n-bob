@@ -4,6 +4,8 @@
 
 # 프로젝트 소개
 
+## 배포 링크
+
 ## 어떤 사이트인가요?
 
 타인의 자본(제작자의 자본)에 종속되지 않고, 자신의 돈으로 직접 앨범을 제작하고, 홍보 역시 자신의 돈으로 하는 등 독립적으로 활동하는 뮤지션인 인디밴드가 본인의 공연 및 앨범을 홍보하고 사용자들은 본인이 좋아하는 곡, 밴드, 좋았던 공연을 공유하는 커뮤니티 사이트 입니다.
@@ -25,6 +27,7 @@
 <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white">
 <img src="https://img.shields.io/badge/node.js-5fa84e?style=for-the-badge&logo=node.js&logoColor=white">
 <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white">
+<img src="https://img.shields.io/badge/figma-E34f26?style=for-the-badge&logo=figma&logoColor=white">
 <img src="https://img.shields.io/badge/tailwindCSS-06b6d4?style=for-the-badge&logo=tailwindcss&logoColor=white">
 <img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
 <img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white">
@@ -43,6 +46,9 @@
 ### 프레임워크 및 언어
 - **Next.js**: React 기반의 프레임워크로 서버 사이드 렌더링과 정적 사이트 생성을 지원하여 빠른 웹사이트를 구축하는 데 사용되었습니다.
 - **TypeScript**: 정적 타입을 지원하는 JavaScript의 상위 집합 언어로, 코드의 안정성과 유지보수성을 높이는 데 사용되었습니다.
+
+### 와이어프레임
+- **Figma**: 프로젝트 기획 단계에서 웹 사이트의 UI 와이어프레임을 작성하는 데 사용되었습니다.
 
 ### 배포 및 호스팅
 - **Vercel**: Next.js 애플리케이션을 쉽게 배포하고, 서버리스 함수 및 정적 사이트를 호스팅하는 데 사용되었습니다.
@@ -91,7 +97,9 @@
 ## 각 팀원은 어떤 역할을 맡았나요?
 
 ### 팀장 : 박솔
+
 - 팀 리딩, 회의 주관
+- 와이어 프레임 작성 리딩
 - 공연 정보 리스트 페이지
   - useInfiniteQuery 활용 무한 스크롤 구현
   - sort 활용 포스트 정렬 기능 구현
@@ -147,6 +155,7 @@
 
 ### 팀원 : 양이준
 
+- 와이어 프레임 작성 리딩
 
 ### 팀원 : 이효현
 
@@ -159,3 +168,28 @@
   - TasStack Query를 활용, 데이터 캐싱
   - Infinite Scroll 구현
 - 좋아요 기능 구현
+
+## 어떻게 협업했나요?
+
+### GitHub Repository
+
+- 공용 Repository를 생성하여 프로젝트 협업
+- 기획 회의에서 약속한 Commit Convention을 준수하여 직관적인 작업 현황 파악
+- 페이지 별, 기능 별 branch를 생성하여 충돌 방지
+- 팀원 2명 이상 approve된 PR만 merge 가능하도록 설정하여 코드 병합 시 충돌 방지 및 효과적인 코드 리뷰 진행
+
+### GitHub Issues
+
+- 작업 현황 및 발생한 이슈에 대한 신속한 공유 및 해결을 위해 사용
+
+### Slack
+
+- 실시간 소통을 위한 채널을 생성하여 프로젝트 진행 상황 공유 및 의견 교환
+
+### Notion
+
+- 프로젝트 기획 및 그라운드 룰, 데이터 베이스 테이블 명세서를 문서화하여 최초 기획과 일관된 프로젝트 협업
+
+### Figma
+
+- 웹 사이트의 UI를 작성하기 위해 사용
