@@ -24,6 +24,11 @@ const config: Config = {
       boxShadow: {
         "modal-custom": "10px 10px 55px 20px rgba(0, 0, 0, 0.1)",
       },
+      margin: {
+        '37': '9.25rem',  // 37 * (1rem = 16px, 9.25rem = 148px)
+        '38': '9.5rem',   // 38 * (1rem = 16px, 9.5rem = 152px)
+        '39': '9.75rem',  // 39 * (1rem = 16px, 9.75rem = 156px)
+      },
     },
   },
   animation: {
