@@ -39,16 +39,16 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
 
   const handleEditBtn = (): void => {
     if (contentRef.current) {
-      if (contentRef.current.value.length > 40) {
-        Swal.fire({
-          title: "수정이 제한되었습니다.",
-          text: "댓글은 40자 이내로 작성해주세요.",
-          icon: "warning",
-          cancelButtonText: "확인",
-          cancelButtonColor: "#A04741",
-        });
-        return;
-      }
+      // if (contentRef.current.value.length > 40) {
+      //   Swal.fire({
+      //     title: "수정이 제한되었습니다.",
+      //     text: "댓글은 40자 이내로 작성해주세요.",
+      //     icon: "warning",
+      //     cancelButtonText: "확인",
+      //     cancelButtonColor: "#A04741",
+      //   });
+      //   return;
+      // }
 
       const editedComment = {
         post_id,
@@ -89,9 +89,9 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
         ref={contentRef}
         placeholder="수정할 내용을 입력하세요."
         defaultValue={comment?.content}
-        className="w-[850px] h-[25px] text-black text-[20px] mt-[20px] focus:outline-none"
+        className="w-[850px] min-h-[25px] resize-none text-black text-[20px] mt-[20px] focus:outline-none"
       />
-      <div className="flex gap-[20px] pt-[70px] pl-[475px]">
+      <div className="flex gap-[20px] pt-[25px] pb-[25px] pl-[475px]">
         <button
           type="button"
           className="w-[200px] h-[55px] rounded-[10px] bg-[#EFEFEF] text-[#747474] hover:bg-[#d7d7d7] transition duration-200"
