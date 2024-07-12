@@ -2,6 +2,8 @@
 
 ![CleanShot 2024-07-12 at 22 15 10](https://github.com/user-attachments/assets/1468c0a5-4070-4f3b-af24-a4bbb1d24db3)
 
+<img width="960" alt="홍보배너" src="https://github.com/user-attachments/assets/85d4cd57-a0d9-4210-8152-97ca233a22c2">
+
 # 프로젝트 소개
 
 ## 배포 링크
