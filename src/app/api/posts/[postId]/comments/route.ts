@@ -27,7 +27,7 @@ export async function GET(request: NextRequest, params: GetParameter) {
     .from(TABLE_NAME)
     .select("*, users:author_id(*)")
     .eq(PK_COLUMN_NAME, id)
-    .order("created_at", { ascending: true }) 
+    .order("created_at", { ascending: false }) 
     .range(offset, offset + limit - 1);
 
   return NextResponse.json(comments);
