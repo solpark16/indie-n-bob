@@ -17,7 +17,7 @@ const MainLikes: FC<MainLikesProps> = ({ postId }) => {
 
   return (
     <>
-      <span>❤{likes}</span>
+      <span className="text-main-color">❤ {likes}</span>
     </>
   );
 };
