@@ -8,19 +8,24 @@ import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { useEffect, useState } from "react";
 import ErrorGetComments from "./ErrorGetComments";
 import { CommentType } from "@/types/Comments";
+import { createClient } from "@/utils/supabase/client";
+
+const COMMENT_COUNT = 5;
+const TABLE_NAME = "recommendation_comments";
 
 const CommentsView = ({ postId }: Params) => {
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(1);
-  const COMMENT_COUNT = 5;
 
   const { data: cmtLength } = useQuery({
     queryKey: ["comments", postId],
     queryFn: async () => {
-      const response = await fetch(
-        `${SITE_URL}/api/posts/${postId}/comments/length`
-      );
-      return await response.json();
+      const supabase = createClient();
+      const { count } = await supabase
+        .from(TABLE_NAME)
+        .select("*, users:author_id(*)", { count: "exact", head: true })
+        .eq("post_id", postId);
+      return count;
     },
   });
 
