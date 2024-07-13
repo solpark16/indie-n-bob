@@ -13,5 +13,9 @@ export default async function getMyInfo() {
         .select('*')
         .eq('user_id', user.id);
 
+    if (userError || !userData || userData.length === 0) {
+        return { userData: null, userError };
+    }
+
     return { userData: userData[0], userError };
 }

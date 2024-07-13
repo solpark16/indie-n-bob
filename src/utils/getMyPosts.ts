@@ -14,9 +14,9 @@ export default async function getMyPosts(page = 0, limit = 3) {
         .eq('author_id', user.id)
         .range(page * limit, (page + 1) * limit - 1);
 
-    const nextCursor = (page + 1) * limit < count ? page + 1 : null;
+    const nextCursor = (page + 1) * limit < (count ?? 0) ? page + 1 : null;
 
-    if (posts.length === 0) {
+    if (!posts || posts.length === 0) {
         return { posts, postError, nextCursor: null };
     }
 
