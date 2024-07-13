@@ -63,7 +63,6 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
   if (isPending || !concert) {
     return <div>로딩 중입니다...</div>;
   }
-  console.log(concert);
   const {
     post_id: id,
     title,
@@ -199,8 +198,11 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
         <div>
           <div className="text-[18px] flex justify-between mt-[78px] mb-[35px] pb-[24px] border-b-[1px]">
             <div className="flex gap-4 items-center">
-              <img
-                className="w-[50px] h-[50px] object-cover rounded-full"
+              <Image
+                alt="프로필 사진"
+                width={50}
+                height={50}
+                className="h-[50px] object-cover rounded-full"
                 src={users && users.profile_image}
               />
               <p className="m-0">{users && users.nickname}</p>
