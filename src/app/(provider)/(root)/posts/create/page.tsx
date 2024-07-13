@@ -124,6 +124,7 @@ const CreatePostPage = () => {
 
     // ToDo : 쿼리키 무효화가 안 됨 -저승사자-
     await queryClient.invalidateQueries({ queryKey: ["posts"] });
+    await queryClient.invalidateQueries({ queryKey: ["myPosts"] });
     router.replace("/posts");
     router.refresh();
   };
