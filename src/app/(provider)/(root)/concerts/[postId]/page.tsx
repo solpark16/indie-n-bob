@@ -5,7 +5,7 @@ import { Concert, ConcertInDB } from "@/types/Concert";
 import { formatDateString } from "@/utils/formatDateString";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,7 +21,9 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
   const [like, setLike] = useState(0);
   const [heart, setHeart] = useState(false);
 
+  const queryClient = useQueryClient();
   const supabase = createClient();
+
   useEffect(() => {
     const fetchData = async () => {
       const { data, error: getUserError } = await supabase.auth.getUser();
@@ -41,6 +43,14 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
         .eq("post_id", postId);
       if (data) {
         setLike(data.length);
+      }
+      const isUserLiked = data?.filter((like) => {
+        return like.user_id === user?.id;
+      });
+      if (isUserLiked?.length) {
+        setHeart(true);
+      } else {
+        setHeart(false);
       }
     };
     fetchLike();
@@ -114,6 +124,9 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
       setHeart(true);
       setLike(like + 1);
     }
+    queryClient.invalidateQueries({
+      queryKey: ["concerts"],
+    });
   };
 
   return (
@@ -128,12 +141,13 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
                   className="text-[25px] text-[#747474] cursor-pointer"
                   onClick={onClickLikeHandler}
                 >
-                  {/* {heart ? (
+                  {heart ? (
                     <span className="text-main-color">♥</span>
                   ) : (
                     <span className="text-[#E3E3E3]">♥</span>
-                  )}{" "} */}
-                  <span className="text-main-color">♥</span> {like}
+                  )}{" "}
+                  {like}
+                  {/* <span className="text-main-color">♥</span> {like} */}
                 </p>
                 {user && author_id === user.id && (
                   <div className="flex gap-[10px]">
@@ -209,7 +223,7 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
             </div>
             <p className="text-[#A0A0A0]">{formatDateString(created_at)}</p>
           </div>
-          <p className="text-[25px]">{content}</p>
+          <p className="text-[25px] mb-[300px]">{content}</p>
         </div>
       </div>
     </main>
