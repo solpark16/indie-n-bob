@@ -45,9 +45,11 @@ const ConcertWritePage = () => {
       const { data, error } = await supabase.storage
         .from("posts/concert")
         .upload(`post_${Date.now()}.png`, fileObj);
-      setImageUrl(
-        `https://stfauxrjudaltlmspsnv.supabase.co/storage/v1/object/public/posts/concert/${data.path}`
-      );
+      if (data) {
+        setImageUrl(
+          `https://stfauxrjudaltlmspsnv.supabase.co/storage/v1/object/public/posts/concert/${data.path}`
+        );
+      }
     }
   };
 
