@@ -1,10 +1,13 @@
 "use client";
 
 import ConcertDeleteButton from "@/components/ConcertList/ConcertDeleteButton";
+import { Concert, ConcertInDB } from "@/types/Concert";
 import { formatDateString } from "@/utils/formatDateString";
 import { createClient } from "@/utils/supabase/client";
-import { useQuery } from "@tanstack/react-query";
+import { User } from "@supabase/supabase-js";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -14,15 +17,19 @@ type ConcertDetailPageProps = {
 };
 
 const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User>();
   const [like, setLike] = useState(0);
   const [heart, setHeart] = useState(false);
 
+  const queryClient = useQueryClient();
   const supabase = createClient();
+
   useEffect(() => {
     const fetchData = async () => {
       const { data, error: getUserError } = await supabase.auth.getUser();
-      setUser(data.user);
+      if (data.user) {
+        setUser(data.user);
+      }
     };
     fetchData();
   }, []);
@@ -34,7 +41,17 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
         .from("concert_likes")
         .select()
         .eq("post_id", postId);
-      setLike(data.length);
+      if (data) {
+        setLike(data.length);
+      }
+      const isUserLiked = data?.filter((like) => {
+        return like.user_id === user?.id;
+      });
+      if (isUserLiked?.length) {
+        setHeart(true);
+      } else {
+        setHeart(false);
+      }
     };
     fetchLike();
   }, [like]);
@@ -45,18 +62,17 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
       const supabase = createClient();
       const { data, error } = await supabase
         .from("concert_posts")
-        .select("*, users:author_id(*)")
+        .select("*, users:author_id(nickname, profile_image)")
         .eq("post_id", postId)
         .single();
 
-      return data;
+      return data as any;
     },
   });
 
-  if (isPending) {
+  if (isPending || !concert) {
     return <div>로딩 중입니다...</div>;
   }
-
   const {
     post_id: id,
     title,
@@ -95,7 +111,7 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
       .select()
       .eq("post_id", postId)
       .eq("user_id", user.id);
-    if (data.length) {
+    if (data && data.length) {
       await supabase
         .from("concert_likes")
         .delete()
@@ -108,7 +124,11 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
       setHeart(true);
       setLike(like + 1);
     }
+    queryClient.invalidateQueries({
+      queryKey: ["concerts"],
+    });
   };
+
   return (
     <main>
       <div className="px-[92px] mt-[140px]">
@@ -121,12 +141,13 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
                   className="text-[25px] text-[#747474] cursor-pointer"
                   onClick={onClickLikeHandler}
                 >
-                  {/* {heart ? (
+                  {heart ? (
                     <span className="text-main-color">♥</span>
                   ) : (
                     <span className="text-[#E3E3E3]">♥</span>
-                  )}{" "} */}
-                  <span className="text-main-color">♥</span> {like}
+                  )}{" "}
+                  {like}
+                  {/* <span className="text-main-color">♥</span> {like} */}
                 </p>
                 {user && author_id === user.id && (
                   <div className="flex gap-[10px]">
@@ -145,7 +166,14 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
         <article className="flex gap-[76px]">
           <div className="relative min-w-[450px] w-[450px]">
             {/* Image 태그로 변경 필요 */}
-            {image && <img src={image} alt={title} />}
+            {image && (
+              <Image
+                src={image}
+                alt="공연 포스터 이미지"
+                width={450}
+                height={450}
+              />
+            )}
           </div>
           <div className="w-full flex flex-col text-[#2E2E2E]">
             <div className="mt-[30px] leading-[60px]">
@@ -184,15 +212,18 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
         <div>
           <div className="text-[18px] flex justify-between mt-[78px] mb-[35px] pb-[24px] border-b-[1px]">
             <div className="flex gap-4 items-center">
-              <img
-                className="w-[50px] h-[50px] object-cover rounded-full"
+              <Image
+                alt="프로필 사진"
+                width={50}
+                height={50}
+                className="h-[50px] object-cover rounded-full"
                 src={users && users.profile_image}
               />
               <p className="m-0">{users && users.nickname}</p>
             </div>
             <p className="text-[#A0A0A0]">{formatDateString(created_at)}</p>
           </div>
-          <p className="text-[25px]">{content}</p>
+          <p className="text-[25px] mb-[300px]">{content}</p>
         </div>
       </div>
     </main>
