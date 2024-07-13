@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import SITE_URL from "@/constant";
+import { createClient } from "@/utils/supabase/client";
 
 const PerformanceInfo: FC = () => {
   const {
@@ -12,9 +13,12 @@ const PerformanceInfo: FC = () => {
   } = useQuery({
     queryKey: ["mainConcerts"],
     queryFn: async () => {
-      const response = await fetch(`${SITE_URL}/api/concerts`);
-      const data = await response.json();
-      return data;
+      const supabase = createClient();
+      const { data: post } = await supabase
+        .from("concert_posts")
+        .select("*, users:author_id(*)");
+
+      return post;
     },
   });
 
@@ -30,11 +34,13 @@ const PerformanceInfo: FC = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const sortedConcerts = concerts.sort((a, b) => {
-    const dateA = new Date(a.created_at);
-    const dateB = new Date(b.created_at);
-    return dateB.getTime() - dateA.getTime();
-  });
+  const sortedConcerts =
+    concerts &&
+    concerts.sort((a, b) => {
+      const dateA = new Date(a.created_at);
+      const dateB = new Date(b.created_at);
+      return dateB.getTime() - dateA.getTime();
+    });
 
   return (
     <div className="text-center p-5">
@@ -48,26 +54,27 @@ const PerformanceInfo: FC = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {sortedConcerts.slice(0, 3).map((concert) => (
-          <Link
-            key={concert.post_id}
-            href={`/concerts/${concert.post_id}`}
-            legacyBehavior
-          >
-            <a className="relative w-80 h-80 lg:w-80 lg:h-80 sm:w-50 sm:h-50 rounded-full overflow-hidden group cursor-pointer transition duration-200">
-              <Image
-                src={concert.image}
-                alt={`Performance ${concert.post_id}`}
-                fill
-                style={{ objectFit: "cover" }}
-                className="transition z-1"
-              />
-              <div className="absolute inset-0 z-10 flex items-center justify-center text-[#ffffff00] bg-opacity-0 hover:text-[white] hover:bg-[#00000076]">
-                <p className="text-xl">{concert.title}</p>
-              </div>
-            </a>
-          </Link>
-        ))}
+        {sortedConcerts &&
+          sortedConcerts.slice(0, 3).map((concert) => (
+            <Link
+              key={concert.post_id}
+              href={`/concerts/${concert.post_id}`}
+              legacyBehavior
+            >
+              <a className="relative w-80 h-80 lg:w-80 lg:h-80 sm:w-50 sm:h-50 rounded-full overflow-hidden group cursor-pointer transition duration-200">
+                <Image
+                  src={concert.image}
+                  alt={`Performance ${concert.post_id}`}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  className="transition z-1"
+                />
+                <div className="absolute inset-0 z-10 flex items-center justify-center text-[#ffffff00] bg-opacity-0 hover:text-[white] hover:bg-[#00000076]">
+                  <p className="text-xl">{concert.title}</p>
+                </div>
+              </a>
+            </Link>
+          ))}
       </div>
     </div>
   );
