@@ -12,10 +12,11 @@ import { User } from "@supabase/supabase-js";
 import { useAlertStore } from "@/zustand/alert.store";
 import { AlertUi } from "../Alert";
 import ConcertSquare from "./ConcertSquare";
+import { Concert, ConcertInDB } from "@/types/Concert";
 
 function ConcertListView() {
   const [user, setUser] = useState<User>();
-  const [sortedConcerts, setSortedConcerts] = useState([]);
+  const [sortedConcerts, setSortedConcerts] = useState<any[]>([]);
   const [activeSort, setActiveSort] = useState("latest");
   const { setAlert } = useAlertStore();
 
@@ -46,7 +47,7 @@ function ConcertListView() {
     const supabase = createClient();
     const fetchData = async () => {
       const { data, error: getUserError } = await supabase.auth.getUser();
-      if (data) {
+      if (data.user) {
         setUser(data.user);
       }
     };
@@ -75,6 +76,7 @@ function ConcertListView() {
     const sorted = [...concerts].sort((a, b) => {
       return b.concert_likes.length - a.concert_likes.length;
     });
+
     setSortedConcerts(sorted);
   };
 
@@ -82,7 +84,7 @@ function ConcertListView() {
   const imminentSort = () => {
     setActiveSort("imminent");
     const now = new Date().getTime();
-    const sorted = [...concerts].sort((a, b) => {
+    const sorted = [...concerts].sort((a: any, b: any) => {
       const diffA = new Date(a.end_date).getTime() - now;
       const diffB = new Date(b.end_date).getTime() - now;
       return diffA - diffB;
@@ -151,7 +153,7 @@ function ConcertListView() {
       {/** // TODO key 변경 필요 */}
       {concerts && concerts.length ? (
         <ul className="grid justify-between gap-[31px] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-0">
-          {sortedConcerts.map((concert) => (
+          {sortedConcerts.map((concert: ConcertInDB) => (
             <li key={concert.post_id} className="max-w-[405px]">
               <ConcertSquare concert={concert}></ConcertSquare>
             </li>
