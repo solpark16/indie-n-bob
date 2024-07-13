@@ -41,7 +41,7 @@ function ConcertSquare({ concert }: ConcertSquareProps) {
       </div>
       <div className="w-full flex justify-between mt-[20px]">
         <span className="font-semibold text-[25px]">{title}</span>
-        <div className="text-xl">
+        <div className="text-xl flex gap-[5px]">
           <span className="text-main-color">♥</span>{" "}
           <span>{concert_likes.length}</span>
         </div>
