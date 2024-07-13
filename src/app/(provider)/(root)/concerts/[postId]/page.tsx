@@ -91,7 +91,6 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
     users,
   } = concert;
 
-  const createdAt = moment(created_at).format("yyyy.MM.DD");
   const startDate = moment(start_date).format("yyyy.MM.DD");
   const endDate = moment(end_date).format("yyyy.MM.DD");
 
@@ -105,8 +104,7 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
       post_id: postId,
       user_id: user.id,
     };
-    const supabase = createClient();
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("concert_likes")
       .select()
       .eq("post_id", postId)
@@ -131,7 +129,7 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
 
   return (
     <main>
-      <div className="px-[92px] mt-[140px]">
+      <div className="px-[92px] mt-[32px]">
         <header className="mb-[22px]">
           <div>
             <>
