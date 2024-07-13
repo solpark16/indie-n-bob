@@ -1,9 +1,8 @@
 "use client";
 
-import SITE_URL from "@/constant";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import getConcerts from "@/utils/getConcerts";
 import { useInView } from "react-intersection-observer";
@@ -12,11 +11,9 @@ import { User } from "@supabase/supabase-js";
 import { useAlertStore } from "@/zustand/alert.store";
 import { AlertUi } from "../Alert";
 import ConcertSquare from "./ConcertSquare";
-import { Concert, ConcertInDB } from "@/types/Concert";
 
 function ConcertListView() {
   const [user, setUser] = useState<User>();
-  const [sortedConcerts, setSortedConcerts] = useState<any[]>([]);
   const [activeSort, setActiveSort] = useState("latest");
   const { setAlert } = useAlertStore();
 
@@ -57,19 +54,20 @@ function ConcertListView() {
   }, []);
 
   // sort 기능
+
   // 최신순 정렬
   const latestSort = () => {
     setActiveSort("latest");
     refetch();
   };
 
-  // // 랭킹순 정렬
+  // 랭킹순 정렬
   const rankingSort = () => {
     setActiveSort("ranking");
     refetch();
   };
 
-  // // 공연 종료 임박순 정렬
+  // 공연 종료 임박순 정렬
   const imminentSort = () => {
     setActiveSort("imminent");
     refetch();
