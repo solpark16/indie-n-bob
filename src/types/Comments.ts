@@ -1,12 +1,12 @@
 import { Json } from "./supabase";
 
 export type CommentType = {
-  comment_id: number;
-  created_at: string;
-  post_id: number;
-  author_nickname: string;
-  content: string;
-  author_id: string;
+  comment_id: number ;
+  created_at: string | null;
+  post_id: number | null;
+  author_nickname: string | null;
+  content: string | null;
+  author_id: string | null;
   users: {
     created_at: string;
     email: string | null;
@@ -19,10 +19,10 @@ export type CommentType = {
 };
 
 export type NewCommentType = {
-  post_id: number;
-  author_nickname: string;
-  content: string;
-  author_id: string;
+  post_id: number | null;
+  author_nickname: string | null;
+  content: string | null;
+  author_id: string | null;
 };
 
 export type CommentWriter = {

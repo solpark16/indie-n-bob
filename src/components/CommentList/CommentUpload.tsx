@@ -2,7 +2,7 @@
 
 import SITE_URL from "@/constant";
 import { NewCommentType } from "@/types/Comments";
-import { createClient } from "@/utils/supabase/client";
+import supabase, { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
@@ -33,10 +33,7 @@ const CommentUpload = ({ postId }: Params) => {
 
   const { mutate: createComment } = useMutation({
     mutationFn: async (item: NewCommentType) => {
-      await fetch(`${SITE_URL}/api/posts/${postId}/comments`, {
-        method: "POST",
-        body: JSON.stringify(item),
-      });
+      await supabase.from("recommendation_comments").insert(item);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["comments", postId] });

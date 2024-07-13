@@ -44,7 +44,7 @@ const CommentsView = ({ postId }: Params) => {
         .order("created_at", { ascending: false })
         .range(OFFSET, OFFSET + LIMIT - 1);
 
-      return data;
+      return data as CommentType[] | null;
     },
   });
 
