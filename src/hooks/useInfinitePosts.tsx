@@ -25,9 +25,8 @@ function useInfinitePosts() {
   });
 
   const posts = useMemo(() => {
-    console.log("parse Posts !! ");
     if (!data?.pages) return;
-    return data.pages.flatMap((page) => page.posts);
+    return data.pages.flatMap((page) => page.posts || []);
   }, [data]);
 
   return {
