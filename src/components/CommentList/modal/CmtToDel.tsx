@@ -3,6 +3,7 @@
 import SITE_URL from "@/constant";
 import { CommentType } from "@/types/Comments";
 import { formatDateString } from "@/utils/formatDateString";
+import { createClient } from "@/utils/supabase/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import React from "react";
@@ -13,6 +14,8 @@ interface PropsType {
   onClose: () => void;
 }
 
+const supabase = createClient();
+
 const CmtToDel = ({ comment, onClose }: PropsType) => {
   const { post_id } = comment;
   const queryClient = useQueryClient();
@@ -20,9 +23,10 @@ const CmtToDel = ({ comment, onClose }: PropsType) => {
 
   const { mutate: deleteComment } = useMutation({
     mutationFn: async (commentId: number) => {
-      await fetch(`${SITE_URL}/api/posts/${post_id}/comments/${commentId}`, {
-        method: "DELETE",
-      });
+      await supabase
+        .from("recommendation_comments")
+        .delete()
+        .eq("comment_id", commentId);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
