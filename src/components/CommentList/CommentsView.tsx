@@ -10,17 +10,18 @@ import ErrorGetComments from "./ErrorGetComments";
 import { CommentType } from "@/types/Comments";
 import { createClient } from "@/utils/supabase/client";
 
-const COMMENT_COUNT = 5;
 const TABLE_NAME = "recommendation_comments";
+const supabase = createClient();
 
 const CommentsView = ({ postId }: Params) => {
-  const [pageNo, setPageNo] = useState(1);
-  const [pageSize, setPageSize] = useState(1);
+  const [pageNo, setPageNo] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(1);
+  const LIMIT: number = 5;
+  const OFFSET: number = (pageNo - 1) * LIMIT;
 
   const { data: cmtLength } = useQuery({
     queryKey: ["comments", postId],
     queryFn: async () => {
-      const supabase = createClient();
       const { count } = await supabase
         .from(TABLE_NAME)
         .select("*, users:author_id(*)", { count: "exact", head: true })
@@ -36,18 +37,20 @@ const CommentsView = ({ postId }: Params) => {
   } = useQuery({
     queryKey: ["comments", postId, pageNo],
     queryFn: async () => {
-      const response = await fetch(
-        `${SITE_URL}/api/posts/${postId}/comments?limit=${COMMENT_COUNT}&offset=${
-          (pageNo - 1) * COMMENT_COUNT
-        }`
-      );
-      return (await response.json()) as CommentType[];
+      const { data } = await supabase
+        .from(TABLE_NAME)
+        .select("*, users:author_id(*)")
+        .eq("post_id", postId)
+        .order("created_at", { ascending: false })
+        .range(OFFSET, OFFSET + LIMIT - 1);
+
+      return data;
     },
   });
 
   useEffect(() => {
     if (comments && cmtLength) {
-      setPageSize(Math.ceil(cmtLength / COMMENT_COUNT));
+      setPageSize(Math.ceil(cmtLength / LIMIT));
     }
   }, [comments, cmtLength]);
 
