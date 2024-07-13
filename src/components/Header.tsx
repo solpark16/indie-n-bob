@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 import useUserData from "@/hooks/useUserData";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
+import Image from "next/image";
 
 interface User {
   email: string;
@@ -12,7 +13,7 @@ interface User {
 
 const Header: FC = () => {
   const [user, setUser] = useState<User | null>(null);
-  const { data: userData } = useUserData<User>();
+  const { data: userData } = useUserData();
 
   const supabase = createClient();
 
@@ -37,8 +38,8 @@ const Header: FC = () => {
           } else {
             console.log("Profile Data:", profileData);
             setUser({
-              email: sessionData.session.user.email,
-              nickname: profileData.nickname,
+              email: sessionData.session.user.email ?? "",
+              nickname: profileData.nickname || "",
             });
           }
         } else {
@@ -123,7 +124,12 @@ const Header: FC = () => {
             >
               <div className="flex items-center">
                 <p className="w-10 h-10 rounded-full overflow-hidden mb-0 mr-2">
-                  <img src={userData.userData.profile_image} />
+                  <Image
+                    src={userData?.userData?.profile_image as string}
+                    alt="Profile"
+                    width={40}
+                    height={40}
+                  />
                 </p>
                 {user && userData && userData?.userData
                   ? userData?.userData?.nickname
