@@ -1,7 +1,7 @@
 "use client";
 
 import SITE_URL from "@/constant";
-import { CommentType, NewCommentType } from "@/types/Comments";
+import { CommentType, EditCommentType, NewCommentType } from "@/types/Comments";
 import { formatDateString } from "@/utils/formatDateString";
 import { createClient } from "@/utils/supabase/client";
 import {
@@ -26,16 +26,12 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
   const queryClient: QueryClient = useQueryClient();
 
   const { mutate: editComment } = useMutation({
-    mutationFn: async (item: NewCommentType) => {
+    mutationFn: async (item: EditCommentType) => {
       await supabase
         .from("recommendation_comments")
         .update(item)
         .eq("comment_id", comment_id)
         .select();
-      // await fetch(`${SITE_URL}/api/posts/${item.post_id}/comments`, {
-      //   method: "PUT",
-      //   body: JSON.stringify(item),
-      // });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -46,7 +42,7 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
 
   const handleEditBtn = (): void => {
     if (contentRef.current) {
-      const editedComment = {
+      const editedComment: EditCommentType = {
         post_id,
         author_id,
         author_nickname,
