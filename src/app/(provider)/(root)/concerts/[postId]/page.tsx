@@ -2,6 +2,7 @@
 
 import ConcertDeleteButton from "@/components/ConcertList/ConcertDeleteButton";
 import { Concert } from "@/types/Concert";
+import { formatDateString } from "@/utils/formatDateString";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -36,14 +37,23 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
   // like 가져오기
   useEffect(() => {
     const fetchLike = async () => {
-      const { count } = await supabase
+      const { data, error } = await supabase
         .from("concert_likes")
-        .select("*", { count: "exact" })
+        .select()
         .eq("post_id", postId);
-      setLike(count ?? 0);
+      if (data) {
+        setLike(data.length);
+      }
+      const isUserLiked = data?.filter((like) => {
+        return like.user_id === user?.id;
+      });
+      if (isUserLiked?.length) {
+        setHeart(true);
+      } else {
+        setHeart(false);
+      }
     };
     fetchLike();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [like]);
 
   const { data: concert, isPending } = useQuery({
@@ -154,7 +164,14 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
         <article className="flex gap-[76px]">
           <div className="relative min-w-[450px] w-[450px]">
             {/* Image 태그로 변경 필요 */}
-            {image && <img src={image} alt={title} />}
+            {image && (
+              <Image
+                src={image}
+                alt="공연 포스터 이미지"
+                width={450}
+                height={450}
+              />
+            )}
           </div>
           <div className="w-full flex flex-col text-[#2E2E2E]">
             <div className="mt-[30px] leading-[60px]">
@@ -202,7 +219,9 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
               />
               <p className="m-0">{users && users.nickname}</p>
             </div>
-            <p className="text-[#A0A0A0]">{created_at}</p>
+            <p className="text-[#A0A0A0]">
+              {created_at && formatDateString(created_at)}
+            </p>
           </div>
           <p className="text-[25px] mb-[300px]">{content}</p>
         </div>
