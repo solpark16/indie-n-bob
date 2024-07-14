@@ -8,19 +8,25 @@ import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { useEffect, useState } from "react";
 import ErrorGetComments from "./ErrorGetComments";
 import { CommentType } from "@/types/Comments";
+import { createClient } from "@/utils/supabase/client";
+
+const TABLE_NAME = "recommendation_comments";
+const supabase = createClient();
 
 const CommentsView = ({ postId }: Params) => {
-  const [pageNo, setPageNo] = useState(1);
-  const [pageSize, setPageSize] = useState(1);
-  const COMMENT_COUNT = 5;
+  const [pageNo, setPageNo] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(1);
+  const LIMIT: number = 5;
+  const OFFSET: number = (pageNo - 1) * LIMIT;
 
   const { data: cmtLength } = useQuery({
     queryKey: ["comments", postId],
     queryFn: async () => {
-      const response = await fetch(
-        `${SITE_URL}/api/posts/${postId}/comments/length`
-      );
-      return await response.json();
+      const { count } = await supabase
+        .from(TABLE_NAME)
+        .select("*, users:author_id(*)", { count: "exact", head: true })
+        .eq("post_id", postId);
+      return count;
     },
   });
 
@@ -31,18 +37,20 @@ const CommentsView = ({ postId }: Params) => {
   } = useQuery({
     queryKey: ["comments", postId, pageNo],
     queryFn: async () => {
-      const response = await fetch(
-        `${SITE_URL}/api/posts/${postId}/comments?limit=${COMMENT_COUNT}&offset=${
-          (pageNo - 1) * COMMENT_COUNT
-        }`
-      );
-      return (await response.json()) as CommentType[];
+      const { data } = await supabase
+        .from(TABLE_NAME)
+        .select("*, users:author_id(*)")
+        .eq("post_id", postId)
+        .order("created_at", { ascending: false })
+        .range(OFFSET, OFFSET + LIMIT - 1);
+
+      return data as CommentType[] | null;
     },
   });
 
   useEffect(() => {
     if (comments && cmtLength) {
-      setPageSize(Math.ceil(cmtLength / COMMENT_COUNT));
+      setPageSize(Math.ceil(cmtLength / LIMIT));
     }
   }, [comments, cmtLength]);
 
