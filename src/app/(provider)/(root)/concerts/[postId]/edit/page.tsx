@@ -83,6 +83,11 @@ const ConcertEditPage = ({ params }: { params: { postId: string } }) => {
   });
 
   const concertAddHandler = async () => {
+    const urlRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#-]+\.?)+(\/[^\s]*)?$/i;
+    if (link && !urlRegex.test(link)) {
+      alert("링크 형식이 잘못되었습니다.");
+      return;
+    }
     if (
       !title.trim() ||
       !region.trim() ||
@@ -206,6 +211,7 @@ const ConcertEditPage = ({ params }: { params: { postId: string } }) => {
         <div className=" border-b-[1px] border-[#DDDDDD] flex items-center">
           <label className="w-[118px]">관련링크</label>
           <input
+            placeholder="링크는 생략 가능합니다."
             className="h-[60px] w-full"
             value={link}
             onChange={(e) => {
