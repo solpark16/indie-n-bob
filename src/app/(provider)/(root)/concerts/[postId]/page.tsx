@@ -1,8 +1,7 @@
 "use client";
 
 import ConcertDeleteButton from "@/components/ConcertList/ConcertDeleteButton";
-import { Concert, ConcertInDB } from "@/types/Concert";
-import { formatDateString } from "@/utils/formatDateString";
+import { Concert } from "@/types/Concert";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -17,7 +16,7 @@ type ConcertDetailPageProps = {
 };
 
 const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>(null);
   const [like, setLike] = useState(0);
   const [heart, setHeart] = useState(false);
 
@@ -27,40 +26,31 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
   useEffect(() => {
     const fetchData = async () => {
       const { data, error: getUserError } = await supabase.auth.getUser();
-      if (data.user) {
-        setUser(data.user);
-      }
+      if (!data?.user) return;
+      setUser(data.user);
     };
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // like 가져오기
   useEffect(() => {
     const fetchLike = async () => {
-      const { data, error } = await supabase
+      const { count } = await supabase
         .from("concert_likes")
-        .select()
+        .select("*", { count: "exact" })
         .eq("post_id", postId);
-      if (data) {
-        setLike(data.length);
-      }
-      const isUserLiked = data?.filter((like) => {
-        return like.user_id === user?.id;
-      });
-      if (isUserLiked?.length) {
-        setHeart(true);
-      } else {
-        setHeart(false);
-      }
+      setLike(count ?? 0);
     };
     fetchLike();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [like]);
 
   const { data: concert, isPending } = useQuery({
     queryKey: ["concerts", postId],
     queryFn: async () => {
       const supabase = createClient();
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from("concert_posts")
         .select("*, users:author_id(nickname, profile_image)")
         .eq("post_id", postId)
@@ -89,7 +79,7 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
     author_id,
     // users: { nickname, profile_image },
     users,
-  } = concert;
+  } = concert as unknown as Concert;
 
   const startDate = moment(start_date).format("yyyy.MM.DD");
   const endDate = moment(end_date).format("yyyy.MM.DD");
@@ -104,12 +94,12 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
       post_id: postId,
       user_id: user.id,
     };
-    const { data } = await supabase
+    const { count } = await supabase
       .from("concert_likes")
-      .select()
+      .select("*", { count: "exact" })
       .eq("post_id", postId)
       .eq("user_id", user.id);
-    if (data && data.length) {
+    if (count) {
       await supabase
         .from("concert_likes")
         .delete()
@@ -164,14 +154,7 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
         <article className="flex gap-[76px]">
           <div className="relative min-w-[450px] w-[450px]">
             {/* Image 태그로 변경 필요 */}
-            {image && (
-              <Image
-                src={image}
-                alt="공연 포스터 이미지"
-                width={450}
-                height={450}
-              />
-            )}
+            {image && <img src={image} alt={title} />}
           </div>
           <div className="w-full flex flex-col text-[#2E2E2E]">
             <div className="mt-[30px] leading-[60px]">
@@ -211,15 +194,15 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
           <div className="text-[18px] flex justify-between mt-[78px] mb-[35px] pb-[24px] border-b-[1px]">
             <div className="flex gap-4 items-center">
               <Image
-                alt="프로필 사진"
-                width={50}
-                height={50}
-                className="h-[50px] object-cover rounded-full"
-                src={users && users.profile_image}
+                src={users?.profile_image ?? "/user/fallback-avatar.svg"}
+                alt="프로필 이미지"
+                width="50"
+                height="50"
+                className="w-[50px] h-[50px] object-cover rounded-full"
               />
               <p className="m-0">{users && users.nickname}</p>
             </div>
-            <p className="text-[#A0A0A0]">{formatDateString(created_at)}</p>
+            <p className="text-[#A0A0A0]">{created_at}</p>
           </div>
           <p className="text-[25px] mb-[300px]">{content}</p>
         </div>
