@@ -49,12 +49,14 @@ const Comment = ({ comment }: PropsType) => {
           {comment?.users?.nickname}
         </span>
         <span className="w-auto max-w-[700px] min-w-[100px] pt-[10px] pb-[10px]">
-          {comment.content}
+          {comment?.content}
         </span>
       </div>
       <div className="ml-auto min-w-[250px] min-h-[95px] flex justify-end items-center gap-[10px] text-[#A0A0A0]">
         <span className="w-auto min-w-[140px]">
-          {formatDateString(comment.created_at)}
+          {typeof comment?.created_at === "string"
+            ? formatDateString(comment?.created_at)
+            : null}
         </span>
         <div
           className={`w-[95px] h-[20px] flex justify-between items-center ${
