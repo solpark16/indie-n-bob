@@ -1,15 +1,15 @@
 "use client";
 
+import getConcerts from "@/utils/getConcerts";
+import { createClient } from "@/utils/supabase/client";
+import { useAlertStore } from "@/zustand/alert.store";
+import { User } from "@supabase/supabase-js";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
-import getConcerts from "@/utils/getConcerts";
 import { useInView } from "react-intersection-observer";
-import Loading from "../Loading";
-import { User } from "@supabase/supabase-js";
-import { useAlertStore } from "@/zustand/alert.store";
 import { AlertUi } from "../Alert";
+import Loading from "../Loading";
 import ConcertSquare from "./ConcertSquare";
 
 function ConcertListView() {

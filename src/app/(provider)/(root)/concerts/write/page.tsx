@@ -3,7 +3,7 @@
 import { Concert } from "@/types/Concert";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -99,7 +99,7 @@ const ConcertWritePage = () => {
       price,
       link,
       content,
-      author_id: user?.id,
+      author_id: user?.id || "",
     });
   };
 
