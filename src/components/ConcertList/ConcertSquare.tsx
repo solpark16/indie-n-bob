@@ -1,30 +1,22 @@
 "use client";
 
 import { ConcertInDB } from "@/types/Concert";
-import { createClient } from "@/utils/supabase/client";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
-type ConcertSquareProps = {
-  concert: ConcertInDB;
-};
+// type ConcertSquareProps = {
+//   concert: ConcertInDB;
+// };
 
-function ConcertSquare({ concert }: ConcertSquareProps) {
-  const supabase = createClient();
-  const [like, setLike] = useState(0);
-
+function ConcertSquare({ concert }) {
   const {
     post_id: id,
     title,
-    content,
-    author_nickname: nickname,
     image,
     created_at,
     start_date,
     end_date,
-    time,
     concert_likes,
   } = concert;
 
@@ -36,18 +28,20 @@ function ConcertSquare({ concert }: ConcertSquareProps) {
       href={`/concerts/${id}`}
       className="flex flex-col justify-center items-center text-black no-underline"
     >
-      <div className="relative">
-        {/* // TODO 이미지 없을 때 어떻게 보여줄 것인지." */}
+      <div className="relative w-full">
         {image && (
-          <img src={image} alt={title} />
-          // TODO Image 태그 쓸 수 있도록 만들기
-          // <Image src={image} alt={title} fill className="rounded-2xl" />
+          <Image
+            src={image}
+            alt={title}
+            width={405}
+            height={405}
+            className="relative w-full h-auto rounded-2xl"
+          />
         )}
       </div>
       <div className="w-full flex justify-between mt-[20px]">
         <span className="font-semibold text-[25px]">{title}</span>
-        {/* 하트 이미지 및 like 가져와야함 */}
-        <div className="text-xl">
+        <div className="text-xl flex gap-[5px]">
           <span className="text-main-color">♥</span>{" "}
           <span>{concert_likes.length}</span>
         </div>

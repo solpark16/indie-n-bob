@@ -1,6 +1,5 @@
 "use client";
 
-import { Concert } from "@/types/Concert";
 import getConcerts from "@/utils/getConcerts";
 import { createClient } from "@/utils/supabase/client";
 import { useAlertStore } from "@/zustand/alert.store";
@@ -15,25 +14,26 @@ import ConcertSquare from "./ConcertSquare";
 
 function ConcertListView() {
   const [user, setUser] = useState<User>();
-  const [sortedConcerts, setSortedConcerts] = useState<Concert[]>([]);
   const [activeSort, setActiveSort] = useState("latest");
   const { setAlert } = useAlertStore();
 
   // TODO 나중에 추론한 데이터로 변경
-  const { data, isPending, isError, fetchNextPage, hasNextPage } =
+  const { data, isPending, isError, fetchNextPage, hasNextPage, refetch } =
     useInfiniteQuery({
-      queryKey: ["concerts"],
-      queryFn: async ({ pageParam = 0 }) => getConcerts(pageParam),
+      queryKey: ["concerts", activeSort],
+      queryFn: async ({ pageParam = 0 }) => getConcerts(pageParam, activeSort),
       getNextPageParam: (lastPage) => {
-        return lastPage.nextCursor !== null ? lastPage.nextCursor : undefined;
+        return lastPage?.nextCursor !== null ? lastPage?.nextCursor : undefined;
       },
       initialPageParam: 0,
       staleTime: Infinity,
     });
+
   const concerts = useMemo(
-    () => data?.pages?.flatMap((page) => page.posts) || [],
+    () => data?.pages?.flatMap((page) => page?.posts) || [],
     [data]
   );
+
   const { ref, inView } = useInView();
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -46,54 +46,37 @@ function ConcertListView() {
     const supabase = createClient();
     const fetchData = async () => {
       const { data, error: getUserError } = await supabase.auth.getUser();
-      if (data?.user) {
+      if (data.user) {
         setUser(data.user);
       }
     };
     fetchData();
   }, []);
 
-  // 최신 순으로 정렬
-  useEffect(() => {
-    if (concerts && concerts.length && activeSort === "latest") {
-      const sorted = [...concerts].sort(
-        (a, b) => Date.parse(b.created_at) - Date.parse(a.created_at)
-      );
-      setSortedConcerts(sorted);
-    }
-  }, [concerts, activeSort]);
-
   // sort 기능
+
   // 최신순 정렬
   const latestSort = () => {
     setActiveSort("latest");
+    refetch();
   };
 
-  // // 랭킹순 정렬
+  // 랭킹순 정렬
   const rankingSort = () => {
     setActiveSort("ranking");
-    const sorted = [...concerts].sort((a, b) => {
-      return b.concert_likes.length - a.concert_likes.length;
-    });
-    setSortedConcerts(sorted);
+    refetch();
   };
 
-  // // 공연 종료 임박순 정렬
+  // 공연 종료 임박순 정렬
   const imminentSort = () => {
     setActiveSort("imminent");
-    const now = new Date().getTime();
-    const sorted = [...concerts].sort((a, b) => {
-      const diffA = new Date(a.end_date).getTime() - now;
-      const diffB = new Date(b.end_date).getTime() - now;
-      return diffA - diffB;
-    });
-    setSortedConcerts(sorted);
+    refetch();
   };
 
   if (isPending) return <Loading />;
   return (
     <>
-      <div className="flex border-t-[1px] pt-[37px] mb-[74px] justify-between">
+      <div className="flex border-t-[1px] py-[37px] justify-between">
         {user && user.user_metadata.is_admin ? (
           <Link
             className="text-white bg-main-color p-[15px] rounded-[10px]"
@@ -151,7 +134,7 @@ function ConcertListView() {
       {/** // TODO key 변경 필요 */}
       {concerts && concerts.length ? (
         <ul className="grid justify-between gap-[31px] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-0">
-          {sortedConcerts.map((concert) => (
+          {concerts.map((concert) => (
             <li key={concert.post_id} className="max-w-[405px]">
               <ConcertSquare concert={concert}></ConcertSquare>
             </li>

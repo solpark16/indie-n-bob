@@ -14,7 +14,6 @@ const ConcertWritePage = () => {
   const queryClient = useQueryClient();
 
   const [title, setTitle] = useState("");
-  // TODO 기본 이미지 들어가야합니다
   const [imageUrl, setImageUrl] = useState("/concert-default-image.png");
   const [region, setRegion] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -45,9 +44,11 @@ const ConcertWritePage = () => {
       const { data, error } = await supabase.storage
         .from("posts/concert")
         .upload(`post_${Date.now()}.png`, fileObj);
-      setImageUrl(
-        `https://stfauxrjudaltlmspsnv.supabase.co/storage/v1/object/public/posts/concert/${data?.path}`
-      );
+      if (data) {
+        setImageUrl(
+          `https://stfauxrjudaltlmspsnv.supabase.co/storage/v1/object/public/posts/concert/${data.path}`
+        );
+      }
     }
   };
 
@@ -63,6 +64,11 @@ const ConcertWritePage = () => {
   });
 
   const concertAddHandler = async () => {
+    const urlRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#-]+\.?)+(\/[^\s]*)?$/i;
+    if (link && !urlRegex.test(link)) {
+      alert("링크 형식이 잘못되었습니다.");
+      return;
+    }
     if (
       !title.trim() ||
       !region.trim() ||
@@ -189,6 +195,7 @@ const ConcertWritePage = () => {
         <div className=" border-b-[1px] border-[#DDDDDD] flex items-center">
           <label className="w-[118px]">관련링크</label>
           <input
+            placeholder="링크는 생략 가능합니다."
             className="h-[60px] w-full"
             value={link}
             onChange={(e) => {

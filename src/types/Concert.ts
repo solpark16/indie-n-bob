@@ -10,13 +10,16 @@ export type Concert = {
   price: string;
   link: string;
   content: string;
-  author_id: string;
+  author_id: string | undefined;
   created_at?: string;
-  users?: { nickname : string, profile_image : string },
+  users?: {
+    nickname: string | null;
+    profile_image: string | null;
+  } | null;
 };
 
 export type ConcertInDB = {
-  created_at: Date;
+  
   author_id: string;
   author_nickname: string;
   users: {
