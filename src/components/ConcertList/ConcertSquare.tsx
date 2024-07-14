@@ -5,11 +5,11 @@ import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 
-type ConcertSquareProps = {
-  concert: ConcertInDB;
-};
+// type ConcertSquareProps = {
+//   concert: ConcertInDB;
+// };
 
-function ConcertSquare({ concert }: ConcertSquareProps) {
+function ConcertSquare({ concert }) {
   const {
     post_id: id,
     title,

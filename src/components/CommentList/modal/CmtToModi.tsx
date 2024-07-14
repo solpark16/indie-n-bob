@@ -1,8 +1,9 @@
 "use client";
 
 import SITE_URL from "@/constant";
-import { CommentType, NewCommentType } from "@/types/Comments";
+import { CommentType, EditCommentType, NewCommentType } from "@/types/Comments";
 import { formatDateString } from "@/utils/formatDateString";
+import { createClient } from "@/utils/supabase/client";
 import {
   QueryClient,
   useMutation,
@@ -16,6 +17,8 @@ interface PropsType {
   onClose: () => void;
 }
 
+const supabase = createClient();
+
 const CmtToModi = ({ comment, onClose }: PropsType) => {
   const contentRef = useRef<HTMLInputElement>(null);
   const { post_id, author_id, author_nickname, comment_id } = comment;
@@ -23,11 +26,12 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
   const queryClient: QueryClient = useQueryClient();
 
   const { mutate: editComment } = useMutation({
-    mutationFn: async (item: NewCommentType) => {
-      await fetch(`${SITE_URL}/api/posts/${item.post_id}/comments`, {
-        method: "PUT",
-        body: JSON.stringify(item),
-      });
+    mutationFn: async (item: EditCommentType) => {
+      await supabase
+        .from("recommendation_comments")
+        .update(item)
+        .eq("comment_id", comment_id)
+        .select();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -38,7 +42,7 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
 
   const handleEditBtn = (): void => {
     if (contentRef.current) {
-      const editedComment = {
+      const editedComment: EditCommentType = {
         post_id,
         author_id,
         author_nickname,
@@ -69,14 +73,16 @@ const CmtToModi = ({ comment, onClose }: PropsType) => {
         </div>
         <div className="w-[250px] flex justify-end items-center gap-[16px] text-[#A0A0A0]">
           <span className="hover:cursor-default">
-            {formatDateString(comment?.created_at)}
+            {typeof comment?.created_at === "string"
+              ? formatDateString(comment?.created_at)
+              : null}
           </span>
         </div>
       </div>
       <input
         ref={contentRef}
         placeholder="수정할 내용을 입력하세요."
-        defaultValue={comment?.content}
+        defaultValue={comment?.content ? comment?.content : "수정할 댓글 내용"}
         className="w-[850px] min-h-[25px] resize-none text-black text-[20px] mt-[20px] focus:outline-none"
       />
       <div className="flex gap-[20px] pt-[25px] pb-[25px] pl-[475px]">
