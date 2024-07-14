@@ -1,7 +1,7 @@
 "use client";
 
-import { createClient } from "@/utils/supabase/client";
 import useUserData from "@/hooks/useUserData";
+import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
 
@@ -12,7 +12,7 @@ interface User {
 
 const Header: FC = () => {
   const [user, setUser] = useState<User | null>(null);
-  const { data: userData } = useUserData<User>();
+  const { data: userData } = useUserData();
 
   const supabase = createClient();
 
@@ -37,8 +37,8 @@ const Header: FC = () => {
           } else {
             console.log("Profile Data:", profileData);
             setUser({
-              email: sessionData.session.user.email,
-              nickname: profileData.nickname,
+              email: sessionData.session.user.email ?? "",
+              nickname: profileData.nickname ?? "",
             });
           }
         } else {
@@ -123,7 +123,12 @@ const Header: FC = () => {
             >
               <div className="flex items-center">
                 <p className="w-10 h-10 rounded-full overflow-hidden mb-0 mr-2">
-                  <img src={userData.userData.profile_image} />
+                  <img
+                    src={
+                      userData.userData?.profile_image ??
+                      "/user/fallback-avatar.svg"
+                    }
+                  />
                 </p>
                 {user && userData && userData?.userData
                   ? userData?.userData?.nickname

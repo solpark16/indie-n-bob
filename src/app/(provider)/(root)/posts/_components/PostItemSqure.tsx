@@ -1,4 +1,4 @@
-import useAllLikes from "@/hooks/useAllLIkes";
+import useAllLikes from "@/hooks/useAllLikes2";
 import { Post } from "@/types/Post";
 import moment from "moment";
 import Image from "next/image";
