@@ -1,9 +1,8 @@
-import { FC } from "react";
-import Link from "next/link";
+import { createClient } from "@/utils/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import SITE_URL from "@/constant";
-import { createClient } from "@/utils/supabase/client";
+import Link from "next/link";
+import { FC } from "react";
 
 const PerformanceInfo: FC = () => {
   const {
@@ -63,7 +62,7 @@ const PerformanceInfo: FC = () => {
             >
               <a className="relative w-80 h-80 lg:w-80 lg:h-80 sm:w-50 sm:h-50 rounded-full overflow-hidden group cursor-pointer transition duration-200">
                 <Image
-                  src={concert.image}
+                  src={concert.image ?? "/post/fallback.svg"}
                   alt={`Performance ${concert.post_id}`}
                   fill
                   style={{ objectFit: "cover" }}

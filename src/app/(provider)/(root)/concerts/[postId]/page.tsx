@@ -6,6 +6,7 @@ import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -192,9 +193,12 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
         <div>
           <div className="text-[18px] flex justify-between mt-[78px] mb-[35px] pb-[24px] border-b-[1px]">
             <div className="flex gap-4 items-center">
-              <img
+              <Image
+                src={users?.profile_image ?? "/user/fallback-avatar.svg"}
+                alt="프로필 이미지"
+                width="50"
+                height="50"
                 className="w-[50px] h-[50px] object-cover rounded-full"
-                src={users && users.profile_image}
               />
               <p className="m-0">{users && users.nickname}</p>
             </div>
