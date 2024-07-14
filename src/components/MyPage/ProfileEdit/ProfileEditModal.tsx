@@ -173,7 +173,7 @@ const ProfileEditModal = ({ onClose }: { onClose: () => void }) => {
         </div>
 
         {/* 헤 */}
-        <h1 className="text-2xl font-semibold mb-6 text-center text-main-color mt-12">프로 수정</h1>
+        <h1 className="text-2xl font-semibold mb-6 text-center text-main-color mt-12">프로필 수정</h1>
 
         {/* 프로필 이미지 */}
         <div className="flex justify-center mb-2">
