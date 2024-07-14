@@ -1,4 +1,4 @@
-import useAllLikes from "@/hooks/useAllLIkes";
+import useAllLikes from "@/hooks/useAllLikes2";
 import { FC } from "react";
 
 interface MainLikesProps {

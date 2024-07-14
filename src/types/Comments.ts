@@ -1,11 +1,11 @@
 import { Json } from "./supabase";
 
 export type CommentType = {
-  comment_id: number;
+  comment_id: number ;
   created_at: string;
   post_id: number;
-  author_nickname: string;
-  content: string;
+  author_nickname: string ;
+  content: string | null;
   author_id: string;
   users: {
     created_at: string;
@@ -24,6 +24,14 @@ export type NewCommentType = {
   content: string;
   author_id: string;
 };
+
+export type EditCommentType = {
+  post_id: number;
+  author_nickname: string;
+  content: string;
+  author_id: string;
+  comment_id: number;
+}
 
 export type CommentWriter = {
   user_metadata: {

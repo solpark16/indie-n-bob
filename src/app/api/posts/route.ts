@@ -26,6 +26,7 @@ export async function GET(request:NextRequest) {
   const { data: posts, error, count } = await supabase
     .from("recommendation_posts")
     .select('*', { count: 'exact' })
+    .order("post_id", { ascending : false })
     .range(startRowNo, endRowNo);
     
   const hasNext = count ? count / PAGE_LIMIT > pageNo + 1  : false;
