@@ -325,6 +325,19 @@ Gallery_View_icon.svg
 ### 팀원 : 김재훈
 
 - 프로젝트 시연 영상 촬영
+- 메인 페이지 / @tanstack/react-query next/image next/link supabase
+  - 공연 정보 렌더링
+    - Supabase 데이터베이스에서 공연 정보를 가져와 화면에 표시하는 역할. 이 컴포넌트는 useQuery 훅을 사용하여 데이터를 비동기적으로 가져오며, 
+    - 가져온 데이터를 최신 순으로 정렬하여 상위 3개의 공연 정보를 화면에 렌더링.
+  - 베스트 게시글 렌더링 / @tanstack/react-query next/image next/link supabase
+    - Supabase에서 추천 게시글 데이터를 가져와 좋아요 수를 기준으로 정렬한 후 상위 4개의 게시글을 화면에 렌더링. 
+    - 이 컴포넌트는 useQuery 훅을 사용하여 데이터를 비동기적으로 가져오며, useAllLikes 훅을 사용하여 각 게시글의 좋아요 데이터를 가져오고, 
+    useEffect 훅을 이용해 게시글 데이터와 좋아요 데이터를 결합하여 각 게시글의 좋아요 수를 계산, 좋아요 수를 기준으로 게시글을 정렬함.
+  - 헤더 / supabase: Supabase @tanstack/react-query next/image next/link next/navigation
+    - 사용자의 인증 상태와 프로필 정보를 관리하고, 다양한 페이지로 이동할 수 있는 네비게이션 메뉴를 제공. 
+    - 사용자가 로그인한 상태에서는 프로필 이미지와 닉네임을 표시하고, 로그아웃 기능을 제공. 
+    - 로그아웃 시에는 메인 페이지로 리디렉션. 로그인하지 않은 상태에서는 로그인 및 회원가입 링크를 표시.
+
 
 ### 팀원 : 선지원
 
