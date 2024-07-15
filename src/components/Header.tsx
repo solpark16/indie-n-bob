@@ -143,6 +143,7 @@ const Header: FC = () => {
               <div className="flex items-center">
                 <p className="w-10 h-10 rounded-full overflow-hidden mb-0 mr-2">
                   <img
+                    className="h-[100%]"
                     src={
                       userData.userData?.profile_image ??
                       "/user/fallback-avatar.svg"
