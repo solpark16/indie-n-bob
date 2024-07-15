@@ -21,9 +21,9 @@ export default function MyProfile() {
       <Image
         src={profile_image || ""}
         alt="Profile"
-        width={60}
-        height={60}
-        className="rounded-full"
+        width={200}
+        height={200}
+        className="rounded-full h-[200px] object-cover"
       />
       <div className="flex-1 flex items-center justify-between w-full">
         <div className="w-full">
