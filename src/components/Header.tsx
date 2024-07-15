@@ -4,6 +4,8 @@ import useUserData from "@/hooks/useUserData";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 interface User {
   email: string;
@@ -13,6 +15,7 @@ interface User {
 const Header: FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const { data: userData } = useUserData();
+  const pathname = usePathname();
 
   const supabase = createClient();
 
@@ -24,7 +27,6 @@ const Header: FC = () => {
         console.error("Error getting session:", sessionError);
         setUser(null);
       } else {
-        //console.log("Session Data:", sessionData);
         if (sessionData.session?.user) {
           const { data: profileData, error: profileError } = await supabase
             .from("users")
@@ -35,7 +37,6 @@ const Header: FC = () => {
             console.error("Error getting profile:", profileError);
             setUser(null);
           } else {
-            console.log("Profile Data:", profileData);
             setUser({
               email: sessionData.session.user.email ?? "",
               nickname: profileData.nickname ?? "",
@@ -82,14 +83,14 @@ const Header: FC = () => {
   return (
     <div className="border-bottom">
       <ul
-        className={`w-100% mx-auto nav flex items-center ${
+        className={`w-[90%] mx-auto nav flex items-center ${
           user ? "logged-in" : "logged-out"
         }`}
       >
         <li className="nav-item mx-2">
           <Link href="/" className="no-underline">
             <div className="nav-link">
-              <img
+              <Image
                 src="/logo.png"
                 alt="Logo"
                 width="40"
@@ -100,15 +101,31 @@ const Header: FC = () => {
           </Link>
         </li>
 
-        <li className="nav-item mx-2">
+        <li className="nav-item mx-3">
           <Link href="/concerts" className="no-underline">
-            <span className="text-main-color no-underline">공연정보</span>
+            <span
+              className={`no-underline ${
+                pathname.includes("/concerts")
+                  ? "text-main-color"
+                  : "text-font-color"
+              }`}
+            >
+              공연정보
+            </span>
           </Link>
         </li>
 
-        <li className="nav-item mx-2">
+        <li className="nav-item mx-3">
           <Link href="/posts" className="no-underline">
-            <span className="text-main-color no-underline">자유게시판</span>
+            <span
+              className={`no-underline ${
+                pathname.includes("/posts")
+                  ? "text-main-color"
+                  : "text-font-color"
+              }`}
+            >
+              자유게시판
+            </span>
           </Link>
         </li>
 
@@ -122,14 +139,18 @@ const Header: FC = () => {
               aria-expanded="false"
             >
               <div className="flex items-center">
-                <p className="w-10 h-10 rounded-full overflow-hidden mb-0 mr-2">
-                  <img
+                <div className="w-10 h-10 rounded-full overflow-hidden mb-0 mr-2">
+                  <Image
+                    alt="profile"
+                    className="w-full h-full object-cover"
+                    width={40}
+                    height={40}
                     src={
                       userData.userData?.profile_image ??
                       "/user/fallback-avatar.svg"
                     }
                   />
-                </p>
+                </div>
                 {user && userData && userData?.userData
                   ? userData?.userData?.nickname
                   : ""}
@@ -160,7 +181,7 @@ const Header: FC = () => {
             </li>
             <li className="nav-item mx-2">
               <Link href="/auth/signup" className="no-underline">
-                <p className="text-sub-color mb-0">회원가입</p>
+                <p className="text-font-color mb-0">회원가입</p>
               </Link>
             </li>
           </>
