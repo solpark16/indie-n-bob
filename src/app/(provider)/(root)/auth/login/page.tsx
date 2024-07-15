@@ -4,14 +4,12 @@ import { AiOutlineUser } from "react-icons/ai";
 import { HiOutlineLockClosed } from "react-icons/hi2";
 import Link from "next/link";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { useAuthStore } from "@/zustand/auth.store";
 import SITE_URL from "@/constant";
 
 export default function LoginPage() {
   const { email, password, setEmail, setPassword } = useAuthStore();
-  const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,16 +35,8 @@ export default function LoginPage() {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          router.replace("/");
+          window.location.href = "/";
         });
-
-        Swal.fire({
-          icon: "error",
-          title: `로그인 실패`,
-          text: response.data.error,
-          showConfirmButton: true,
-        });
-        console.log(response.data.error);
       }
     } catch (error) {
       Swal.fire({
