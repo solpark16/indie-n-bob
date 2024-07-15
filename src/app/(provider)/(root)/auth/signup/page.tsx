@@ -113,16 +113,13 @@ export default function SignUpPage(): JSX.Element {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/signup",
-        {
-          email,
-          password,
-          nickname,
-          is_admin,
-          favorite_artist,
-        }
-      );
+      const response = await axios.post(`${SITE_URL}/api/auth/signup`, {
+        email,
+        password,
+        nickname,
+        is_admin,
+        favorite_artist,
+      });
 
       if (response.data) {
         setAlert(

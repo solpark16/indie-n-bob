@@ -1,12 +1,10 @@
 "use client";
 
-import { Concert, ConcertInDB } from "@/types/Concert";
 import { createClient } from "@/utils/supabase/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import React, { useState } from "react";
 
 const ConcertEditPage = ({ params }: { params: { postId: string } }) => {
   const { postId } = params;
