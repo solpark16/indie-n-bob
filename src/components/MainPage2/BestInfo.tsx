@@ -7,34 +7,54 @@ import Link from "next/link";
 import { FC, useEffect, useState } from "react";
 import MainLikes from "./MainLike";
 
-const fetchPosts = async () => {
-  const response = await fetch(`${SITE_URL}/api/posts`, {
-    headers: {
-      "Cache-Control": "no-cache",
-      Pragma: "no-cache",
-      Expires: "0",
-    },
-  });
+const fetchPosts = async (page: number, limit: number) => {
+  const response = await fetch(
+    `${SITE_URL}/api/posts?page=${page}&limit=${limit}`,
+    {
+      headers: {
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    }
+  );
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
   return response.json();
 };
 
+const fetchAllPosts = async () => {
+  let allPosts: Post[] = [];
+  let page = 1;
+  const limit = 100;
+  let hasMore = true;
+
+  while (hasMore) {
+    const data = await fetchPosts(page, limit);
+    allPosts = [...allPosts, ...data.posts];
+    if (data.posts.length < limit) {
+      hasMore = false;
+    } else {
+      page++;
+    }
+  }
+
+  return { posts: allPosts };
+};
+
 const BestInfo: FC = () => {
   const {
-    data,
+    data: allPostsData,
     error: postsError,
     isLoading: postsLoading,
   } = useQuery({
-    queryKey: ["mainPosts"],
-    queryFn: fetchPosts,
+    queryKey: ["allPosts"],
+    queryFn: fetchAllPosts,
     staleTime: 0,
     refetchOnWindowFocus: true,
     refetchInterval: 60000,
   });
-
-  const posts: Post[] = data ? data.posts : [];
 
   const {
     data: likesData,
@@ -42,25 +62,37 @@ const BestInfo: FC = () => {
     isLoading: likesLoading,
   } = useAllLikes();
 
-  const [postsWithLikes, setPostsWithLikes] = useState<
+  const [topPostsWithLikes, setTopPostsWithLikes] = useState<
     (Post & { likesCount: number })[]
   >([]);
 
   useEffect(() => {
-    if (posts && likesData && Array.isArray(likesData.likes)) {
-      const postsWithLikes = posts.map((post) => {
+    if (allPostsData && likesData && Array.isArray(likesData.likes)) {
+      console.log("allPostsData", allPostsData);
+      console.log("likesData", likesData);
+
+      const postsWithLikes = allPostsData.posts.map((post) => {
         const likesCount = likesData.likes.filter(
           (like: any) => like.post_id === post.post_id
         ).length;
+        console.log(`Post ID: ${post.post_id}, Likes Count: ${likesCount}`); // likesCount 확인
         return { ...post, likesCount };
       });
 
-      const sortedPosts = postsWithLikes.sort(
-        (a, b) => b.likesCount - a.likesCount
-      );
-      setPostsWithLikes(sortedPosts);
+      console.log("postsWithLikes before sorting", postsWithLikes);
+
+      const sortedPosts = postsWithLikes.slice().sort((a, b) => {
+        console.log(
+          `Comparing ${a.post_id} with ${b.post_id}: ${b.likesCount} - ${a.likesCount}`
+        ); // 정렬 비교 확인
+        return b.likesCount - a.likesCount;
+      });
+
+      console.log("sortedPosts after sorting", sortedPosts);
+
+      setTopPostsWithLikes(sortedPosts.slice(0, 100));
     }
-  }, [posts, likesData]);
+  }, [allPostsData, likesData]);
 
   if (postsLoading || likesLoading) {
     return (
@@ -86,7 +118,7 @@ const BestInfo: FC = () => {
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {postsWithLikes.slice(0, 4).map((post) => {
+        {topPostsWithLikes.slice(0, 4).map((post) => {
           const imageSrc = post.image ? post.image : "/concerts-default-image";
           return (
             <Link

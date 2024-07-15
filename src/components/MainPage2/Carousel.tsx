@@ -14,7 +14,7 @@ const Carousel: FC = () => {
             <div className="relative w-[100%] h-[500px]">
               <Image
                 src="/SILICAGEL.webp"
-                layout="fill"
+                fill
                 className="d-block object-cover"
                 alt="First slide"
               />
@@ -27,7 +27,7 @@ const Carousel: FC = () => {
             <div className="relative w-[100%] h-[500px]">
               <Image
                 src="/Jannabi.jpg"
-                layout="fill"
+                fill
                 className="d-block object-cover"
                 alt="Second slide"
               />
@@ -40,11 +40,14 @@ const Carousel: FC = () => {
             <div className="relative w-[100%] h-[500px]">
               <Image
                 src="/Lucy.jpg"
-                layout="fill"
+                fill
                 className="d-block object-cover"
                 alt="Third slide"
               />
-              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-white text-2xl p-4">
+              <div
+                className="absolute bottom-
+              .0 left-1/2 transform -translate-x-1/2 text-white text-2xl p-4"
+              >
                 루시(Lucy)
               </div>
             </div>
