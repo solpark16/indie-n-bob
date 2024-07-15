@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
 import MainLikes from "./MainLike";
+import { createClient } from "@/utils/supabase/client";
 
 const fetchPosts = async () => {
   const response = await fetch(`${SITE_URL}/api/posts`, {
@@ -20,7 +21,7 @@ const fetchPosts = async () => {
   }
   return response.json();
 };
-
+const supabase = createClient();
 const BestInfo: FC = () => {
   const {
     data,
@@ -28,13 +29,19 @@ const BestInfo: FC = () => {
     isLoading: postsLoading,
   } = useQuery({
     queryKey: ["mainPosts"],
-    queryFn: fetchPosts,
+    queryFn: async () => {
+      const { data: posts, error } = await supabase
+        .from("recommendation_posts")
+        .select("*")
+        .order("post_id", { ascending: false });
+      return posts;
+    },
     staleTime: 0,
     refetchOnWindowFocus: true,
     refetchInterval: 60000,
   });
 
-  const posts: Post[] = data ? data.posts : [];
+  const posts = data ? data : [];
 
   const {
     data: likesData,
@@ -56,7 +63,7 @@ const BestInfo: FC = () => {
       });
 
       // 좋아요 수 기준으로 게시글을 내림차순 정렬
-      const sortedPosts = postsWithLikes.sort(
+      const sortedPosts: any = postsWithLikes.sort(
         (a, b) => b.likesCount - a.likesCount
       );
       setPostsWithLikes(sortedPosts);

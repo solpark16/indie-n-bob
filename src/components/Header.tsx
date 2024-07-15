@@ -27,7 +27,6 @@ const Header: FC = () => {
         console.error("Error getting session:", sessionError);
         setUser(null);
       } else {
-        //console.log("Session Data:", sessionData);
         if (sessionData.session?.user) {
           const { data: profileData, error: profileError } = await supabase
             .from("users")
@@ -38,7 +37,6 @@ const Header: FC = () => {
             console.error("Error getting profile:", profileError);
             setUser(null);
           } else {
-            console.log("Profile Data:", profileData);
             setUser({
               email: sessionData.session.user.email ?? "",
               nickname: profileData.nickname ?? "",
@@ -141,14 +139,18 @@ const Header: FC = () => {
               aria-expanded="false"
             >
               <div className="flex items-center">
-                <p className="w-10 h-10 rounded-full overflow-hidden mb-0 mr-2">
-                  <img
+                <div className="w-10 h-10 rounded-full overflow-hidden mb-0 mr-2">
+                  <Image
+                    alt="profile"
+                    className="w-full h-full object-cover"
+                    width={40}
+                    height={40}
                     src={
                       userData.userData?.profile_image ??
                       "/user/fallback-avatar.svg"
                     }
                   />
-                </p>
+                </div>
                 {user && userData && userData?.userData
                   ? userData?.userData?.nickname
                   : ""}
