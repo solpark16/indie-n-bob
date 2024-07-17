@@ -11,7 +11,6 @@ const ConcertEditPage = ({ params }: { params: { postId: string } }) => {
   const router = useRouter();
 
   const [title, setTitle] = useState<string>("");
-  // TODO 기본 이미지 들어가야합니다
   const [imageUrl, setImageUrl] = useState("/concert-default-image.png");
   const [region, setRegion] = useState("");
   const [startDate, setStartDate] = useState("");

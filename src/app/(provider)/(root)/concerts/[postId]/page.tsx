@@ -87,7 +87,6 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
     age,
     link,
     author_id,
-    // users: { nickname, profile_image },
     users,
   } = concert as unknown as Concert;
 
@@ -163,7 +162,6 @@ const ConcertDetailPage = ({ params: { postId } }: ConcertDetailPageProps) => {
         </header>
         <article className="flex gap-[76px]">
           <div className="relative min-w-[450px] w-[450px]">
-            {/* Image 태그로 변경 필요 */}
             {image && (
               <Image
                 src={image}
